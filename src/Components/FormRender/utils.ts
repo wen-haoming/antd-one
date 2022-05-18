@@ -10,7 +10,13 @@ export class CreateOptions {
   set(key: string, value: any) {
     this.options[key] = value;
   }
-  del(key: string) {
-    return Reflect.deleteProperty(this.options, key);
+  del(keys: string | string[]) {
+    if (typeof keys === 'string') {
+      return Reflect.deleteProperty(this.options, keys);
+    } else {
+      keys.forEach((key) => {
+        Reflect.deleteProperty(this.options, key);
+      });
+    }
   }
 }

@@ -1,12 +1,13 @@
-import { useRef, cloneElement, useEffect, useMemo } from 'react';
-import type { FormInstance, DrawerProps, PopconfirmProps, ModalFuncProps } from 'antd';
+import { cloneElement, useEffect } from 'react';
+import type { DrawerProps, PopconfirmProps, ModalFuncProps } from 'antd';
 import { Drawer, Form, Space, Spin } from 'antd';
 import type { FC, ReactElement } from 'react';
 import XButton from '../Button';
 import type { FRProps } from '../FormRender';
 import FormRender from '../FormRender';
-import { useModel } from '../../hooks/useModel';
-import { installConfig } from '..';
+import { useModal } from '../../hooks/useModal';
+import type { FRFinstance } from '../FormRender/useForm';
+export { useForm } from '../FormRender';
 
 export type MFRProps = {
   trigger?: ReactElement;
@@ -14,7 +15,7 @@ export type MFRProps = {
   formConfig: Omit<FRProps, 'install'>;
   onFinish?: (values: any, valueOpts: any) => Promise<any>;
   onVisibleChange?: (flag: boolean) => void;
-  form?: FormInstance;
+  form?: FRFinstance;
   beforePopConfirm?: PopconfirmProps;
   beforeConfirm?: ModalFuncProps;
   install?: Record<string, (...args: any) => any>;
@@ -31,21 +32,15 @@ const DrawerFormRender: FC<MFRProps> = (props) => {
     form,
     beforePopConfirm,
     beforeConfirm,
-    install = {},
     loading,
   } = props;
   const [formRenderForm] = Form.useForm(form);
-  const formRef = useRef<{
-    form: FormInstance;
-    formDataOptions: any;
-    resetFormDataOptions: () => void;
-  }>(null);
-  const [visible, setTrue, setFalse] = useModel();
+  const [visible, setTrue, setFalse] = useModal();
 
   const onSubmit = async () => {
     const values = await formRenderForm.validateFields();
     if (onFinish) {
-      const res = await onFinish(values, formRef.current?.formDataOptions);
+      const res = await onFinish(values, form?.formDataOpts.options);
       if (res === true) {
         setFalse();
       }
@@ -54,9 +49,7 @@ const DrawerFormRender: FC<MFRProps> = (props) => {
 
   useEffect(() => {
     if (!visible) {
-      formRef.current?.form.resetFields();
-      formRef.current?.resetFormDataOptions();
-      // update();
+      form?.resetFields();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
@@ -67,10 +60,6 @@ const DrawerFormRender: FC<MFRProps> = (props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
-
-  const mergeInstall = useMemo(() => {
-    return { ...installConfig, ...install };
-  }, []);
 
   return (
     <>
@@ -101,12 +90,7 @@ const DrawerFormRender: FC<MFRProps> = (props) => {
           {...drawerConfig}
         >
           <Spin spinning={loading} tip={'加载中...'}>
-            <FormRender
-              form={formRenderForm}
-              ref={formRef}
-              {...formConfig}
-              install={mergeInstall}
-            />
+            <FormRender form={formRenderForm} {...formConfig} />
           </Spin>
         </Drawer>
       )}

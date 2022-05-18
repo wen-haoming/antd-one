@@ -10,20 +10,23 @@ import type { ItemCeilProps } from './components/ItemCeil';
 
 export type Field = {
   // 如果指定了改条件那么就会有对应
-  type?:   (keyof typeof innerConfig) |  React.FunctionComponent | React.ClassicComponent;
-  // type?: ( keyof typeof innerConfig) | React.ReactNode;
+  type?: keyof typeof innerConfig | React.FunctionComponent | React.ClassicComponent;
   props?: {
-    fieldProps?: Partial<
-      RenderTabsProps['fieldProps'] &
-        FormSelectProps &
-        FormInputProps &
-        FormRadioGroupProps &
-        ItemCeilProps['fieldProps'] &
-        Record<string, any> & {
-          options: { label: string; value: any }[];
-        }
-    >;
+    fieldProps?: Omit<
+      Partial<
+        Record<string, any> &
+          RenderTabsProps['fieldProps'] &
+          Exclude<FormSelectProps, 'options'> &
+          Exclude<FormInputProps, 'options'> &
+          Exclude<FormRadioGroupProps, 'options'> &
+          ItemCeilProps['fieldProps']
+      >,
+      'options'
+    > & {
+      options?: { label: string; value: any }[];
+    };
   } & FormItemProps;
+
   hideInForm?: boolean; // 显隐操作
   render?: React.ReactElement; //
   col?: ColProps;

@@ -1,13 +1,12 @@
 import FormRender from '..';
 import { useState } from 'react';
 
-const Demo2 = () => {
+const Demo = () => {
   const [obj, setObj] = useState({});
 
   return (
     <>
       <FormRender
-        initialValues={{ select3: '哈哈哈', select: true }}
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 12 }}
         onValuesChange={(changedValues: any, values: any, valuesOpts: any) => {
@@ -16,84 +15,26 @@ const Demo2 = () => {
         fields={[
           () => {
             return {
-              type: 'antSelect',
+              type: 'FormInput',
               props: {
                 name: 'select',
-                label: '下一项是否必填？',
-                fieldProps: {
-                  options: [
-                    {
-                      label: '必填',
-                      value: true,
-                    },
-                    {
-                      label: '非必填',
-                      value: false,
-                    },
-                  ],
-                },
-              },
-            };
-          },
-          (formData) => {
-            return {
-              type: 'antSelect',
-              props: {
-                name: 'select2',
-                label: '下一项渲染什么22222222' + (formData.select ? 'true' : 'false'),
-                rules: [{ required: formData.select, message: '请选择' }],
-                fieldProps: {
-                  options: [
-                    {
-                      label: '必填',
-                      value: true,
-                    },
-                    {
-                      label: '非必填',
-                      value: false,
-                    },
-                  ],
-                },
-              },
-            };
-          },
-          {
-            type: 'antInput',
-            props: {
-              name: 'select3',
-              label: '输入框',
-              rules: [{ required: true }],
-            },
-          },
-          (formData, opts, formInstance) => {
-            console.log('antInput');
-            return {
-              type: 'antInput',
-              props: {
-                name: 'abc',
-                label: 'hhh',
-                fieldProps: {
-                  onChange(e) {
-                    formInstance.setFieldsValue({
-                      abc2: e.target.value,
-                    });
-                  },
-                },
+                label: 'FormInput',
               },
             };
           },
           () => {
             return {
-              type: 'antInput',
+              type: 'FormSelect',
               props: {
-                name: 'abc2',
-                label: 'hhh2',
+                name: 'select2',
+                label: 'FormSelect',
+                fieldProps: {
+                  valueEnum: {
+                    'yes':'正确',
+                    'no': '失败',
+                  },
+                },
               },
-            };
-          },
-          (formData) => {
-            return {
-              render: <h1>1234{formData.abc}</h1>,
             };
           },
         ]}
@@ -105,4 +46,4 @@ const Demo2 = () => {
   );
 };
 
-export default Demo2;
+export default Demo;

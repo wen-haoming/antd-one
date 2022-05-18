@@ -1,12 +1,5 @@
-import type { FRField } from '..';
 import FormRender from '..';
-import { Input, Select } from 'antd';
-import { useMemo, useState } from 'react';
-
-const install = {
-  antSelect: Select,
-  antInput: Input,
-};
+import { useState } from 'react';
 
 const Demo2 = () => {
   const [obj, setObj] = useState({});
@@ -14,8 +7,6 @@ const Demo2 = () => {
   return (
     <>
       <FormRender
-        install={install}
-        initialValues={{ select3: '哈哈哈', select: true }}
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 12 }}
         onValuesChange={(changedValues: any, values: any, valuesOpts: any) => {
@@ -24,86 +15,54 @@ const Demo2 = () => {
         fields={[
           () => {
             return {
-              type: 'antSelect',
+              type: 'FormInput',
               props: {
-                name: 'select',
-                label: '下一项是否必填？',
-                fieldProps: {
-                  options: [
-                    {
-                      label: '必填',
-                      value: true,
-                    },
-                    {
-                      label: '非必填',
-                      value: false,
-                    },
-                  ],
-                },
-              },
-            };
-          },
-          (formData) => {
-            return {
-              type: 'antSelect',
-              props: {
-                name: 'select2',
-                label:
-                  '下一项渲染什么22222222' +
-                  (formData.select ? 'true' : 'false'),
-                rules: [{ required: formData.select, message: '请选择' }],
-                fieldProps: {
-                  options: [
-                    {
-                      label: '必填',
-                      value: true,
-                    },
-                    {
-                      label: '非必填',
-                      value: false,
-                    },
-                  ],
-                },
-              },
-            };
-          },
-          {
-            type: 'antInput',
-            props: {
-              name: 'select3',
-              label: '输入框',
-              rules: [{ required: true }],
-            },
-          },
-          (formData, opts, formInstance) => {
-            console.log('antInput')
-            return {
-              type: 'antInput',
-              props: {
-                name: 'abc',
-                label: 'hhh',
-                fieldProps: {
-                  onChange(e) {
-                    formInstance.setFieldsValue({
-                      abc2: e.target.value,
-                    });
-                  },
-                },
+                name: '1',
+                label: 'antInput内置组件',
               },
             };
           },
           () => {
             return {
-              type: 'antInput',
+              type: 'FormSelect',
               props: {
-                name: 'abc2',
-                label: 'hhh2',
+                name: '2',
+                label: 'FormSelect',
+                fieldProps: {
+                  options: [
+                    {
+                      label: '是',
+                      value: true,
+                    },
+                    {
+                      label: '否',
+                      value: false,
+                    },
+                  ],
+                },
               },
             };
           },
           (formData) => {
             return {
-              render: <h1>1234{formData.abc}</h1>,
+              type: 'FormRadioGroup',
+              props: {
+                name: '3',
+                label: 'FormRadioGroup',
+                fieldProps: {
+                  disabled: formData['2'],
+                  options: [
+                    {
+                      label: '是',
+                      value: true,
+                    },
+                    {
+                      label: '否',
+                      value: false,
+                    },
+                  ],
+                },
+              },
             };
           },
         ]}

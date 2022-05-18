@@ -1,15 +1,15 @@
-import type { FC } from 'react';
 import { memo, useCallback } from 'react';
 import { useMemo } from 'react';
-import type { ColProps, FormProps, FormInstance } from 'antd';
 import { Form } from 'antd';
-import type { Field, FieldFunc } from './types';
 import RenderProvider from './RenderProvider';
 import { innerConfig } from './components';
-import { CreateOptions } from './utils';
+import type { FRFinstance } from './useForm';
+import type { ColProps, FormProps } from 'antd';
+import type { Field, FieldFunc } from './types';
+import type { FC } from 'react';
 
 export type FRField = (Field | FieldFunc | (Field | FieldFunc)[])[];
-
+export { useForm } from './useForm';
 export interface FRProps {
   fields: FRField;
   layout?: 'horizontal' | 'inline' | 'vertical';
@@ -18,10 +18,9 @@ export interface FRProps {
   wrapperCol?: ColProps;
   onFinish?: (values: any, valuesOpts: any) => void;
   onValuesChange?: (changedValues: any, values: any, valuesOpts: any) => void;
-  form?: FormInstance;
-  install: Record<string, any>;
+  form?: FRFinstance;
+  install?: Record<string, any>;
   initialValues?: Record<string, any>;
-  labelWrap?: boolean;
 }
 
 const FormRender: FC<FRProps> = (props) => {
@@ -36,11 +35,8 @@ const FormRender: FC<FRProps> = (props) => {
     form,
     install,
     initialValues,
-    labelWrap,
   } = props;
   const [formInstance] = Form.useForm(form);
-
-  const formDataOptions = useMemo(() => new CreateOptions(), []);
 
   const onValuesChange = useMemo(() => valuesChange2, []);
 
@@ -50,7 +46,6 @@ const FormRender: FC<FRProps> = (props) => {
       labelAlign,
       labelCol,
       wrapperCol,
-      labelWrap,
     }),
     [],
   );
@@ -62,27 +57,23 @@ const FormRender: FC<FRProps> = (props) => {
     };
   }, [install]);
 
-  const valuesChange: FormProps['onValuesChange'] = useCallback((changedValues, values) => {
+  const valuesChange: FormProps['onValuesChange'] = useCallback((changedValues) => {
     if (onValuesChange) {
       Promise.resolve().then(() =>
-        onValuesChange(changedValues, formInstance.getFieldsValue(), formDataOptions.options),
+        onValuesChange(changedValues, formInstance.getFieldsValue(), form?.formDataOpts),
       );
     }
   }, []);
 
   const finish: FormProps['onFinish'] = (values) => {
     if (onFinish) {
-      onFinish(values, formDataOptions);
+      onFinish(values, form?.formDataOpts?.options);
     }
   };
 
-  // useImperativeHandle(ref, () => ({
-  //   form: formInstance,
-  //   formDataOptions: formDataOptions.current,
-  //   resetFormDataOptions: () => {
-  //     formDataOptions.current = {};
-  //   },
-  // }));
+  const innerFields = useMemo(() => {
+    return fields;
+  }, [JSON.stringify(fields)]);
 
   return (
     <Form
@@ -94,14 +85,14 @@ const FormRender: FC<FRProps> = (props) => {
     >
       <RenderProvider
         form={formInstance}
-        fields={fields}
+        fields={innerFields}
         install={mergeInstall}
-        formDataOptions={formDataOptions}
+        formDataOptions={form?.formDataOpts}
       />
     </Form>
   );
 };
 
-export default memo(FormRender);
+export default memo<FRProps>(FormRender);
 
 export { default as Render } from './RenderProvider';

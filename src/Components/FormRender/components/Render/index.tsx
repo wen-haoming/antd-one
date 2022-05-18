@@ -9,12 +9,12 @@ import { ItemCeil, RenderTabs } from '..';
 
 import { Item } from '../Item';
 interface RProps {
-  fileLength?: number; // 栅格列数
+  length?: number; // 栅格列数
   renderProps: Field | FieldFunc; // form 的渲染实例，既可以是对象，也可以是函数
 }
 
 export const FormRender: FC<RProps> = (FormRenderProps) => {
-  const { renderProps, fileLength = 24 } = FormRenderProps;
+  const { renderProps, length = 24 } = FormRenderProps;
   const FRContext = useContext(FormRenderContext);
   const { form } = FRContext;
   const depsRef = useRef<string[]>([]);
@@ -42,7 +42,7 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
     // 第一次调用需要获取静态属性
     const { hideInForm, render, col } = renderProps(proxy, FRContext?.formDataOptions?.options, form);
 
-    const colProps = col ? col : { span: fileLength };
+    const colProps = col ? col : { span: length };
 
     if (render) {
       if (FRContext.renderDeps) {
@@ -94,7 +94,7 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
   } else {
     const { type, props = {}, hideInForm, render, col } = renderProps as Field;
 
-    const colProps = col ? col : { span: fileLength };
+    const colProps = col ? col : { span: length };
 
     if (render) {
       return <Col {...colProps}>{render}</Col>;

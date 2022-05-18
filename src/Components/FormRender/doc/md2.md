@@ -30,11 +30,11 @@ group:
 <code src="../demo/Demo.tsx"  />
 
 ### 表单联动
-<!-- <code src="./demo/Demo2.tsx"  /> -->
+<!-- <code src="../demo/Demo2.tsx"  /> -->
 
-### 链式联动
+### 表单布局
 
-<!-- <code title="多重依赖联动" src="./demo/Demo4.tsx"  /> -->
+<!-- <code title="轻松实现一行多列" src="../demo/Demo3.tsx"  /> -->
 
 ### 表单布局
 

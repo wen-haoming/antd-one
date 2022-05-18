@@ -25,7 +25,7 @@ export const ItemCeil: FC<ItemCeilProps> = (props) => {
               {field.map((field2, idx2) => {
                 return (
                   <FormRender
-                    fileLength={24 / field.length}
+                    length={24 / field.length}
                     key={`${idx.toString()}-${idx2.toString()}`}
                     renderProps={field2}
                   />

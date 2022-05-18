@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "antd-one",
+  "name": "fw-one",
   "version": "0.0.2",
   "scripts": {
     "start": "dumi dev",

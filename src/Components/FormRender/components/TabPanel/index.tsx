@@ -50,7 +50,7 @@ const InnerTabs: FC<InnerTabsProps> = (props) => {
                     {field.map((field2, idx3) => {
                       return (
                         <FormRender
-                          fileLength={24 / field.length}
+                          length={24 / field.length}
                           key={`${idx.toString()}-${idx2.toString()}-${idx3.toString()}`}
                           renderProps={field2}
                         />

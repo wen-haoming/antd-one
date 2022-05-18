@@ -8,7 +8,7 @@ import type {
 import { Modal, Form } from 'antd';
 import type { FC, ReactElement } from 'react';
 import XButton from '../Button';
-import type { FRProps } from '../FormRender';
+import type { FRProps } from '../FormRender/index';
 import FormRender from '../FormRender';
 import { useModal } from '../../hooks';
 
