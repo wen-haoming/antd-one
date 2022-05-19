@@ -22,7 +22,7 @@ group:
  */
 import React from 'react';
 import { Space } from 'antd';
-import { Button } from 'antd-one';
+import Button from './';
 import 'antd/dist/antd.css';
 
 export default () => {
@@ -63,7 +63,7 @@ export default () => {
  * desc: 只需要设置 `beforeConfirm` 或者 `beforePopConfirm` 就有按钮二次确认的能力。
  */
 import React from 'react';
-import { Button } from 'antd-one';
+import Button from './';
 import { Space } from 'antd';
 import 'antd/es/button/style/index.css';
 import 'antd/dist/antd.css';

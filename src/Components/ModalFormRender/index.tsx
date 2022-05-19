@@ -1,32 +1,31 @@
-import { useRef, cloneElement, useEffect } from 'react';
-import type {
-  FormInstance,
-  ModalProps,
-  PopconfirmProps,
-  ModalFuncProps,
-} from 'antd';
-import { Modal, Form } from 'antd';
+import { cloneElement, useEffect } from 'react';
+import type { PopconfirmProps, ModalFuncProps, ModalProps } from 'antd';
+import { Modal, Space, Spin } from 'antd';
 import type { FC, ReactElement } from 'react';
 import XButton from '../Button';
-import type { FRProps } from '../FormRender/index';
-import FormRender from '../FormRender';
-import { useModal } from '../../hooks';
+import type { FRProps } from '../FormRender';
+import FormRender, { useForm } from '../FormRender';
+import { useModal } from '../../hooks/useModal';
+import type { FRFinstance } from '../FormRender/useForm';
+export { useForm } from '../FormRender';
 
 export type MFRProps = {
   trigger?: ReactElement;
-  modalConfig?: ModalProps;
+  ModalConfig?: ModalProps;
   formConfig: Omit<FRProps, 'install'>;
   onFinish?: (values: any, valueOpts: any) => Promise<any>;
   onVisibleChange?: (flag: boolean) => void;
-  form?: FormInstance;
+  form?: FRFinstance;
   beforePopConfirm?: PopconfirmProps;
   beforeConfirm?: ModalFuncProps;
-  install?: Record<string, (...args: any) => any>;
+  beforePopCancel?: PopconfirmProps;
+  beforeCancel?: ModalFuncProps;
+  loading?: boolean;
 };
 
 const ModalFormRender: FC<MFRProps> = (props) => {
   const {
-    modalConfig = {},
+    ModalConfig = {},
     formConfig,
     onFinish,
     trigger,
@@ -34,20 +33,17 @@ const ModalFormRender: FC<MFRProps> = (props) => {
     form,
     beforePopConfirm,
     beforeConfirm,
-    install = {},
+    beforePopCancel,
+    beforeCancel,
+    loading = false,
   } = props;
-  const [formRenderForm] = Form.useForm(form);
-  const formRef = useRef<{
-    form: FormInstance;
-    formDataOptions: any;
-    resetFormDataOptions: () => void;
-  }>(null);
+  const [formRenderForm] = useForm(form);
   const [visible, setTrue, setFalse] = useModal();
 
   const onSubmit = async () => {
     const values = await formRenderForm.validateFields();
     if (onFinish) {
-      const res = await onFinish(values, formRef.current?.formDataOptions);
+      const res = await onFinish(values, form?.formDataOpts.options);
       if (res === true) {
         setFalse();
       }
@@ -56,9 +52,7 @@ const ModalFormRender: FC<MFRProps> = (props) => {
 
   useEffect(() => {
     if (!visible) {
-      formRef.current?.form.resetFields();
-      formRef.current?.resetFormDataOptions();
-      // update();
+      formRenderForm?.resetFields();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
@@ -72,35 +66,49 @@ const ModalFormRender: FC<MFRProps> = (props) => {
 
   return (
     <>
-      {trigger && cloneElement(trigger, { onClick: setTrue })}
+      {trigger &&
+        cloneElement(trigger, {
+          ...trigger.props,
+          onClick: (...args: any[]) => {
+            setTrue();
+            if (trigger?.props?.onClick) {
+              trigger?.props?.onClick(...args);
+            }
+          },
+        })}
       {trigger && (
         <Modal
           visible={visible}
           onCancel={setFalse}
           maskClosable={false}
-          footer={[
-            <XButton key="cancel" onClick={setFalse}>
-              取消
-            </XButton>,
-            <XButton
-              beforeQueue={[formRenderForm.validateFields]}
-              key="confirm"
-              beforePopConfirm={beforePopConfirm}
-              beforeConfirm={beforeConfirm}
-              type="primary"
-              onClick={onSubmit}
-            >
-              确定
-            </XButton>,
-          ]}
-          {...modalConfig}
+          destroyOnClose
+          footer={
+            <Space>
+              <XButton
+                key="cancel"
+                beforePopConfirm={beforePopCancel}
+                beforeConfirm={beforeCancel}
+                onClick={setFalse}
+              >
+                取消
+              </XButton>
+              ,
+              <XButton
+                key="confirm"
+                beforePopConfirm={beforePopConfirm}
+                beforeConfirm={beforeConfirm}
+                type="primary"
+                onClick={onSubmit}
+              >
+                确定
+              </XButton>
+            </Space>
+          }
+          {...ModalConfig}
         >
-          <FormRender
-            form={formRenderForm}
-            ref={formRef}
-            {...formConfig}
-            install={install}
-          />
+          <Spin spinning={loading} tip={'加载中...'}>
+            <FormRender form={formRenderForm} {...formConfig} />
+          </Spin>
         </Modal>
       )}
     </>

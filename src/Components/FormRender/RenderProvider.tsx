@@ -5,6 +5,7 @@ import type { CreateOptions } from './utils';
 import { Row } from 'antd';
 import { memo, useMemo, createContext } from 'react';
 import Render from './components/Render';
+import { innerConfig } from './components';
 
 interface ItemRenderProps {
   fields: FRField;
@@ -26,8 +27,8 @@ const FRProviderValue = {
 export const FormRenderContext = createContext(FRProviderValue);
 
 export const ItemRender: FC<ItemRenderProps> = (props) => {
-  const { fields, form, install = {}, formDataOptions } = props;
-    
+  const { fields, form, install = innerConfig, formDataOptions } = props;
+
   const value = useMemo(() => {
     return {
       ...FRProviderValue,

@@ -1,10 +1,10 @@
 import { cloneElement, useEffect } from 'react';
 import type { DrawerProps, PopconfirmProps, ModalFuncProps } from 'antd';
-import { Drawer, Form, Space, Spin } from 'antd';
+import { Drawer, Space, Spin } from 'antd';
 import type { FC, ReactElement } from 'react';
 import XButton from '../Button';
 import type { FRProps } from '../FormRender';
-import FormRender from '../FormRender';
+import FormRender, { useForm } from '../FormRender';
 import { useModal } from '../../hooks/useModal';
 import type { FRFinstance } from '../FormRender/useForm';
 export { useForm } from '../FormRender';
@@ -18,7 +18,8 @@ export type MFRProps = {
   form?: FRFinstance;
   beforePopConfirm?: PopconfirmProps;
   beforeConfirm?: ModalFuncProps;
-  install?: Record<string, (...args: any) => any>;
+  beforePopCancel?: PopconfirmProps;
+  beforeCancel?: ModalFuncProps;
   loading?: boolean;
 };
 
@@ -32,9 +33,11 @@ const DrawerFormRender: FC<MFRProps> = (props) => {
     form,
     beforePopConfirm,
     beforeConfirm,
-    loading,
+    beforePopCancel,
+    beforeCancel,
+    loading = false,
   } = props;
-  const [formRenderForm] = Form.useForm(form);
+  const [formRenderForm] = useForm(form);
   const [visible, setTrue, setFalse] = useModal();
 
   const onSubmit = async () => {
@@ -49,7 +52,7 @@ const DrawerFormRender: FC<MFRProps> = (props) => {
 
   useEffect(() => {
     if (!visible) {
-      form?.resetFields();
+      formRenderForm?.resetFields();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
@@ -63,20 +66,34 @@ const DrawerFormRender: FC<MFRProps> = (props) => {
 
   return (
     <>
-      {trigger && cloneElement(trigger, { onClick: setTrue })}
+      {trigger &&
+        cloneElement(trigger, {
+          ...trigger.props,
+          onClick: (...args: any[]) => {
+            setTrue();
+            if (trigger?.props?.onClick) {
+              trigger?.props?.onClick(...args);
+            }
+          },
+        })}
       {trigger && (
         <Drawer
           visible={visible}
           onClose={setFalse}
           maskClosable={false}
+          destroyOnClose
           footer={
             <Space>
-              <XButton key="cancel" onClick={setFalse}>
+              <XButton
+                key="cancel"
+                beforePopConfirm={beforePopCancel}
+                beforeConfirm={beforeCancel}
+                onClick={setFalse}
+              >
                 取消
               </XButton>
               ,
               <XButton
-                beforeQueue={[formRenderForm.validateFields]}
                 key="confirm"
                 beforePopConfirm={beforePopConfirm}
                 beforeConfirm={beforeConfirm}
