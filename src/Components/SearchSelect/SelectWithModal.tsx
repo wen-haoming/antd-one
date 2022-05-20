@@ -1,14 +1,14 @@
 // 可搜索的选择框，带弹出框可以查看详细信息
 import React from 'react';
 import type { FC } from 'react';
-import type { InnerBaseSelectProps } from './Select';
+import type { InnerSearchSelectProps } from './Select';
 import type { PopModalProps } from './Modal';
 import BaseSelect from './Select';
 import { memo, useCallback } from 'react';
 
 export type { FetchCallback } from './Select';
 
-export interface WrapperSelectProps extends InnerBaseSelectProps {
+export interface WrapperSelectProps extends InnerSearchSelectProps {
   ModalConfig?: Omit<PopModalProps, 'fetchCallback' | 'onModalSelect'>;
 }
 
@@ -25,17 +25,17 @@ const SelectWithModal: FC<WrapperSelectProps> = (props) => {
   } = props;
 
   // 弹窗回调
-  const ModalSelect = useCallback(
-    (val: any, opt: any) => {
-      if (rest.onChangeOption) {
-        rest.onChangeOption(opt);
-      }
-      if (onChange) {
-        onChange(val, opt);
-      }
-    },
-    [onChange, rest],
-  );
+  // const ModalSelect = useCallback(
+  //   (val: any, opt: any) => {
+  //     if (rest.onChangeOption) {
+  //       rest.onChangeOption(opt);
+  //     }
+  //     if (onChange) {
+  //       onChange(val, opt);
+  //     }
+  //   },
+  //   [onChange, rest],
+  // );
 
   // 弹窗的标题
   if (ModalConfig) {

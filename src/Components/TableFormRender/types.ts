@@ -1,7 +1,7 @@
 import type { ColumnsType } from 'antd/es/table';
 import type { XTable } from '../XTable';
 import type { FormInstance } from 'antd/es/form';
-import type { TransformValsOptions } from './utils';
+// import type { TransformValsOptions } from './utils';
 import type { ReactNode } from 'react';
 import type { Field, FieldFunc } from '../FormRender/types';
 
@@ -19,7 +19,7 @@ export interface TableFormRenderProps {
     isCheckbox?: boolean;
     toolbarRender?: (refresh: () => void, rowKeys: string[], rows: any[]) => ReactNode;
   };
-  transformValsOptions?: TransformValsOptions; // value 的转换规则
+  // transformValsOptions?: TransformValsOptions; // value 的转换规则
   install?: Record<string, any>;
   form?: FormInstance;
 }

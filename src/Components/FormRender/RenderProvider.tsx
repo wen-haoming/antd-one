@@ -22,9 +22,14 @@ const FRProviderValue = {
   form: {},
   fields: [],
   formDataOptions: new CreateOptions(),
+  formDeps: {},
 };
 
-export const FormRenderContext = createContext<typeof FRProviderValue>(FRProviderValue);
+type FRProviderValueContext = typeof FRProviderValue & { form: FormInstance };
+
+export const FormRenderContext = createContext<FRProviderValueContext>(
+  FRProviderValue as FRProviderValueContext,
+);
 
 export const ItemRender: FC<ItemRenderProps> = (props) => {
   const { fields, form, install = innerConfig, formDataOptions } = props;

@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-import {
-  ProFormText,
-  ProFormDateRangePicker,
-  ProFormSelect,
-} from '@ant-design/pro-form';
+import { ProFormText, ProFormDateRangePicker, ProFormSelect } from '@ant-design/pro-form';
 import { Button, Form } from 'antd';
 
 import type { FRField } from '..';
@@ -25,7 +21,7 @@ const Demo4 = () => {
       <FormRender
         install={install}
         initialValues={{ text1: '文本输入 1 的初始值' }}
-        form={form}
+        form={form as any}
         onFinish={(s) => {
           alert(JSON.stringify(s));
         }}
@@ -42,10 +38,11 @@ const Demo4 = () => {
                     name: 'select1',
                     title: '输入1',
                     onChange(val) {
-                      const {target: { value }} = val;
+                      const {
+                        target: { value },
+                      } = val;
                       formData.select2 = value;
                       formData.select3 = value;
-                      
                     },
                   },
                 };
@@ -92,7 +89,9 @@ const Demo4 = () => {
       <Button type="primary" onClick={form.submit}>
         提交数据
       </Button>
-      <div style={{ marginTop: 10 }}>表单数据：<pre>{JSON.stringify(state,2,2)}</pre></div>
+      <div style={{ marginTop: 10 }}>
+        表单数据：<pre>{JSON.stringify(state, 2, 2)}</pre>
+      </div>
     </>
   );
 };

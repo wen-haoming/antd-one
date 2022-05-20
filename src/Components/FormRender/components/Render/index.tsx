@@ -19,7 +19,7 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
   const { form } = FRContext;
   const depsRef = useRef<string[]>([]);
   const [, update] = useState({});
-  const setDeps = useMemo(() => new Set(), []);
+  const setDeps = useMemo<Set<string>>(() => new Set(), []);
 
   const proxy = useMemo(() => {
     return new Proxy(
@@ -28,7 +28,7 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
         get(target, property) {
           // 依赖收集
           if (property) {
-            setDeps.add(property);
+            setDeps.add(property as string);
           }
           const value = form?.getFieldValue(property as string);
           return value;
@@ -40,7 +40,7 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
 
   if (typeof renderProps === 'function') {
     // 第一次调用需要获取静态属性
-    const { hideInForm, render, col } = renderProps(proxy, FRContext?.formDataOptions?.options, form);
+    const { render, col } = renderProps(proxy, FRContext?.formDataOptions?.options, form);
 
     const colProps = col ? col : { span: length };
 
@@ -57,6 +57,7 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
           noStyle
           shouldUpdate={(prevValues, curValues) => {
             // 只要依赖过的表单，就需要刷新
+
             if (setDeps.size == 0) return false;
             for (const key of [...setDeps]) {
               if (prevValues[key] !== curValues[key]) {
@@ -72,10 +73,9 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
               FRContext.formDataOptions?.options,
               form,
             );
-
             const { fieldProps = {}, ...itemProps } = props;
             const { name } = itemProps;
-
+            console.log(name, 'render');
             if (typeof renderProps === 'function' && name && FRContext.formDeps) {
               FRContext.formDeps[name as string] = [...setDeps] as string[];
               depsRef.current = [...setDeps] as string[];
@@ -112,7 +112,7 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
     if (typeof type === 'string' && type === 'RenderTabs') {
       return (
         <Col {...colProps}>
-          <RenderTabs itemProps={itemProps} fieldProps={fieldProps} />
+          <RenderTabs itemProps={itemProps} fieldProps={fieldProps as any} />
         </Col>
       );
     }
@@ -120,7 +120,7 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
     if (typeof type === 'string' && type === 'ItemCeil') {
       return (
         <Col {...colProps}>
-          <ItemCeil itemProps={itemProps} fieldProps={fieldProps} />
+          <ItemCeil itemProps={itemProps} fieldProps={fieldProps as any} />
         </Col>
       );
     }

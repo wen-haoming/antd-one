@@ -134,7 +134,7 @@ export const TableFormRender = (props: TableFormRenderProps) => {
           />
         </QueryFilter>
       </Card>
-      <XTable columns={newColumns} {...tableOptions} refresh={refresh} {...tableProps} />
+      <XTable columns={newColumns} {...tableOptions} refresh={refresh} {...(tableProps as any)} />
     </>
   );
 };
