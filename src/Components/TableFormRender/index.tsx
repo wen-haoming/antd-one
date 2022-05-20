@@ -52,8 +52,8 @@ export const TableFormRender = (props: TableFormRenderProps) => {
       }
       const formData = await formInstance.validateFields();
       // 对 value 进行单独处理
-      const transformValues = transformVals(formData, transformValsOptions);
-      const res = await request({ ...pag, ...transformValues });
+      // const transformValues = transformVals(formData, transformValsOptions);
+      const res = await request({ ...pag, ...formData });
 
       return {
         total: res.total,
@@ -68,24 +68,8 @@ export const TableFormRender = (props: TableFormRenderProps) => {
 
   const initialValues = useMemo(() => {
     // 在 searchField 里设置了 defaultValue 那么就会自动填入默认值
-    return columns.reduce((pre, curItem) => {
-      if (typeof curItem.searchField === 'object') {
-        const searchFiled = curItem.searchField;
-        pre[searchFiled?.props?.name || curItem.key || curItem.dataIndex] =
-          searchFiled?.props?.defaultValue || searchFiled?.defaultValue;
-        // 不要把 props 上的defaultValue 传下去
-        Reflect.deleteProperty(searchFiled?.props || {}, 'defaultValue');
-      } else if (typeof curItem.searchField === 'function') {
-        const formData = formInstance.getFieldsValue();
-        const searchFiled = curItem.searchField(formData, formDataOptions.current);
-        pre[searchFiled?.props?.name || curItem.key || curItem.dataIndex] =
-          searchFiled?.props?.defaultValue || searchFiled?.defaultValue;
-        // 不要把 props 上的defaultValue 传下去
-        Reflect.deleteProperty(searchFiled?.props || {}, 'defaultValue');
-      }
-      return pre;
-    }, {} as Record<string, any>);
-  }, [columns, formInstance]);
+    return columns;
+  }, [columns]);
 
   // 刷新当前页面
   // eslint-disable-next-line react-hooks/exhaustive-deps

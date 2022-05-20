@@ -12,7 +12,7 @@ function getUsername(): Promise<string> {
         name4: 'name4',
         radio1: '是',
         select1: '是',
-      });
+      } as any);
     }, 500);
   });
 }

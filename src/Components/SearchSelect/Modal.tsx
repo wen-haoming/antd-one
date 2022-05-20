@@ -1,9 +1,7 @@
-import React from 'react';
 import type { FC } from 'react';
 import { useState, useCallback, memo } from 'react';
 import type { ModalProps } from 'antd';
 import { Modal } from 'antd';
-import XTable from '@/components/XTable/Table';
 import { EllipsisOutlined } from '@ant-design/icons';
 import { useBoolean } from 'ahooks';
 import type { FetchCallback } from './Select';

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { FRField } from '.';
 import type { FormInstance } from 'antd/es/form';
-import type { CreateOptions } from './utils';
+import { CreateOptions } from './utils';
 import { Row } from 'antd';
 import { memo, useMemo, createContext } from 'react';
 import Render from './components/Render';
@@ -21,10 +21,10 @@ const FRProviderValue = {
   install: {},
   form: {},
   fields: [],
-  formDataOptions: {},
+  formDataOptions: new CreateOptions(),
 };
 
-export const FormRenderContext = createContext(FRProviderValue);
+export const FormRenderContext = createContext<typeof FRProviderValue>(FRProviderValue);
 
 export const ItemRender: FC<ItemRenderProps> = (props) => {
   const { fields, form, install = innerConfig, formDataOptions } = props;

@@ -1,4 +1,5 @@
-import { FC, useEffect, useRef } from 'react';
+import type { FC } from 'react';
+import { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { Select, Modal, Table, Spin } from 'antd';
 import type { SelectProps } from 'antd';
@@ -96,7 +97,6 @@ const SearchSelect: FC<SearchSelectProps> = (props) => {
     selectRequest.run(val.replace(/(^\s*)|(\s*$)/g, ''));
   };
 
-
   return (
     <>
       <Select
@@ -121,9 +121,8 @@ const SearchSelect: FC<SearchSelectProps> = (props) => {
         }
         options={firstData.list || []}
         dropdownRender={(menu) => <div ref={dropdownWrapRef}>{menu}</div>}
-        onPopupScroll={(s)=>{
-          if(s.target.scrollHeight - s.target.scrollTop <= 200){
-            console.log(123,'==')
+        onPopupScroll={(s) => {
+          if (s.target.scrollHeight - s.target.scrollTop <= 200) {
             // selectRequest.run(val.replace(/(^\s*)|(\s*$)/g, ''));
           }
         }}
