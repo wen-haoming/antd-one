@@ -1,4 +1,4 @@
-export const demo1Api = ({ current, pageSize, ...args }) => {
+export const demo1Api = ({ current, pageSize }: any) => {
   return new Promise((r) => {
     const records = Array(pageSize)
       .fill('')

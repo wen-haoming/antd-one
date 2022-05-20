@@ -25,7 +25,12 @@ const FRProviderValue = {
   formDeps: {},
 };
 
-type FRProviderValueContext = typeof FRProviderValue & { form: FormInstance };
+type FRProviderValueContext = typeof FRProviderValue & {
+  form: FormInstance;
+  install: Record<string, any>;
+  renderDeps: (() => void)[];
+  formDeps: Record<string, any>;
+};
 
 export const FormRenderContext = createContext<FRProviderValueContext>(
   FRProviderValue as FRProviderValueContext,

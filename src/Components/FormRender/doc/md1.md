@@ -19,3 +19,7 @@ group:
 4. 自动收集依赖字段，防止表单项的全量更新
 5. 单个表单的字段通常需要多个
 6. 丰富的内置组件预设
+
+# 借助底层的 FormRender 来扩展更多周边生态
+
+<img src="./introduce.png" width="60%" style="display:block;margin:50px auto">

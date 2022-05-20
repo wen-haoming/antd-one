@@ -73,13 +73,12 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
               FRContext.formDataOptions?.options,
               form,
             );
-            const { fieldProps = {}, ...itemProps } = props;
-            const { name } = itemProps;
-            console.log(name, 'render');
-            if (typeof renderProps === 'function' && name && FRContext.formDeps) {
-              FRContext.formDeps[name as string] = [...setDeps] as string[];
-              depsRef.current = [...setDeps] as string[];
-            }
+            const { fieldProps = {}, ...itemProps } = props as any;
+            // const { name } = itemProps;
+            // if (typeof renderProps === 'function' && name && FRContext.formDeps) {
+            //   FRContext.formDeps[name as string] = [...setDeps] as string[];
+            //   depsRef.current = [...setDeps] as string[];
+            // }
             //  匹配对应的组件
             const Comp: any = typeof type === 'string' ? FRContext.install[type] : type;
 

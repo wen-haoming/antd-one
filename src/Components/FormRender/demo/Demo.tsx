@@ -1,5 +1,6 @@
 import FormRender from '..';
 import { useState } from 'react';
+import 'antd/dist/antd.css';
 
 const Demo = () => {
   const [obj, setObj] = useState({});
@@ -30,8 +31,8 @@ const Demo = () => {
                 label: 'FormSelect',
                 fieldProps: {
                   valueEnum: {
-                    'yes':'正确',
-                    'no': '失败',
+                    yes: '正确',
+                    no: '失败',
                   },
                 },
               },

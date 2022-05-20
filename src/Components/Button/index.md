@@ -4,7 +4,7 @@ group:
   order: 1
 ---
 
-# Button（建设中~）
+# Button
 
 基于 ant 的 [Button](https://ant-design.gitee.io/components/button-cn/) 组件进行封装，赋予一部分的业务能力。
 

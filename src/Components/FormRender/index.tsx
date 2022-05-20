@@ -57,13 +57,16 @@ const FormRender: FC<FRProps> = (props) => {
     };
   }, [install]);
 
-  const valuesChange: FormProps['onValuesChange'] = useCallback((changedValues) => {
-    if (onValuesChange) {
-      Promise.resolve().then(() =>
-        onValuesChange(changedValues, formInstance.getFieldsValue(), form?.formDataOpts),
-      );
-    }
-  }, []);
+  const valuesChange: FormProps['onValuesChange'] = useCallback(
+    (changedValues: Record<string, any>) => {
+      if (onValuesChange) {
+        Promise.resolve().then(() =>
+          onValuesChange(changedValues, formInstance.getFieldsValue(), form?.formDataOpts),
+        );
+      }
+    },
+    [],
+  );
 
   const finish: FormProps['onFinish'] = (values) => {
     if (onFinish) {
