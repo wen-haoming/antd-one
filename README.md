@@ -1,33 +1,7 @@
-# antd-one 📝💨
+<!-- # antd-one
 
-## Getting Started
-
-Install dependencies,
+基于 ant 封装的中台业务组件，并且提供各场景下的表单最佳实践，助力你的中台项目一步到位。
 
 ```bash
-$ npm i
-```
-
-Start the dev server,
-
-```bash
-$ npm start
-```
-
-Build documentation,
-
-```bash
-$ npm run docs:build
-```
-
-Run test,
-
-```bash
-$ npm test
-```
-
-Build library via `father-build`,
-
-```bash
-$ npm run build
-```
+npm i antd-one
+``` -->

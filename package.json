@@ -1,6 +1,7 @@
 {
   "name": "antd-one",
-  "version": "0.0.2",
+  "version": "0.0.1",
+  "description": "Middle Platform FE one step!",
   "scripts": {
     "start": "dumi dev",
     "docs:build": "dumi build",
@@ -10,11 +11,21 @@
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx  --fix --format=pretty ./src && npm run lint:prettier && npm run check-deps",
     "test": "umi-test",
-    "test:coverage": "umi-test --coverage",
-    "prepublishOnly": "npm run build"
+    "test:coverage": "umi-test --coverage"
   },
+  "publishConfig": {
+    "registry": "http://artifactory.sf-express.com/artifactory/api/npm/npm-sf-local/"
+  },
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "package.json",
+    "README.md"
+  ],
   "module": "es/index.js",
   "typings": "es/index.d.ts",
+  "main": "lib/index.js",
   "gitHooks": {
     "pre-commit": "pretty-quick --staged",
     "commit-msg": "fabric verify-commit"
@@ -49,5 +60,7 @@
   },
   "dependencies": {
     "react-dom": "^17.0.2"
-  }
+  },
+  "author": "丰网-温浩明",
+  "license": "MIT"
 }
