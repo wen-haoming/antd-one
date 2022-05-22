@@ -16,7 +16,7 @@ const CustomerRender: FC<Field & { length?: number }> = (CustomerRenderProps) =>
   const { col, render, type, props = {}, length = 24 } = CustomerRenderProps;
   const { fieldProps = {}, ...itemProps } = props;
   const colProps = col ? col : { span: length };
-
+  
   const FRContext = useContext(FormRenderContext);
 
   //  匹配对应的组件
@@ -103,14 +103,16 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
             props = {},
             type,
           }: Field = renderProps(proxy, FRContext?.formDataOptions?.options, form);
-          return <CustomerRender render={Render} type={type} props={props} col={col} />;
+          return (
+            <CustomerRender render={Render} type={type} props={props} col={col} length={length} />
+          );
         }}
       </Form.Item>
     );
   } else {
     const { type, props = {}, render, col } = renderProps as Field;
 
-    return <CustomerRender render={render} type={type} props={props} col={col} />;
+    return <CustomerRender render={render} type={type} props={props} col={col} length={length} />;
   }
 };
 
