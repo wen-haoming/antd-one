@@ -15,8 +15,7 @@ const Demo = () => {
           setObj(values);
         }}
         fields={[
-          (formData) => {
-            console.log('update-select',formData.select, 'formData.select');
+          () => {
             return {
               type: 'FormInput',
               props: {

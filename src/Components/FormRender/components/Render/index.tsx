@@ -67,7 +67,6 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
       {
         get(target, property) {
           // 依赖收集
-          console.log(property);
           if (property) {
             setDeps.add(property as string);
           }
