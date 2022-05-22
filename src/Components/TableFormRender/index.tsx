@@ -3,12 +3,12 @@ import type { FRField } from '../FormRender';
 import { Render, useForm } from '../FormRender';
 import type { XTableProps } from '../XTable';
 import { XTable } from '../XTable';
-import type { FC } from 'react';
+import type { FC} from 'react';
 import { useMemo } from 'react';
 import type { ColumnsType } from 'antd/lib/table';
 import { useAntdTable } from 'ahooks';
 import type { AntdTableOptions } from 'ahooks/lib/useAntdTable/types';
-import { Field, FieldFunc } from '../FormRender/types';
+import type { Field, FieldFunc } from '../FormRender/types';
 export interface TableFormRenderProps extends XTableProps {
   request: (
     pageData: { current: number; pageSize: number },
@@ -27,6 +27,17 @@ const TableFormRender: FC<TableFormRenderProps> = (props) => {
 
   const tableRequest = useAntdTable(request, requestOptions);
 
+  const searchBtns = useMemo(()=>{
+      return <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <Space>
+        <Button key="1" onClick={tableRequest.search.submit} loading={tableRequest.loading} type="primary">
+          查询
+        </Button>
+        <Button key="2" onClick={() => form.resetFields()}>重置</Button>
+      </Space>
+    </div>
+  },[form, tableRequest.loading, tableRequest.search.submit])
+
   const fields = useMemo(() => {
     const _fields = columns
       .filter((item) => {
@@ -34,24 +45,15 @@ const TableFormRender: FC<TableFormRenderProps> = (props) => {
       })
       .map((item) => {
         const searchField = item.searchField;
-        Reflect.deleteProperty(item, 'searchField');
         return searchField;
       });
 
     _fields.splice(3, 0, {
-      render: (
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Space>
-            <Button onClick={tableRequest.search.submit} loading={tableRequest.loading} type="primary">查询</Button>
-            <Button >重置</Button>
-          </Space>
-        </div>
-      ),
+      render: searchBtns,
     });
 
     return [_fields];
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [columns, searchBtns]);
 
   return (
     <>

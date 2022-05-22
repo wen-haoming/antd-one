@@ -18,13 +18,16 @@ const demo1 = () => {
           title: '分拨名称',
           dataIndex: 'siteName',
           fixed: 'left',
-          searchField: {
-            type: 'FormInput',
-            props: {
-              label: '分拨名称',
-              name: 'siteName',
-            },
-          },
+          searchField: ()=>{
+              console.log('分拨名称render');
+            return {
+              type: 'FormInput',
+              props: {
+                label: '分拨名称',
+                name: 'siteName',
+              },
+            }
+        },
         },
         {
           title: '库区编码',
