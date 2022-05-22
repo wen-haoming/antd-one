@@ -16,7 +16,7 @@ const CustomerRender: FC<Field & { length?: number }> = (CustomerRenderProps) =>
   const { col, render, type, props = {}, length = 24 } = CustomerRenderProps;
   const { fieldProps = {}, ...itemProps } = props;
   const colProps = col ? col : { span: length };
-  
+
   const FRContext = useContext(FormRenderContext);
 
   //  匹配对应的组件
@@ -31,14 +31,19 @@ const CustomerRender: FC<Field & { length?: number }> = (CustomerRenderProps) =>
     fieldProps,
   };
 
-  if (render) {
+  // 自定义渲染模块
+  if (render && FRContext.col) {
     return <Col {...colProps}>{render}</Col>;
+  } else if (render && !FRContext.col) {
+    return render;
   }
 
   if (!Comp) {
     return null;
   }
+  
   compProps.Comp = Comp;
+
   if (typeof type === 'string' && type === 'RenderTabs') {
     compProps.Comp = RenderTabs;
   } else if (typeof type === 'string' && type === 'ItemCeil') {

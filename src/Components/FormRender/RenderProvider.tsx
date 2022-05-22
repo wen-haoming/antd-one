@@ -14,6 +14,8 @@ interface ItemRenderProps {
   initialValues?: Record<string, any>;
   install?: Record<string, any>;
   formDataOptions?: CreateOptions;
+  row?: boolean;
+  col?: boolean;
 }
 
 const FRProviderValue = {
@@ -40,7 +42,7 @@ export const FormRenderContext = createContext<FRProviderValueContext>(
 );
 
 export const ItemRender: FC<ItemRenderProps> = (props) => {
-  const { fields, form, install = innerConfig, formDataOptions } = props;
+  const { fields, form, install = innerConfig, formDataOptions, row = true, col = true } = props;
 
   const value = useMemo(() => {
     return {
@@ -49,8 +51,10 @@ export const ItemRender: FC<ItemRenderProps> = (props) => {
       install,
       form,
       formDataOptions: formDataOptions,
+      row,
+      col,
     };
-  }, [fields, form, formDataOptions, install]);
+  }, [col, fields, form, formDataOptions, install, row]);
 
   const fieldsRender = useMemo(() => {
     return fields.map((field, idx) => {
@@ -65,7 +69,7 @@ export const ItemRender: FC<ItemRenderProps> = (props) => {
               key={`${idx.toString()}-${idx2.toString()}`}
             />
           );
-        })
+        });
         if (value.row) {
           return (
             <Row key={idx.toString()} gutter={16}>
@@ -73,7 +77,7 @@ export const ItemRender: FC<ItemRenderProps> = (props) => {
             </Row>
           );
         } else {
-          return fieldsArr
+          return fieldsArr;
         }
       }
     });
