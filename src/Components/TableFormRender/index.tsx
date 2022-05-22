@@ -52,7 +52,17 @@ const TableFormRender: FC<TableFormRenderProps> = (props) => {
       render: searchBtns,
     });
 
-    return [_fields];
+    return _fields.reduce((pre,cur,idx)=>{
+      console.log(pre);
+        if(idx % 4 === 0){
+          pre.push([cur])
+        }else{
+         const item = pre.pop();
+         item.push(cur);
+         pre.push(item)
+        }
+        return pre
+    },[]);
   }, [columns, searchBtns]);
 
   return (

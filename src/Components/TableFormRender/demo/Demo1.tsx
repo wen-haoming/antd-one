@@ -64,6 +64,19 @@ const demo1 = () => {
         {
           title: '更新人',
           dataIndex: 'updatorId',
+          searchField: {
+            type: 'FormSelect',
+            props: {
+              label: '创建人4',
+              name: 'siteName4',
+              fieldProps: {
+                valueEnum: {
+                  1: '1',
+                  2: '2',
+                },
+              },
+            },
+          },
         },
       ]}
       request={demo1Api}
