@@ -41,6 +41,7 @@
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^12.1.2",
     "@types/jest": "^27.0.3",
+    "@types/react": "^18.0.9",
     "@umijs/fabric": "^2.8.1",
     "@umijs/test": "^3.0.5",
     "ahooks": "^3.1.3",

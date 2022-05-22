@@ -92,7 +92,6 @@ const DrawerFormRender: FC<MFRProps> = (props) => {
               >
                 取消
               </XButton>
-              ,
               <XButton
                 key="confirm"
                 beforePopConfirm={beforePopConfirm}
