@@ -23,6 +23,8 @@ const FRProviderValue = {
   fields: [],
   formDataOptions: new CreateOptions(),
   formDeps: {},
+  row: true,
+  col: true,
 };
 
 type FRProviderValueContext = typeof FRProviderValue & {
@@ -54,22 +56,27 @@ export const ItemRender: FC<ItemRenderProps> = (props) => {
       if (!Array.isArray(field)) {
         return <Render length={24} renderProps={field} key={idx.toString()} />;
       } else {
-        return (
-          <Row key={idx.toString()} gutter={16}>
-            {field.map((field2, idx2) => {
-              return (
-                <Render
-                  length={24 / field.length}
-                  renderProps={field2}
-                  key={`${idx.toString()}-${idx2.toString()}`}
-                />
-              );
-            })}
-          </Row>
-        );
+        const fieldsArr = field.map((field2, idx2) => {
+          return (
+            <Render
+              length={24 / field.length}
+              renderProps={field2}
+              key={`${idx.toString()}-${idx2.toString()}`}
+            />
+          );
+        })
+        if (value.row) {
+          return (
+            <Row key={idx.toString()} gutter={16}>
+              {fieldsArr}
+            </Row>
+          );
+        } else {
+          return fieldsArr
+        }
       }
     });
-  }, []);
+  }, [fields, value.row]);
 
   return (
     <FormRenderContext.Provider value={value as any}>{fieldsRender}</FormRenderContext.Provider>
