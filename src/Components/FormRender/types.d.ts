@@ -26,8 +26,6 @@ export type Field = {
       options?: { label: string; value: any }[];
     };
   } & FormItemProps;
-
-  hideInForm?: boolean; // 显隐操作
   render?: React.ReactElement; //
   col?: ColProps;
 };

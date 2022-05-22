@@ -31,7 +31,7 @@ export const Item: FC<{
 
   return (
     <Form.Item label={label} name={name} {...restItemProps}>
-      {<Comp {...fieldProps} onChange={handleChange} />}
+      <Comp {...fieldProps} onChange={handleChange} />
     </Form.Item>
   );
 };

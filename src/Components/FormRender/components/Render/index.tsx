@@ -1,24 +1,64 @@
 import type { Field, FieldFunc } from '../../types';
 import { Col, Form } from 'antd';
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import { memo, useState } from 'react';
 import { useContext } from 'react';
-import { useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 import { FormRenderContext } from '../../RenderProvider';
-import { ItemCeil, RenderTabs } from '..';
+import { ItemCeil, RenderTabs, Item } from '..';
 
-import { Item } from '../Item';
 interface RProps {
   length?: number; // 栅格列数
   renderProps: Field | FieldFunc; // form 的渲染实例，既可以是对象，也可以是函数
 }
 
+const CustomerRender: FC<Field & { length?: number }> = (CustomerRenderProps) => {
+  const { col, render, type, props = {}, length = 24 } = CustomerRenderProps;
+  const { fieldProps = {}, ...itemProps } = props;
+  const colProps = col ? col : { span: length };
+
+  const FRContext = useContext(FormRenderContext);
+
+  //  匹配对应的组件
+  const Comp: any = typeof type === 'string' ? FRContext.install[type] : type;
+
+  const compProps: {
+    itemProps: Record<string, any>;
+    fieldProps: Record<string, any>;
+    Comp?: ReactNode;
+  } = {
+    itemProps,
+    fieldProps,
+  };
+
+  if (render) {
+    return <Col {...colProps}>{render}</Col>;
+  }
+
+  if (!Comp) {
+    return null;
+  }
+  compProps.Comp = Comp;
+  if (typeof type === 'string' && type === 'RenderTabs') {
+    compProps.Comp = RenderTabs;
+  } else if (typeof type === 'string' && type === 'ItemCeil') {
+    compProps.Comp = ItemCeil;
+  }
+  if (FRContext.col) {
+    return (
+      <Col {...colProps}>
+        <Item {...compProps} />
+      </Col>
+    );
+  } else {
+    return <Item {...compProps} />;
+  }
+};
+
 export const FormRender: FC<RProps> = (FormRenderProps) => {
   const { renderProps, length = 24 } = FormRenderProps;
   const FRContext = useContext(FormRenderContext);
   const { form } = FRContext;
-  const depsRef = useRef<string[]>([]);
-  const [, update] = useState({});
   const setDeps = useMemo<Set<string>>(() => new Set(), []);
 
   const proxy = useMemo(() => {
@@ -27,6 +67,7 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
       {
         get(target, property) {
           // 依赖收集
+          console.log(property);
           if (property) {
             setDeps.add(property as string);
           }
@@ -40,95 +81,37 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
 
   if (typeof renderProps === 'function') {
     // 第一次调用需要获取静态属性
-    const { render, col } = renderProps(proxy, FRContext?.formDataOptions?.options, form);
-
-    const colProps = col ? col : { span: length };
-
-    if (render) {
-      if (FRContext.renderDeps) {
-        FRContext.renderDeps.push(() => update({}));
-      }
-      return <Col {...colProps}>{render}</Col>;
-    }
 
     return (
-      <Col {...colProps}>
-        <Form.Item
-          noStyle
-          shouldUpdate={(prevValues, curValues) => {
-            // 只要依赖过的表单，就需要刷新
-
-            if (setDeps.size == 0) return false;
-            for (const key of [...setDeps]) {
-              if (prevValues[key] !== curValues[key]) {
-                return true;
-              }
+      <Form.Item
+        noStyle
+        shouldUpdate={(prevValues, curValues) => {
+          // 只要依赖过的表单，就需要刷新
+          if (setDeps.size == 0) return false;
+          for (const key of [...setDeps]) {
+            if (prevValues[key] !== curValues[key]) {
+              return true;
             }
-            return false;
-          }}
-        >
-          {() => {
-            const { type, props } = (renderProps as FieldFunc)(
-              proxy,
-              FRContext.formDataOptions?.options,
-              form,
-            );
-            const { fieldProps = {}, ...itemProps } = props as any;
-            // const { name } = itemProps;
-            // if (typeof renderProps === 'function' && name && FRContext.formDeps) {
-            //   FRContext.formDeps[name as string] = [...setDeps] as string[];
-            //   depsRef.current = [...setDeps] as string[];
-            // }
-            //  匹配对应的组件
-            const Comp: any = typeof type === 'string' ? FRContext.install[type] : type;
-
-            if (!Comp) {
-              return null;
-            }
-            return <Item itemProps={itemProps} fieldProps={fieldProps} Comp={Comp} />;
-          }}
-        </Form.Item>
-      </Col>
+          }
+          return false;
+        }}
+      >
+        {() => {
+          // 第二次调用需要获取动态属性
+          const {
+            render: Render,
+            col,
+            props = {},
+            type,
+          }: Field = renderProps(proxy, FRContext?.formDataOptions?.options, form);
+          return <CustomerRender render={Render} type={type} props={props} col={col} />;
+        }}
+      </Form.Item>
     );
   } else {
-    const { type, props = {}, hideInForm, render, col } = renderProps as Field;
+    const { type, props = {}, render, col } = renderProps as Field;
 
-    const colProps = col ? col : { span: length };
-
-    if (render) {
-      return <Col {...colProps}>{render}</Col>;
-    }
-
-    const { fieldProps = {}, ...itemProps } = props;
-
-    //  匹配对应的组件
-    const Comp: any = typeof type === 'string' ? FRContext.install[type] : type;
-
-    if (!Comp || hideInForm) {
-      return null;
-    }
-
-    if (typeof type === 'string' && type === 'RenderTabs') {
-      return (
-        <Col {...colProps}>
-          <RenderTabs itemProps={itemProps} fieldProps={fieldProps as any} />
-        </Col>
-      );
-    }
-
-    if (typeof type === 'string' && type === 'ItemCeil') {
-      return (
-        <Col {...colProps}>
-          <ItemCeil itemProps={itemProps} fieldProps={fieldProps as any} />
-        </Col>
-      );
-    }
-
-    return (
-      <Col {...colProps}>
-        <Item itemProps={itemProps} fieldProps={fieldProps} Comp={Comp} />
-      </Col>
-    );
+    return <CustomerRender render={render} type={type} props={props} col={col} />;
   }
 };
 

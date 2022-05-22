@@ -10,11 +10,13 @@ const Demo = () => {
       <FormRender
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 12 }}
+        initialValues={{ select: 123 }}
         onValuesChange={(changedValues: any, values: any, valuesOpts: any) => {
           setObj(values);
         }}
         fields={[
-          () => {
+          (formData) => {
+            console.log('update-select',formData.select, 'formData.select');
             return {
               type: 'FormInput',
               props: {
@@ -24,6 +26,7 @@ const Demo = () => {
             };
           },
           () => {
+            console.log('update-select2');
             return {
               type: 'FormSelect',
               props: {
