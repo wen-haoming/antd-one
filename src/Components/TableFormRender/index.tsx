@@ -53,7 +53,7 @@ const TableFormRender: FC<TableFormRenderProps> = (props) => {
     });
 
     return _fields.reduce((pre,cur,idx)=>{
-      console.log(pre);
+        if(!cur) return pre
         if(idx % 4 === 0){
           pre.push([cur])
         }else{
