@@ -9,6 +9,7 @@ import type { ColumnsType } from 'antd/lib/table';
 import { useAntdTable } from 'ahooks';
 import type { AntdTableOptions } from 'ahooks/lib/useAntdTable/types';
 import type { Field, FieldFunc } from '../FormRender/types';
+
 export interface TableFormRenderProps extends XTableProps {
   request: (
     pageData: { current: number; pageSize: number },
@@ -68,7 +69,7 @@ const TableFormRender: FC<TableFormRenderProps> = (props) => {
   return (
     <>
       <Form form={form} style={{ marginBottom: '1em' }}>
-        <Render form={form} fields={fields as FRField} row={true} col={true} />
+        <Render form={form} fields={fields as FRField} row={true} col={{span:6}} />
       </Form>
       <XTable columns={columns} {...tableRequest.tableProps} />
     </>

@@ -15,9 +15,9 @@ interface RProps {
 const CustomerRender: FC<Field & { length?: number }> = (CustomerRenderProps) => {
   const { col, render, type, props = {}, length = 24 } = CustomerRenderProps;
   const { fieldProps = {}, ...itemProps } = props;
-  const colProps = col ? col : { span: length };
 
   const FRContext = useContext(FormRenderContext);
+  const colProps =  col ? col : { span: length };
 
   //  匹配对应的组件
   const Comp: any = typeof type === 'string' ? FRContext.install[type] : type;
@@ -30,7 +30,6 @@ const CustomerRender: FC<Field & { length?: number }> = (CustomerRenderProps) =>
     itemProps,
     fieldProps,
   };
-
   // 自定义渲染模块
   if (render && FRContext.col) {
     return <Col {...colProps}>{render}</Col>;
@@ -109,7 +108,7 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
             type,
           }: Field = renderProps(proxy, FRContext?.formDataOptions?.options, form);
           return (
-            <CustomerRender render={Render} type={type} props={props} col={col} length={length} />
+            <CustomerRender render={Render} type={type} props={props} col={FRContext.col?FRContext.col:col} length={length} />
           );
         }}
       </Form.Item>
@@ -117,7 +116,7 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
   } else {
     const { type, props = {}, render, col } = renderProps as Field;
 
-    return <CustomerRender render={render} type={type} props={props} col={col} length={length} />;
+    return <CustomerRender render={render} type={type} props={props} col={FRContext.col?FRContext.col:col} length={length} />;
   }
 };
 

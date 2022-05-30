@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import type { FRField } from '.';
 import type { FormInstance } from 'antd/es/form';
 import { CreateOptions } from './utils';
-import { Row } from 'antd';
+import { ColProps, Row } from 'antd';
 import { memo, useMemo, createContext } from 'react';
 import Render from './components/Render';
 import { innerConfig } from './components';
@@ -15,7 +15,7 @@ interface ItemRenderProps {
   install?: Record<string, any>;
   formDataOptions?: CreateOptions;
   row?: boolean;
-  col?: boolean;
+  col?: ColProps | boolean;
 }
 
 const FRProviderValue = {
