@@ -1,9 +1,9 @@
-export const demo1Api = ({ current, pageSize, }) => {
+export const demo1Api = ({ current, pageSize }) => {
   return new Promise((r) => {
     const records = Array(pageSize)
       .fill('')
       .map((item, id) => ({
-        id,
+        id: Math.floor(Math.random() * 100000 * id),
         siteName: '丰网杭州分拨中心',
         zoneCode: '002',
         zoneName: 'kq002',
@@ -14,7 +14,7 @@ export const demo1Api = ({ current, pageSize, }) => {
       r({
         current: current,
         pages: pageSize,
-        list:records,
+        list: records,
         size: pageSize,
         total: 1000,
       });
