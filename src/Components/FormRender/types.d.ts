@@ -7,6 +7,7 @@ import type { FormSelectProps } from './components/Select';
 import type { FormInputProps } from './components/Input';
 import type { FormRadioGroupProps } from './components/Radio';
 import type { ItemCeilProps } from './components/ItemCeil';
+import type { Rule } from 'antd/es/form';
 
 export type Field = {
   // 如果指定了改条件那么就会有对应
@@ -28,6 +29,7 @@ export type Field = {
   } & FormItemProps;
   render?: React.ReactElement; //
   col?: ColProps;
+  required?: boolean | Rule; //是否必填
 };
 
 export type FieldFunc = (

@@ -6,6 +6,7 @@ import { useContext } from 'react';
 import { useMemo } from 'react';
 import { FormRenderContext } from '../../RenderProvider';
 import { ItemCeil, RenderTabs, Item } from '..';
+import { formatRule } from '../../rules';
 
 interface RProps {
   length?: number; // 栅格列数
@@ -17,7 +18,7 @@ const CustomerRender: FC<Field & { length?: number }> = (CustomerRenderProps) =>
   const { fieldProps = {}, ...itemProps } = props;
 
   const FRContext = useContext(FormRenderContext);
-  const colProps =  col ? col : { span: length };
+  const colProps = col ? col : { span: length };
 
   //  匹配对应的组件
   const Comp: any = typeof type === 'string' ? FRContext.install[type] : type;
@@ -40,7 +41,7 @@ const CustomerRender: FC<Field & { length?: number }> = (CustomerRenderProps) =>
   if (!Comp) {
     return null;
   }
-  
+
   compProps.Comp = Comp;
 
   if (typeof type === 'string' && type === 'RenderTabs') {
@@ -84,7 +85,6 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
 
   if (typeof renderProps === 'function') {
     // 第一次调用需要获取静态属性
-
     return (
       <Form.Item
         noStyle
@@ -106,17 +106,31 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
             col,
             props = {},
             type,
-          }: Field = renderProps(proxy, FRContext?.formDataOptions?.options, form);
+          }: Field = formatRule(renderProps(proxy, FRContext?.formDataOptions?.options, form));
           return (
-            <CustomerRender render={Render} type={type} props={props} col={FRContext.col?FRContext.col:col} length={length} />
+            <CustomerRender
+              render={Render}
+              type={type}
+              props={props}
+              col={FRContext.col ? FRContext.col : col}
+              length={length}
+            />
           );
         }}
       </Form.Item>
     );
   } else {
-    const { type, props = {}, render, col } = renderProps as Field;
+    const { type, props = {}, render, col } = formatRule(renderProps as Field);
 
-    return <CustomerRender render={render} type={type} props={props} col={FRContext.col?FRContext.col:col} length={length} />;
+    return (
+      <CustomerRender
+        render={render}
+        type={type}
+        props={props}
+        col={FRContext.col ? FRContext.col : col}
+        length={length}
+      />
+    );
   }
 };
 

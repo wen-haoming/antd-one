@@ -18,6 +18,7 @@ const Demo = () => {
           () => {
             return {
               type: 'FormInput',
+              required: { required: true, message: '必须填入' },
               props: {
                 name: 'select',
                 label: 'FormInput',
