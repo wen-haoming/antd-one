@@ -26,10 +26,10 @@ export type Field = {
     > & {
       options?: { label: string; value: any }[];
     };
-  } & FormItemProps;
-  render?: React.ReactElement; //
-  col?: ColProps;
-  required?: boolean | Rule; //是否必填
+  } & FormItemProps; // Props = FormItemProps & Record<string,any>
+  render?: React.ReactElement; // 自定义渲染区块
+  col?: ColProps; // 一行占多少个栅格
+  required?: boolean | Rule; //表单项是否必填
 };
 
 export type FieldFunc = (

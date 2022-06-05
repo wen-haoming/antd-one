@@ -1,7 +1,7 @@
 import type { Field, FieldFunc } from '../../types';
 import { Col, Form } from 'antd';
 import type { FC, ReactNode } from 'react';
-import { memo, useState } from 'react';
+import { memo } from 'react';
 import { useContext } from 'react';
 import { useMemo } from 'react';
 import { FormRenderContext } from '../../RenderProvider';
@@ -18,7 +18,7 @@ const CustomerRender: FC<Field & { length?: number }> = (CustomerRenderProps) =>
   const { fieldProps = {}, ...itemProps } = props;
 
   const FRContext = useContext(FormRenderContext);
-  const colProps = col ? col : { span: length };
+  const colProps =  { span: length };
 
   //  匹配对应的组件
   const Comp: any = typeof type === 'string' ? FRContext.install[type] : type;
@@ -65,7 +65,8 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
   const FRContext = useContext(FormRenderContext);
   const { form } = FRContext;
   const setDeps = useMemo<Set<string>>(() => new Set(), []);
-
+  console.log(length,'length');
+  
   const proxy = useMemo(() => {
     return new Proxy(
       {},

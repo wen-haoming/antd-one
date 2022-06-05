@@ -7,7 +7,7 @@ export const formatRule = (field: Field): Field => {
       rules: [],
     };
   }
-  
+
   // 如果有设置 required
   if (typeof field.required === 'boolean') {
     field.props?.rules?.push({
@@ -16,6 +16,6 @@ export const formatRule = (field: Field): Field => {
   } else if (typeof field.required === 'object') {
     field.props?.rules?.push(field.required);
   }
-
+  
   return field;
 };

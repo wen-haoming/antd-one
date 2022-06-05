@@ -26,7 +26,7 @@ export interface FRProps {
 const FormRender: FC<FRProps> = (props) => {
   const {
     fields = [],
-    layout,
+    layout = 'horizontal',
     labelAlign,
     labelCol,
     wrapperCol,

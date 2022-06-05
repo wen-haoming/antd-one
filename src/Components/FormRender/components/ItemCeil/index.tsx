@@ -21,8 +21,8 @@ export const ItemCeil: FC<ItemCeilProps> = (props) => {
       {(fieldProps.fields || []).map((field, idx) => {
         if (Array.isArray(field)) {
           return (
-            <Row key={`${idx.toString()}`} gutter={16}>
-              {field.map((field2, idx2) => {
+            // <Row key={`${idx.toString()}`} gutter={16}>
+              field.map((field2, idx2) => {
                 return (
                   <FormRender
                     length={24 / field.length}
@@ -30,8 +30,8 @@ export const ItemCeil: FC<ItemCeilProps> = (props) => {
                     renderProps={field2}
                   />
                 );
-              })}
-            </Row>
+              })
+            // </Row>
           );
         }
         return <FormRender key={`${idx.toString()}`} renderProps={field} />;

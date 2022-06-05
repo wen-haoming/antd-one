@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import type { FRField } from '.';
 import type { FormInstance } from 'antd/es/form';
 import { CreateOptions } from './utils';
-import type { ColProps} from 'antd';
+import type { ColProps } from 'antd';
 import { Row } from 'antd';
 import { memo, useMemo, createContext } from 'react';
 import Render from './components/Render';
@@ -15,9 +15,7 @@ interface ItemRenderProps {
   initialValues?: Record<string, any>;
   install?: Record<string, any>;
   formDataOptions?: CreateOptions;
-  row?: boolean;
   col?: ColProps | boolean;
-  
 }
 
 const FRProviderValue = {
@@ -28,7 +26,6 @@ const FRProviderValue = {
   fields: [],
   formDataOptions: new CreateOptions(),
   formDeps: {},
-  row: true,
   col: true,
 };
 
@@ -44,7 +41,7 @@ export const FormRenderContext = createContext<FRProviderValueContext>(
 );
 
 export const ItemRender: FC<ItemRenderProps> = (props) => {
-  const { fields, form, install = innerConfig, formDataOptions, row = true, col = true } = props;
+  const { fields, form, install = innerConfig, formDataOptions, col = true } = props;
 
   const value = useMemo(() => {
     return {
@@ -53,10 +50,9 @@ export const ItemRender: FC<ItemRenderProps> = (props) => {
       install,
       form,
       formDataOptions: formDataOptions,
-      row,
       col,
     };
-  }, [col, fields, form, formDataOptions, install, row]);
+  }, [col, fields, form, formDataOptions, install]);
 
   const fieldsRender = useMemo(() => {
     return fields.map((field, idx) => {
@@ -72,21 +68,15 @@ export const ItemRender: FC<ItemRenderProps> = (props) => {
             />
           );
         });
-        if (value.row) {
-          return (
-            <Row key={idx.toString()} gutter={16}>
-              {fieldsArr}
-            </Row>
-          );
-        } else {
-          return fieldsArr;
-        }
+        return fieldsArr;
       }
     });
-  }, [fields, value.row]);
+  }, [fields]);
 
   return (
-    <FormRenderContext.Provider value={value as any}>{fieldsRender}</FormRenderContext.Provider>
+    <FormRenderContext.Provider value={value as any}>
+      <Row gutter={20}>{fieldsRender}</Row>
+    </FormRenderContext.Provider>
   );
 };
 
