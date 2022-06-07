@@ -9,7 +9,6 @@ import type { Field, FieldFunc } from './types';
 import type { FC } from 'react';
 
 export type FRField = (Field | FieldFunc | (Field | FieldFunc)[])[];
-export { useForm } from './useForm';
 export interface FRProps {
   fields: FRField;
   layout?: 'horizontal' | 'inline' | 'vertical';
@@ -26,7 +25,7 @@ export interface FRProps {
 const FormRender: FC<FRProps> = (props) => {
   const {
     fields = [],
-    layout = 'horizontal',
+    layout ,
     labelAlign,
     labelCol,
     wrapperCol,
@@ -97,5 +96,5 @@ const FormRender: FC<FRProps> = (props) => {
 };
 
 export default memo<FRProps>(FormRender);
-
+export { useForm } from './useForm';
 export { default as Render } from './RenderProvider';

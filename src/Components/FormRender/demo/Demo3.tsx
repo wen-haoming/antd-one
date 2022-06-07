@@ -35,7 +35,7 @@ const Demo3 = () => {
           () => ({
             render: <Divider plain>自定义渲染分割线</Divider>,
           }),
-          [
+          [ 
             {
               type: 'FormInput',
               props: {
