@@ -1,77 +1,93 @@
 import FormRender from '..';
-import { useState } from 'react';
+import 'antd/dist/antd.css';
+import { ConfigProvider } from 'antd';
+import zhCN from 'antd/lib/locale/zh_CN';
+import FormWrap from './FormWrap';
 
-const Demo2 = () => {
-  const [obj, setObj] = useState({});
-
+const Demo = () => {
   return (
-    <>
-      <FormRender
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 12 }}
-        onValuesChange={(changedValues: any, values: any, valuesOpts: any) => {
-          setObj(values);
-        }}
-        fields={[
-          () => {
-            return {
-              type: 'FormInput',
+    <ConfigProvider locale={zhCN}>
+      <FormWrap>
+        <FormRender
+          layout="vertical"
+          fields={[
+            {
+              type: 'RenderTabs',
               props: {
-                name: '1',
-                label: 'antInput内置组件',
-              },
-            };
-          },
-          () => {
-            return {
-              type: 'FormSelect',
-              props: {
-                name: '2',
-                label: 'FormSelect',
                 fieldProps: {
-                  options: [
+                  defaultActiveKey: 'b',
+                  tabs: [
                     {
-                      label: '是',
-                      value: true,
+                      tab: '账号密码登录',
+                      key: 'a',
+                      fields: [
+                        {
+                          type: 'FormInput',
+                          required: true,
+                          props: {
+                            name: 'username',
+                            label: '账号',
+                          },
+                        },
+                        {
+                          type: 'InputPasswrod',
+                          required: true,
+                          props: {
+                            name: 'paaword',
+                            label: '密码',
+                          },
+                        },
+                        {
+                          type: 'Submit',
+                          props: {
+                            fieldProps: {
+                              block: true,
+                              text: '登录',
+                            },
+                          },
+                        },
+                      ],
                     },
                     {
-                      label: '否',
-                      value: false,
+                      tab: '手机登录',
+                      key: 'phone',
+                      fields: [
+                        {
+                          type: 'FormInput',
+                          required: true,
+                          props: {
+                            name: 'username2',
+                            label: '手机号',
+                          },
+                        },
+                        {
+                          type: 'InputPasswrod',
+                          required: true,
+                          props: {
+                            name: 'paaword2',
+                            label: '验证码',
+                          },
+                        },
+                        {
+                          type: 'Submit',
+                          props: {
+                            fieldProps: {
+                              block: true,
+                              text: '登录',
+                            },
+                          },
+                        },
+                      ],
                     },
                   ],
                 },
               },
-            };
-          },
-          (formData) => {
-            return {
-              type: 'FormRadioGroup',
-              props: {
-                name: '3',
-                label: 'FormRadioGroup',
-                fieldProps: {
-                  disabled: formData['2'],
-                  options: [
-                    {
-                      label: '是',
-                      value: true,
-                    },
-                    {
-                      label: '否',
-                      value: false,
-                    },
-                  ],
-                },
-              },
-            };
-          },
-        ]}
-      />
-      <pre>
-        <code>{JSON.stringify(obj, null, 2)}</code>
-      </pre>
-    </>
+            },
+          ]}
+        />
+      </FormWrap>
+    </ConfigProvider>
   );
 };
 
-export default Demo2;
+export default Demo;

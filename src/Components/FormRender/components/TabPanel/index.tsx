@@ -38,8 +38,9 @@ type InnerTabsProps = {
 
 const InnerTabs: FC<InnerTabsProps> = (props) => {
   const { value, tabs, ...restTabsProps } = props;
+
   return (
-    <Tabs destroyInactiveTabPane activeKey={value as any} {...restTabsProps}>
+    <Tabs  activeKey={value as any} {...restTabsProps}>
       {(tabs || []).map((tab, idx) => {
         return (
           <TabPane animated tab={tab.tab} key={tab.key || idx} style={{ paddingTop: 5 }}>
@@ -72,10 +73,11 @@ const InnerTabs: FC<InnerTabsProps> = (props) => {
 
 export const RenderTabs: FC<RenderTabsProps> = (props) => {
   const { itemProps, fieldProps } = props;
-
+    console.log('RenderTabs',props);
+    
   return (
     <Form.Item noStyle {...itemProps}>
-      <InnerTabs {...fieldProps} />
+      <InnerTabs {...props} />
     </Form.Item>
   );
 };

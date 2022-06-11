@@ -1,89 +1,45 @@
 import FormRender from '..';
-import { useState } from 'react';
 import 'antd/dist/antd.css';
+import { ConfigProvider } from 'antd';
+import zhCN from 'antd/lib/locale/zh_CN';
+import FormWrap from './FormWrap';
 
 const Demo = () => {
-  const [obj, setObj] = useState({});
-
   return (
-    <>
-      <FormRender
-        initialValues={{ select: 123 }}
-        onValuesChange={(changedValues: any, values: any, valuesOpts: any) => {
-          setObj(values);
-        }}
-        fields={[
-          [
-            () => {
-              return {
-                type: 'FormInput',
-                required: true,
-                format: [],
-                props: {
-                  name: 'select',
-                  label: 'FormInput',
-                },
-              };
-            },
-            () => {
-              return {
-                type: 'FormInput',
-                required: true,
-                format: [],
-                props: {
-                  name: 'select2',
-                  label: 'FormInput',
-                },
-              };
-            },
-          ],
-          () => {
-            console.log('update-select2');
-            return {
-              type: 'FormSelect',
+    <ConfigProvider locale={zhCN}>
+      <FormWrap>
+        <FormRender
+          layout="vertical"
+          fields={[
+            {
+              type: 'FormInput',
+              required: true,
               props: {
-                name: 'select2',
-                label: 'FormSelect',
-                fieldProps: {
-                  valueEnum: {
-                    yes: '正确',
-                    no: '失败',
-                  },
-                },
-              },
-            };
-          },
-          () => {
-            console.log('update-select2');
-            return {
-              type: 'FormSelect',
-              props: {
-                name: 'select4',
-                label: 'FormSelect',
-                fieldProps: {
-                  valueEnum: {
-                    yes: '正确',
-                    no: '失败',
-                  },
-                },
-              },
-            };
-          },
-          {
-            type: 'Submit',
-            props: {
-              fieldProps: {
-                block: true,
-                text: '提交数据',
+                name: 'username',
+                label: '账号',
               },
             },
-          },
-        ]}
-      />
-      <pre>
-        <code>{JSON.stringify(obj, null, 2)}</code>
-      </pre>
-    </>
+            {
+              type: 'InputPasswrod',
+              required: true,
+              props: {
+                name: 'paaword',
+                label: '密码',
+              },
+            },
+            {
+              type: 'Submit',
+              props: {
+                fieldProps: {
+                  block: true,
+                  text: '登录',
+                },
+              },
+            },
+          ]}
+        />
+      </FormWrap>
+    </ConfigProvider>
   );
 };
 

@@ -5,7 +5,7 @@ import { memo } from 'react';
 import { useContext } from 'react';
 import { useMemo } from 'react';
 import { FormRenderContext } from '../../RenderProvider';
-import { Item , innerConfig} from '..';
+import { Item, innerConfig } from '..';
 import { formatRule } from '../../rules';
 
 interface RProps {
@@ -18,10 +18,10 @@ const CustomerRender: FC<Field & { length?: number }> = (CustomerRenderProps) =>
   const { fieldProps = {}, ...itemProps } = props;
 
   const FRContext = useContext(FormRenderContext);
-  const colProps =  { span: Math.floor(length) };
+  const colProps = { span: Math.floor(length) };
 
   //  匹配对应的组件
-  const Comp: any = typeof type === 'string' ? (FRContext.install[type] || innerConfig[type]) : type;
+  const Comp: any = typeof type === 'string' ? FRContext.install[type] || innerConfig[type] : type;
 
   const compProps: {
     itemProps: Record<string, any>;
@@ -34,9 +34,11 @@ const CustomerRender: FC<Field & { length?: number }> = (CustomerRenderProps) =>
 
   // 自定义渲染模块
   if (render && FRContext.col) {
-    return <Col {...colProps}>{render}</Col>;
+    const renderContent = typeof render === 'function' ? render() : render;
+    return <Col {...colProps}>{renderContent}</Col>;
   } else if (render && !FRContext.col) {
-    return render;
+    const renderContent = typeof render === 'function' ? render() : render;
+    return renderContent;
   }
 
   if (!Comp) {
@@ -44,12 +46,6 @@ const CustomerRender: FC<Field & { length?: number }> = (CustomerRenderProps) =>
   }
 
   compProps.Comp = Comp;
-
-  // if (typeof type === 'string' && type === 'RenderTabs') {
-  //   compProps.Comp = RenderTabs;
-  // } else if (typeof type === 'string' && type === 'ItemCeil') {
-  //   compProps.Comp = ItemCeil;
-  // }
 
   if (FRContext.col) {
     return (

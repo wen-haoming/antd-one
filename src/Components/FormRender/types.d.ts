@@ -10,6 +10,7 @@ import type { ItemCeilProps } from './components/ItemCeil';
 import type { SubmitProps } from './components/Submit';
 import type { Rule } from 'antd/es/form';
 
+
 export type Field = {
   // 如果指定了改条件那么就会有对应
   type?: keyof typeof innerConfig | React.FunctionComponent | React.ClassicComponent;
@@ -29,7 +30,7 @@ export type Field = {
       options?: { label: string; value: any }[];
     };
   } & FormItemProps; // Props = FormItemProps & Record<string,any>
-  render?: React.ReactElement; // 自定义渲染区块
+  render?: React.ReactElement | (() => React.ReactElement); // 自定义渲染区块
   col?: ColProps; // 一行占多少个栅格
   required?: boolean | Rule; //表单项是否必填
 };

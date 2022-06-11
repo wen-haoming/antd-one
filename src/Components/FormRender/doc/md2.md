@@ -15,13 +15,13 @@ group:
 
 使用一个 **声明式的结构化对象** 来渲染表单，需要 `install` 去注册对应得组件，然后使用 `fields` 来描述表单信息。
 
-### 基础使用
+### 一个简单的登录框
 
 <code src="../demo/Demo.tsx"  />
 
-### 表单联动
+### 一个更为复杂的登录框
 
-<code src="../demo/Demo2.tsx"  />
+<code src="../demo/Demo2.tsx" title="登录框添加字段验证，"  />
 
 ### 表单布局
 
