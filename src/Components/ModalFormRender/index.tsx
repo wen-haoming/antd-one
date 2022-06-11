@@ -80,7 +80,6 @@ const ModalFormRender: FC<MFRProps> = (props) => {
         <Modal
           visible={visible}
           onCancel={setFalse}
-          maskClosable={false}
           destroyOnClose
           footer={
             <Space>

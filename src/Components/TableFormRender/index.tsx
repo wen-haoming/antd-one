@@ -29,6 +29,7 @@ const TableFormRender: FC<TableFormRenderProps> = (props) => {
   const { columns = [],...restTableProps } = tableProps || {};
   const responsive = useResponsive();
   const [form] = useForm();
+console.log(responsive,'responsive');
 
   const tableRequest = useAntdTable(request, requestOptions);
 
@@ -62,11 +63,11 @@ const TableFormRender: FC<TableFormRenderProps> = (props) => {
         return searchField;
       });
 
-    _fields.splice(3, 0, {
+    _fields.push( {
       render: searchBtns,
     });
 
-    const abc = _fields.reduce((pre, cur, idx) => {
+    return  _fields.reduce((pre, cur, idx) => {
       if (!cur) return pre;
       if (idx % getSplitCol(responsive) === 0) {
         pre.push([cur]);
@@ -78,11 +79,10 @@ const TableFormRender: FC<TableFormRenderProps> = (props) => {
       return pre;
     }, []);
 
-    return abc;
+    return _fields;
   }, [columns, responsive, searchBtns]);
 
-  console.log(getSplitCol(responsive));
-  console.log(fields, 'fields');
+  console.log(getSplitCol(responsive),'===');
 
   return (
     <>
@@ -90,8 +90,7 @@ const TableFormRender: FC<TableFormRenderProps> = (props) => {
         <Render
           form={form}
           fields={fields as FRField}
-          row={true}
-          col={{ span: Math.ceil(24 / getSplitCol(responsive)) }}
+          // col={{ span: Math.ceil(24 / getSplitCol(responsive)) }}
         />
       </Form>
       <XTable columns={columns} {...tableRequest.tableProps} {...restTableProps}  />

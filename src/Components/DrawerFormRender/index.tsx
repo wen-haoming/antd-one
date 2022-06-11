@@ -80,7 +80,6 @@ const DrawerFormRender: FC<MFRProps> = (props) => {
         <Drawer
           visible={visible}
           onClose={setFalse}
-          maskClosable={false}
           destroyOnClose
           footer={
             <Space>

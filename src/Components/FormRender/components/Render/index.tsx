@@ -14,11 +14,11 @@ interface RProps {
 }
 
 const CustomerRender: FC<Field & { length?: number }> = (CustomerRenderProps) => {
-  const { col, render, type, props = {}, length = 24 } = CustomerRenderProps;
+  const { render, type, props = {}, length = 24 } = CustomerRenderProps;
   const { fieldProps = {}, ...itemProps } = props;
 
   const FRContext = useContext(FormRenderContext);
-  const colProps =  { span: length };
+  const colProps =  { span: Math.floor(length) };
 
   //  匹配对应的组件
   const Comp: any = typeof type === 'string' ? FRContext.install[type] : type;
@@ -65,8 +65,7 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
   const FRContext = useContext(FormRenderContext);
   const { form } = FRContext;
   const setDeps = useMemo<Set<string>>(() => new Set(), []);
-  console.log(length,'length');
-  
+
   const proxy = useMemo(() => {
     return new Proxy(
       {},
