@@ -37,6 +37,7 @@
     "ie >= 11"
   ],
   "devDependencies": {
+    "@ant-design/icons": "^4.7.0",
     "@ant-design/pro-form": "^1.55.0",
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^12.1.2",

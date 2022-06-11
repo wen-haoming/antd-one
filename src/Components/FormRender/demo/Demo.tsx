@@ -5,6 +5,7 @@ import zhCN from 'antd/lib/locale/zh_CN';
 import FormWrap from './FormWrap';
 
 const Demo = () => {
+  
   return (
     <ConfigProvider locale={zhCN}>
       <FormWrap>

@@ -1,8 +1,9 @@
 import FormRender from '..';
 import 'antd/dist/antd.css';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, Button } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
 import FormWrap from './FormWrap';
+import { UserOutlined, LockOutlined, PhoneOutlined } from '@ant-design/icons';
 
 const Demo = () => {
   return (
@@ -14,6 +15,9 @@ const Demo = () => {
             {
               type: 'RenderTabs',
               props: {
+                style: {
+                  margin: 0,
+                },
                 fieldProps: {
                   defaultActiveKey: 'b',
                   tabs: [
@@ -27,6 +31,9 @@ const Demo = () => {
                           props: {
                             name: 'username',
                             label: '账号',
+                            fieldProps: {
+                              prefix:<UserOutlined/>,
+                            },
                           },
                         },
                         {
@@ -35,6 +42,9 @@ const Demo = () => {
                           props: {
                             name: 'paaword',
                             label: '密码',
+                            fieldProps: {
+                              prefix: <LockOutlined />,
+                            },
                           },
                         },
                         {
@@ -58,6 +68,9 @@ const Demo = () => {
                           props: {
                             name: 'username2',
                             label: '手机号',
+                            filedProps: {
+                              // prefix: <PhoneOutlined />,
+                            },
                           },
                         },
                         {
@@ -83,6 +96,14 @@ const Demo = () => {
                 },
               },
             },
+            [
+              {
+                render: () => <Button type="link">新用户注册</Button>,
+              },
+              {
+                render: () => <Button type="link">忘记密码？</Button>,
+              },
+            ],
           ]}
         />
       </FormWrap>

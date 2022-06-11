@@ -43,7 +43,7 @@ const InnerTabs: FC<InnerTabsProps> = (props) => {
     <Tabs  activeKey={value as any} {...restTabsProps}>
       {(tabs || []).map((tab, idx) => {
         return (
-          <TabPane animated tab={tab.tab} key={tab.key || idx} style={{ paddingTop: 5 }}>
+          <TabPane animated tab={tab.tab} key={tab.key || idx} >
             {tab.fields.map((field, idx2) => {
               if (Array.isArray(field)) {
                 return (
@@ -73,8 +73,6 @@ const InnerTabs: FC<InnerTabsProps> = (props) => {
 
 export const RenderTabs: FC<RenderTabsProps> = (props) => {
   const { itemProps, fieldProps } = props;
-    console.log('RenderTabs',props);
-    
   return (
     <Form.Item noStyle {...itemProps}>
       <InnerTabs {...props} />
