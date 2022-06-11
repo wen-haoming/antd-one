@@ -5,7 +5,7 @@ import { memo } from 'react';
 import { useContext } from 'react';
 import { useMemo } from 'react';
 import { FormRenderContext } from '../../RenderProvider';
-import { ItemCeil, RenderTabs, Item } from '..';
+import { Item , innerConfig} from '..';
 import { formatRule } from '../../rules';
 
 interface RProps {
@@ -21,7 +21,7 @@ const CustomerRender: FC<Field & { length?: number }> = (CustomerRenderProps) =>
   const colProps =  { span: Math.floor(length) };
 
   //  匹配对应的组件
-  const Comp: any = typeof type === 'string' ? FRContext.install[type] : type;
+  const Comp: any = typeof type === 'string' ? (FRContext.install[type] || innerConfig[type]) : type;
 
   const compProps: {
     itemProps: Record<string, any>;
@@ -31,6 +31,7 @@ const CustomerRender: FC<Field & { length?: number }> = (CustomerRenderProps) =>
     itemProps,
     fieldProps,
   };
+
   // 自定义渲染模块
   if (render && FRContext.col) {
     return <Col {...colProps}>{render}</Col>;
@@ -44,11 +45,12 @@ const CustomerRender: FC<Field & { length?: number }> = (CustomerRenderProps) =>
 
   compProps.Comp = Comp;
 
-  if (typeof type === 'string' && type === 'RenderTabs') {
-    compProps.Comp = RenderTabs;
-  } else if (typeof type === 'string' && type === 'ItemCeil') {
-    compProps.Comp = ItemCeil;
-  }
+  // if (typeof type === 'string' && type === 'RenderTabs') {
+  //   compProps.Comp = RenderTabs;
+  // } else if (typeof type === 'string' && type === 'ItemCeil') {
+  //   compProps.Comp = ItemCeil;
+  // }
+
   if (FRContext.col) {
     return (
       <Col {...colProps}>

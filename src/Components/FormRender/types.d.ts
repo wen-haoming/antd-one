@@ -7,6 +7,7 @@ import type { FormSelectProps } from './components/Select';
 import type { FormInputProps } from './components/Input';
 import type { FormRadioGroupProps } from './components/Radio';
 import type { ItemCeilProps } from './components/ItemCeil';
+import type { SubmitProps } from './components/Submit';
 import type { Rule } from 'antd/es/form';
 
 export type Field = {
@@ -20,7 +21,8 @@ export type Field = {
           Exclude<FormSelectProps, 'options'> &
           Exclude<FormInputProps, 'options'> &
           Exclude<FormRadioGroupProps, 'options'> &
-          ItemCeilProps['fieldProps']
+          ItemCeilProps['fieldProps'] & 
+          SubmitProps
       >,
       'options'
     > & {

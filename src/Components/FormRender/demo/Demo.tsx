@@ -13,7 +13,8 @@ const Demo = () => {
           setObj(values);
         }}
         fields={[
-            [() => {
+          [
+            () => {
               return {
                 type: 'FormInput',
                 required: true,
@@ -67,7 +68,16 @@ const Demo = () => {
                 },
               },
             };
-          }
+          },
+          {
+            type: 'Submit',
+            props: {
+              fieldProps: {
+                block: true,
+                text: '提交数据',
+              },
+            },
+          },
         ]}
       />
       <pre>
