@@ -1,5 +1,4 @@
-import type { FormItemProps, TabsProps } from 'antd';
-import { Row } from 'antd';
+import { FormItemProps, Input, TabsProps } from 'antd';
 import { Form } from 'antd';
 import { Tabs } from 'antd';
 import type { FC } from 'react';
@@ -40,25 +39,21 @@ const InnerTabs: FC<InnerTabsProps> = (props) => {
   const { value, tabs, ...restTabsProps } = props;
 
   return (
-    <Tabs  activeKey={value as any} {...restTabsProps}>
+    <Tabs destroyInactiveTabPane activeKey={value as any} {...restTabsProps}>
       {(tabs || []).map((tab, idx) => {
         return (
-          <TabPane animated tab={tab.tab} key={tab.key || idx} >
+          <TabPane animated tab={tab.tab} key={tab.key || idx}>
             {tab.fields.map((field, idx2) => {
               if (Array.isArray(field)) {
-                return (
-                  <Row key={`${idx.toString()}-${idx2.toString()}`} gutter={16}>
-                    {field.map((field2, idx3) => {
-                      return (
-                        <FormRender
-                          length={24 / field.length}
-                          key={`${idx.toString()}-${idx2.toString()}-${idx3.toString()}`}
-                          renderProps={field2}
-                        />
-                      );
-                    })}
-                  </Row>
-                );
+                return field.map((field2, idx3) => {
+                  return (
+                    <FormRender
+                      length={24 / field.length}
+                      key={`${idx.toString()}-${idx2.toString()}-${idx3.toString()}`}
+                      renderProps={field2}
+                    />
+                  );
+                });
               }
               return (
                 <FormRender key={`${idx.toString()}-${idx2.toString()}`} renderProps={field} />

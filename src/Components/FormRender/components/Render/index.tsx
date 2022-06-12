@@ -6,7 +6,7 @@ import { useContext } from 'react';
 import { useMemo } from 'react';
 import { FormRenderContext } from '../../RenderProvider';
 import { Item, innerConfig } from '..';
-import { formatRule } from '../../rules';
+import { formatItemProps } from '../../rules';
 
 interface RProps {
   length?: number; // 栅格列数
@@ -104,7 +104,7 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
             col,
             props = {},
             type,
-          }: Field = formatRule(renderProps(proxy, FRContext?.formDataOptions?.options, form));
+          }: Field = formatItemProps(renderProps(proxy, FRContext?.formDataOptions?.options, form));
           return (
             <CustomerRender
               render={Render}
@@ -118,7 +118,7 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
       </Form.Item>
     );
   } else {
-    const { type, props = {}, render, col } = formatRule(renderProps as Field);
+    const { type, props = {}, render, col } = formatItemProps(renderProps as Field);
 
     return (
       <CustomerRender
