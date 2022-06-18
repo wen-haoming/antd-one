@@ -1,5 +1,8 @@
 import { SheetComponent } from '@antv/s2-react';
 import type { FC } from 'react';
+import { useEffect } from 'react';
+import { useState, useRef } from 'react';
+import { Spin } from 'antd';
 
 interface StableProps {}
 
@@ -39,25 +42,18 @@ const data = [
 const dataCfg = {
   fields: {
     // rows: ['province', 'city','type','sub_type','price'],
-    columns: ['type', 'city','sub_type','province','price'],
+    columns: ['type', 'city', 'sub_type', 'province', 'price'],
     // values: ['price'],
   },
   data,
 };
 
-// 3. 添加配置
-const options = {
-  width: '100%',
-  height: '100%',
-};
-
 const Stable: FC<StableProps> = () => {
+
   return (
-    <SheetComponent
-      sheetType='table'
-      dataCfg={dataCfg}
-      adaptive
-    />
+        <SheetComponent  onClick={(item)=>{
+          console.log('item',item);
+        }} sheetType="table" dataCfg={dataCfg} adaptive />
   );
 };
 
