@@ -10,8 +10,8 @@
     "deploy": "npm run docs:build && npm run docs:deploy",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx  --fix --format=pretty ./src && npm run lint:prettier && npm run check-deps",
-    "test": "umi-test",
-    "test:coverage": "umi-test --coverage"
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "publishConfig": {
     "registry": "http://artifactory.sf-express.com/artifactory/api/npm/npm-sf-local/"
@@ -54,6 +54,7 @@
     "prettier": "^2.2.1",
     "pretty-quick": "^3.0.1",
     "react": "^17.0.0",
+    "vitest": "^0.15.1",
     "yorkie": "^2.0.0"
   },
   "peerDependencies": {

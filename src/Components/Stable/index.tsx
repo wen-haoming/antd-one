@@ -56,6 +56,7 @@ const Stable: FC<StableProps> = () => {
     <SheetComponent
       sheetType='table'
       dataCfg={dataCfg}
+      adaptive
     />
   );
 };
