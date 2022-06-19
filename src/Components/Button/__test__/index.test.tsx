@@ -1,3 +1,4 @@
+import React from 'react';
 import { expect,test } from 'vitest'
 import { render, fireEvent, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
@@ -36,7 +37,6 @@ test('onClick return promise can button to loading', async () => {
     expect(screen.getByRole('button')).not.toHaveTextContent('加载中请稍后...');
   });
 });
-
 
 
 // test('abc',()=>{

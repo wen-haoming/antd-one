@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { FRField } from '.';
 import type { FormInstance } from 'antd/es/form';
-import { CreateOptions } from './utils';
+import { CreateOptions, splitCol } from './utils';
 import type { ColProps } from 'antd';
 import { Row } from 'antd';
 import { memo, useMemo, createContext } from 'react';
@@ -25,8 +25,7 @@ const FRProviderValue = {
   form: {},
   fields: [],
   formDataOptions: new CreateOptions(),
-  formDeps: {},
-  col: true,
+  formDeps: {}
 };
 
 type FRProviderValueContext = typeof FRProviderValue & {
@@ -57,21 +56,30 @@ export const ItemRender: FC<ItemRenderProps> = (props) => {
   const fieldsRender = useMemo(() => {
     return fields.map((field, idx) => {
       if (!Array.isArray(field)) {
-        return <Render length={24} renderProps={field} key={idx.toString()} />;
+        return <Render
+          colProps={{
+            span: 24
+          }}
+          renderProps={field}
+          key={idx.toString()}
+        />;
       } else {
-        const fieldsArr = field.map((field2, idx2) => {
+        return field.map((field2, idx2) => {
+          console.log(splitCol(field.length));
+          
           return (
             <Render
-              length={24 / field.length}
+              colProps={{
+                span: splitCol(field.length)
+              }}
               renderProps={field2}
               key={`${idx.toString()}-${idx2.toString()}`}
             />
           );
         });
-        return fieldsArr;
       }
     });
-  }, [fields]);
+  }, [fields, col]);
 
   return (
     <FormRenderContext.Provider value={value as any}>

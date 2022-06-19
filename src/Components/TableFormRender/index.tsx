@@ -73,8 +73,6 @@ const TableFormRender: FC<TableFormRenderProps> = (props) => {
   const { columns = [],...restTableProps } = tableProps || {};
   const responsive = useResponsive();
   const [form] = useForm();
-console.log(responsive,'responsive');
-
   const tableRequest = useAntdTable(request, requestOptions);
 
   const searchBtns = useMemo(() => {
@@ -110,20 +108,21 @@ console.log(responsive,'responsive');
     _fields.push( {
       render: searchBtns,
     });
-
-    return  _fields.reduce((pre, cur, idx) => {
+    const splitCol = getSplitCol(responsive)
+    const arr =   _fields.reduce((pre, cur, idx) => {
       if (!cur) return pre;
-      if (idx % getSplitCol(responsive) === 0) {
+      if (idx % splitCol === 0) {
         pre.push([cur]);
       } else {
-        const item = pre.pop();
-        item.push(cur);
-        pre.push(item);
+        const lastItem = pre[pre.length - 1];
+        lastItem.push(cur);
       }
       return pre;
     }, []);
 
-    return _fields;
+    console.log(arr,'arr');
+    
+    return arr;
   }, [columns, responsive, searchBtns]);
 
 

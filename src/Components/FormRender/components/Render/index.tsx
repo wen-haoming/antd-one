@@ -1,65 +1,22 @@
 import type { Field, FieldFunc } from '../../types';
-import { Col, Form } from 'antd';
-import type { FC, ReactNode } from 'react';
+import type { ColProps } from 'antd';
+import { Form } from 'antd';
+import type { FC } from 'react';
 import { memo } from 'react';
 import { useContext } from 'react';
 import { useMemo } from 'react';
 import { FormRenderContext } from '../../RenderProvider';
-import { Item, innerConfig } from '..';
 import { formatItemProps } from '../../rules';
+import { CustomerRender } from './CustomerRender';
+
 
 interface RProps {
-  length?: number; // 栅格列数
   renderProps: Field | FieldFunc; // form 的渲染实例，既可以是对象，也可以是函数
+  colProps: ColProps  // col 的栅格属性，控制列数
 }
 
-const CustomerRender: FC<Field & { length?: number }> = (CustomerRenderProps) => {
-  const { render, type, props = {}, length = 24 } = CustomerRenderProps;
-  const { fieldProps = {}, ...itemProps } = props;
-
-  const FRContext = useContext(FormRenderContext);
-  const colProps = { span: Math.floor(length) };
-
-  //  匹配对应的组件
-  const Comp: any = typeof type === 'string' ? FRContext.install[type] || innerConfig[type] : type;
-
-  const compProps: {
-    itemProps: Record<string, any>;
-    fieldProps: Record<string, any>;
-    Comp?: ReactNode;
-  } = {
-    itemProps,
-    fieldProps,
-  };
-
-  // 自定义渲染模块
-  if (render && FRContext.col) {
-    const renderContent = typeof render === 'function' ? render() : render;
-    return <Col {...colProps}>{renderContent}</Col>;
-  } else if (render && !FRContext.col) {
-    const renderContent = typeof render === 'function' ? render() : render;
-    return renderContent;
-  }
-
-  if (!Comp) {
-    return null;
-  }
-
-  compProps.Comp = Comp;
-
-  if (FRContext.col) {
-    return (
-      <Col {...colProps}>
-        <Item {...compProps} />
-      </Col>
-    );
-  } else {
-    return <Item {...compProps} />;
-  }
-};
-
 export const FormRender: FC<RProps> = (FormRenderProps) => {
-  const { renderProps, length = 24 } = FormRenderProps;
+  const { renderProps, colProps } = FormRenderProps;
   const FRContext = useContext(FormRenderContext);
   const { form } = FRContext;
   const setDeps = useMemo<Set<string>>(() => new Set(), []);
@@ -110,8 +67,7 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
               render={Render}
               type={type}
               props={props}
-              col={FRContext.col ? FRContext.col : col}
-              length={length}
+              col={col ? col : colProps}
             />
           );
         }}
@@ -125,8 +81,7 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
         render={render}
         type={type}
         props={props}
-        col={FRContext.col ? FRContext.col : col}
-        length={length}
+        col={col ? col : colProps}
       />
     );
   }

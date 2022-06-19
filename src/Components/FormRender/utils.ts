@@ -20,3 +20,8 @@ export class CreateOptions {
     }
   }
 }
+
+
+export const splitCol = (length: number  )=>{
+  return Math.floor(24 / length)
+}
