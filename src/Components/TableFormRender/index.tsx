@@ -101,30 +101,17 @@ const TableFormRender: FC<TableFormRenderProps> = (props) => {
         return !!item.searchField;
       })
       .map((item) => {
-        const searchField = item.searchField;
-        return searchField;
+        return item.searchField;
       });
 
-    _fields.push( {
+    _fields.push({
       render: searchBtns,
     });
-    const splitCol = getSplitCol(responsive)
-    const arr =   _fields.reduce((pre, cur, idx) => {
-      if (!cur) return pre;
-      if (idx % splitCol === 0) {
-        pre.push([cur]);
-      } else {
-        const lastItem = pre[pre.length - 1];
-        lastItem.push(cur);
-      }
-      return pre;
-    }, []);
-
-    console.log(arr,'arr');
-    
-    return arr;
+    return _fields;
   }, [columns, responsive, searchBtns]);
 
+
+const responsiveCol = getSplitCol(responsive)
 
   return (
     <>
@@ -132,7 +119,7 @@ const TableFormRender: FC<TableFormRenderProps> = (props) => {
         <Render
           form={form}
           fields={fields as FRField}
-          // col={{ span: Math.ceil(24 / getSplitCol(responsive)) }}
+          colProps={{span: responsiveCol }}
         />
       </Form>
       {/* <XTable columns={columns} {...tableRequest.tableProps} {...restTableProps}  /> */}

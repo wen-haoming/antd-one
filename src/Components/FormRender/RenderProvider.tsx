@@ -15,7 +15,7 @@ interface ItemRenderProps {
   initialValues?: Record<string, any>;
   install?: Record<string, any>;
   formDataOptions?: CreateOptions;
-  col?: ColProps | boolean;
+  colProps?: ColProps;
 }
 
 const FRProviderValue = {
@@ -40,7 +40,7 @@ export const FormRenderContext = createContext<FRProviderValueContext>(
 );
 
 export const ItemRender: FC<ItemRenderProps> = (props) => {
-  const { fields, form, install = innerConfig, formDataOptions, col = true } = props;
+  const { fields, form, install = innerConfig, formDataOptions, colProps } = props;
 
   const value = useMemo(() => {
     return {
@@ -49,15 +49,14 @@ export const ItemRender: FC<ItemRenderProps> = (props) => {
       install,
       form,
       formDataOptions: formDataOptions,
-      col,
     };
-  }, [col, fields, form, formDataOptions, install]);
+  }, [fields, form, formDataOptions, install]);
 
   const fieldsRender = useMemo(() => {
     return fields.map((field, idx) => {
       if (!Array.isArray(field)) {
         return <Render
-          colProps={{
+          colProps={colProps ? colProps : {
             span: 24
           }}
           renderProps={field}
@@ -65,11 +64,9 @@ export const ItemRender: FC<ItemRenderProps> = (props) => {
         />;
       } else {
         return field.map((field2, idx2) => {
-          console.log(splitCol(field.length));
-          
           return (
             <Render
-              colProps={{
+              colProps={colProps ? colProps : {
                 span: splitCol(field.length)
               }}
               renderProps={field2}
@@ -79,7 +76,7 @@ export const ItemRender: FC<ItemRenderProps> = (props) => {
         });
       }
     });
-  }, [fields, col]);
+  }, [fields, colProps]);
 
   return (
     <FormRenderContext.Provider value={value as any}>

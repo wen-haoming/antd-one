@@ -1,13 +1,13 @@
 export const getSplitCol = (responseObj: Record<string,boolean>) => {
     if(responseObj.xl){
-        return 4
+        return 6
     }else if(responseObj.lg){
-        return 3
+        return 8
     }else if(responseObj.md){
-        return 2
+        return 12
     }else if(responseObj.sm){
-        return 1
+        return 24
     }else{
-        return 1
+        return 24
     }
 }
