@@ -58,7 +58,7 @@ export const FormRender: FC<RProps> = (FormRenderProps) => {
           // 第二次调用需要获取动态属性
           const {
             render: Render,
-            col,
+            col, //  用户定义的 col 属性，如果有这个值，那么就取用户的
             props = {},
             type,
           }: Field = formatItemProps(renderProps(proxy, FRContext?.formDataOptions?.options, form));

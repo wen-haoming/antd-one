@@ -2,7 +2,6 @@ import { Button, Form, Space } from 'antd';
 import type { FRField } from '../FormRender';
 import { Render, useForm } from '../FormRender';
 import type { XTableProps } from '../XTable';
-import { XTable } from '../XTable';
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import type { ColumnsType } from 'antd/lib/table';

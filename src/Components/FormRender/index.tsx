@@ -9,6 +9,7 @@ import type { Field, FieldFunc } from './types';
 import type { FC } from 'react';
 
 export type FRField = (Field | FieldFunc | (Field | FieldFunc)[])[];
+
 export interface FRProps {
   fields: FRField;
   layout?: 'horizontal' | 'inline' | 'vertical';
@@ -25,7 +26,7 @@ export interface FRProps {
 const FormRender: FC<FRProps> = (props) => {
   const {
     fields = [],
-    layout ,
+    layout,
     labelAlign,
     labelCol,
     wrapperCol,
@@ -75,8 +76,8 @@ const FormRender: FC<FRProps> = (props) => {
 
   const innerFields = useMemo(() => {
     return fields;
-  }, [JSON.stringify(fields,(_key, value)=>{
-    if(typeof value === 'object' || typeof value === 'function'){
+  }, [JSON.stringify(fields, (_key, value) => {
+    if (typeof value === 'object' || typeof value === 'function') {
       return ''
     }
     return value
@@ -96,6 +97,7 @@ const FormRender: FC<FRProps> = (props) => {
         fields={innerFields}
         install={mergeInstall}
         formDataOptions={form?.formDataOpts}
+        colProps={formContextValue.labelCol}
       />
     </Form>
   );

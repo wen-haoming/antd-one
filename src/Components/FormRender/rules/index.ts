@@ -8,7 +8,7 @@ export const formatItemProps = (field: Field): Field => {
     };
   }
 
-  if(field.type === 'Submit' || field.type === "Reset"){
+  if (field.type === 'Submit' || field.type === 'Reset') {
     field.props.noStyle = true;
   }
 
@@ -16,10 +16,10 @@ export const formatItemProps = (field: Field): Field => {
   if (typeof field.required === 'boolean' && field.props?.rules) {
     field.props.rules[0] = {
       required: field.required,
-    }
+    };
   } else if (typeof field.required === 'object' && field.props?.rules) {
-    field.props.rules[0] = (field.required);
+    field.props.rules[0] = field.required;
   }
-  
+
   return field;
 };

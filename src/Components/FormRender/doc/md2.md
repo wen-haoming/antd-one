@@ -13,7 +13,7 @@ group:
 
 ## 代码演示
 
-使用一个 **声明式的结构化对象** 来渲染表单，需要 `install` 去注册对应得组件，然后使用 `fields` 来描述表单信息。
+使用一个 **声明式的结构化对象** 来渲染表单，直接使用 `fields` 来描述表单信息。
 
 ### 一个简单的登录框
 
@@ -30,3 +30,28 @@ group:
 ### 表单布局
 
 <!-- <code title="fields 默认支持嵌套数组，同一行只需要数组嵌套即可" src="./demo/Demo3.tsx"  /> -->
+
+
+### Props
+
+| 参数             | 描述                                                | 类型    | 默认值 |
+| ---------------- | --------------------------------------------------- | -------------- |  --- |
+| layout           | 表单布局                  | 	`horizontal` \| `vertical` \| `inline` |  `inline` |  
+| fields           | 表单域 | `(Field \| (formData,formDataOpts,formInstance)=>Field \| (Field \| (formData,formDataOpts,formInstance)=>Field)[])[]` | [] |
+| onFinish | 表单提交方法 | `(values: any, valuesOpts: any) => void;` | - |
+| onValuesChange | 字段值更新时触发回调事件	 | `(changedValues: any, values: any, valuesOpts: any) => void;` | - |
+| form | 经 `FormRender.useForm()` 创建的 form 控制实例，不提供时会自动创建	| [formInstance](https://ant.design/components/form-cn/#FormInstance) | - |
+| install | 自定义组件注册 |  `Record<string, Field \| (formData,formDataOpts,formInstance)=>Field>` | - |
+| initialValues | 表单默认值，只有初始化以及重置时生效 | `object` | -|
+
+
+### Field 
+
+| 参数 | 描述 | 类型 | 默认值|
+| --- | --- | --- | --- |
+| type | 支持自定义组件，支持内置组件| `string \| React.FunctionComponent \| React.ClassicComponent` | - |
+| props | 字段属性，字段会传递给 [formItem](https://ant.design/components/form-cn/#Form.Item) 的字段，不过其中里面有 fieldProps 的对象字段会传递至组件内部 | object | - | 
+| render | 渲染自定义组件 | [ColProps](https://ant.design/components/grid-cn/#Col) | - | 
+| required | 是否必填 | `boolean` | false |
+
+
