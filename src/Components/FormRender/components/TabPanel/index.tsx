@@ -1,8 +1,10 @@
-import { FormItemProps, Input, TabsProps } from 'antd';
+import type { ColProps, FormItemProps, TabsProps } from 'antd';
+import { Input } from 'antd';
 import { Form } from 'antd';
 import { Tabs } from 'antd';
 import type { FC } from 'react';
 import type { FRField } from '../..';
+import { splitCol } from '../../utils';
 import FormRender from '../Render';
 
 const { TabPane } = Tabs;
@@ -33,10 +35,11 @@ type InnerTabsProps = {
     fields: FRField;
   }[];
   value?: string | number;
+  colProps?: ColProps
 } & TabsProps;
 
 const InnerTabs: FC<InnerTabsProps> = (props) => {
-  const { value, tabs, ...restTabsProps } = props;
+  const { value, tabs, colProps, ...restTabsProps } = props;
 
   return (
     <Tabs destroyInactiveTabPane activeKey={value as any} {...restTabsProps}>
@@ -48,7 +51,9 @@ const InnerTabs: FC<InnerTabsProps> = (props) => {
                 return field.map((field2, idx3) => {
                   return (
                     <FormRender
-                      length={24 / field.length}
+                      colProps={colProps ? colProps : {
+                        span: splitCol(field.length)
+                      }}
                       key={`${idx.toString()}-${idx2.toString()}-${idx3.toString()}`}
                       renderProps={field2}
                     />
@@ -56,7 +61,9 @@ const InnerTabs: FC<InnerTabsProps> = (props) => {
                 });
               }
               return (
-                <FormRender key={`${idx.toString()}-${idx2.toString()}`} renderProps={field} />
+                <FormRender colProps={colProps ? colProps : {
+                  span: splitCol(tab.fields.length)
+                }} key={`${idx.toString()}-${idx2.toString()}`} renderProps={field} />
               );
             })}
           </TabPane>
@@ -66,12 +73,11 @@ const InnerTabs: FC<InnerTabsProps> = (props) => {
   );
 };
 
-export const RenderTabs: FC<RenderTabsProps> = (props) => {
-  const { itemProps, fieldProps } = props;
+export const RenderTabs: FC<InnerTabsProps> = (props) => {
   return (
-    <Form.Item noStyle {...itemProps}>
+    // <Form.Item noStyle {...itemProps}>
       <InnerTabs {...props} />
-    </Form.Item>
+    // </Form.Item>
   );
 };
 

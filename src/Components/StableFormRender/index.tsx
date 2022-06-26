@@ -98,10 +98,10 @@ const TableFormRender: FC<TableFormRenderProps> = (props) => {
 
   const fields = useMemo(() => {
     const _fields = columns
-      .filter((item) => {
+      .filter((item: any) => {
         return !!item.searchField;
       })
-      .map((item) => {
+      .map((item: any) => {
         return item.searchField;
       });
 

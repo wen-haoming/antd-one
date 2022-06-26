@@ -27,7 +27,9 @@ group:
 
 <code title="轻松实现一行多列" src="../demo/Demo3.tsx"  />
 
-### 表单布局
+### 组件联动
+
+### 各种内置组件
 
 <!-- <code title="fields 默认支持嵌套数组，同一行只需要数组嵌套即可" src="./demo/Demo3.tsx"  /> -->
 
@@ -50,7 +52,7 @@ group:
 | 参数 | 描述 | 类型 | 默认值|
 | --- | --- | --- | --- |
 | type | 支持自定义组件，支持内置组件| `string \| React.FunctionComponent \| React.ClassicComponent` | - |
-| props | 字段属性，字段会传递给 [formItem](https://ant.design/components/form-cn/#Form.Item) 的字段，不过其中里面有 fieldProps 的对象字段会传递至组件内部 | object | - | 
+| props | 字段属性，字段会传递给 [formItem](https://ant.design/components/form-cn/#Form.Item) 的字段， 其中有 `fieldProps 的对象字段`会传递至组件内部 | object | - | 
 | render | 渲染自定义组件 | [ColProps](https://ant.design/components/grid-cn/#Col) | - | 
 | required | 是否必填 | `boolean` | false |
 

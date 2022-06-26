@@ -7,7 +7,7 @@ import { FormRenderContext } from '../../RenderProvider';
 export const Item: FC<{
   itemProps: FormItemProps & { title?: string };
   fieldProps: Record<string, any>;
-  Comp: React.FunctionComponent | React.ClassicComponent | any;
+  Comp?: React.FunctionComponent | React.ClassicComponent | any;
 }> = (props) => {
   const { itemProps, fieldProps, Comp } = props;
   const { label, name, ...restItemProps } = itemProps;
@@ -28,6 +28,8 @@ export const Item: FC<{
       Reflect.deleteProperty(FRContext?.formDataOptions, name as string);
     }
   };
+
+  if(!Comp) return null
 
   return (
     <Form.Item label={label} name={name} {...restItemProps}>

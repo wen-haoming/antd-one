@@ -83,7 +83,7 @@ const demo1 = () => {
        
         ],
       }}
-      request={demo1Api}
+      request={demo1Api as any}
     />
   );
 };

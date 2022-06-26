@@ -62,15 +62,16 @@ export interface TableFormRenderProps {
   ) => Promise<{ total: number; list: any[] }>;
   requestOptions?: AntdTableOptions<any, any>;
   tableProps?: XTableProps & {
-    columns: (ColumnsType<any>[number] & {
+    columns: ({
       searchField?: Field | FieldFunc;
-    })[];
+    } & ColumnsType<any>[number])[];
   };
 }
 
 const TableFormRender: FC<TableFormRenderProps> = (props) => {
   const { tableProps, request, requestOptions = {} } = props;
   const { columns = [], ...restTableProps } = tableProps || {};
+
   const responsive = useResponsive();
   const [form] = useForm();
   const tableRequest = useAntdTable(request, requestOptions);
@@ -99,10 +100,10 @@ const TableFormRender: FC<TableFormRenderProps> = (props) => {
 
   const fields = useMemo(() => {
     const _fields = columns
-      .filter((item) => {
+      .filter((item: any) => {
         return !!item.searchField;
       })
-      .map((item) => {
+      .map((item: any) => {
         return item.searchField;
       });
 

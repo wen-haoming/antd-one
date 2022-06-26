@@ -5,7 +5,7 @@ import zhCN from 'antd/lib/locale/zh_CN';
 import FormWrap from '../../../Demo/FormWrap';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
-const Demo = (props) => {
+const Demo = (props: any) => {
   const [form] = useForm();
 
   return (
@@ -33,7 +33,7 @@ const Demo = (props) => {
                         tab: '账号密码登录',
                         key: 'a',
                         fields: [
-                          {
+                          [{
                             type: 'FormInput',
                             required: true,
                             props: {
@@ -43,8 +43,8 @@ const Demo = (props) => {
                                 prefix: <UserOutlined />,
                               },
                             },
-                          },
-                          {
+                          }],
+                          [{
                             type: 'InputPasswrod',
                             required: true,
                             props: {
@@ -54,8 +54,8 @@ const Demo = (props) => {
                                 prefix: <LockOutlined />,
                               },
                             },
-                          },
-                          {
+                          }],
+                          [{
                             type: 'Submit',
                             props: {
                               fieldProps: {
@@ -63,14 +63,14 @@ const Demo = (props) => {
                                 text: '登录',
                               },
                             },
-                          },
+                          }],
                         ],
                       },
                       {
                         tab: '手机登录',
                         key: 'b',
                         fields: [
-                          {
+                          [{
                             type: 'FormInput',
                             required: true,
                             props: {
@@ -80,16 +80,16 @@ const Demo = (props) => {
                                 // prefix: <PhoneOutlined />,
                               },
                             },
-                          },
-                          {
+                          }],
+                          [{
                             type: 'InputPasswrod',
                             required: true,
                             props: {
                               name: 'paaword2',
                               label: '验证码',
                             },
-                          },
-                          {
+                          }],
+                          [{
                             type: 'Submit',
                             props: {
                               fieldProps: {
@@ -97,7 +97,7 @@ const Demo = (props) => {
                                 text: '登录',
                               },
                             },
-                          },
+                          }],
                         ],
                       },
                     ],

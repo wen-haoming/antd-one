@@ -1,7 +1,7 @@
 import { Card } from 'antd';
 import type { FC } from 'react';
 
-const FormWrap: FC = (props) => {
+const FormWrap: FC<any> = (props) => {
   return (
     <div
       style={{

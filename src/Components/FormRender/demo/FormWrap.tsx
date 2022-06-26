@@ -1,6 +1,6 @@
 import { Card } from 'antd';
 
-export default (props) => {
+export default (props: any) => {
   return (
     <div
       style={{

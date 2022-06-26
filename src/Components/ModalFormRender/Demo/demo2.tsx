@@ -145,7 +145,7 @@ const Demo = () => {
           title: '异步加载数据',
         }}
         loading={request.loading}
-        {...config}
+        {...config as any}
       />
       <DrawerFormRender
         trigger={<Button onClick={request.run}>打开 Drawer</Button>}
@@ -159,7 +159,7 @@ const Demo = () => {
           title: '异步加载数据',
         }}
         loading={request.loading}
-        {...config}
+        {...config as any}
       />
     </Space>
   );

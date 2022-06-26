@@ -2,24 +2,6 @@ import ModalFormRender from '..';
 import DrawerFormRender from '../../DrawerFormRender';
 import { Button, Space } from 'antd';
 
-const fields = [
-  {
-    type: 'FormInput',
-    props: {
-      label: 'input',
-      name: 'input',
-    },
-  },
-  {
-    type: 'FormInput',
-    props: {
-      label: 'input2',
-      name: 'input2',
-      rules: [{ required: true }],
-    },
-  },
-]
-
 const Demo = () => {
   return (
     <Space>
@@ -32,7 +14,23 @@ const Demo = () => {
           title: '标题',
         }}
         formConfig={{
-          fields
+          fields: [
+            {
+              type: 'FormInput',
+              props: {
+                label: 'input',
+                name: 'input',
+              },
+            },
+            {
+              type: 'FormInput',
+              props: {
+                label: 'input2',
+                name: 'input2',
+                rules: [{ required: true }],
+              },
+            },
+          ]
         }}
       />
       <DrawerFormRender
@@ -44,7 +42,23 @@ const Demo = () => {
           title: '标题',
         }}
         formConfig={{
-          fields,
+          fields: [
+            {
+              type: 'FormInput',
+              props: {
+                label: 'input',
+                name: 'input',
+              },
+            },
+            {
+              type: 'FormInput',
+              props: {
+                label: 'input2',
+                name: 'input2',
+                rules: [{ required: true }],
+              },
+            },
+          ]
         }}
       />
     </Space>
