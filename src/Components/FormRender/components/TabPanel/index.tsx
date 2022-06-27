@@ -75,9 +75,7 @@ const InnerTabs: FC<InnerTabsProps> = (props) => {
 
 export const RenderTabs: FC<InnerTabsProps> = (props) => {
   return (
-    // <Form.Item noStyle {...itemProps}>
       <InnerTabs {...props} />
-    // </Form.Item>
   );
 };
 

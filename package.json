@@ -1,6 +1,6 @@
 {
   "name": "antd-one",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Middle Platform FE one step!",
   "scripts": {
     "start": "dumi dev",
@@ -12,9 +12,6 @@
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx  --fix --format=pretty ./src && npm run lint:prettier && npm run check-deps",
     "test": "vitest",
     "coverage": "vitest run --coverage"
-  },
-  "publishConfig": {
-    "registry": "http://artifactory.sf-express.com/artifactory/api/npm/npm-sf-local/"
   },
   "files": [
     "dist",

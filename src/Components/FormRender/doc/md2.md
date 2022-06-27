@@ -13,7 +13,7 @@ group:
 
 ## 代码演示
 
-使用一个 **声明式的结构化对象** 来渲染表单，直接使用 `fields` 来描述表单信息。
+使用一个 **声明式的结构化对象** 来渲染表单，直接使用 `fields` 来描述表单信息，每一块表单都是一个 [field](/components/form-render/doc/md2#field) 来表示。
 
 ### 一个简单的登录框
 
@@ -28,6 +28,11 @@ group:
 <code title="轻松实现一行多列" src="../demo/Demo3.tsx"  />
 
 ### 组件联动
+
+在 FormRender 中，组件联动也是非常得简单，只需要表单中对应的 field 变为一个函数即可。
+
+<code title="组件联动仅需要field变成函数，即可获取上下文环境" src="../demo/Demo4.tsx"  />
+
 
 ### 各种内置组件
 
