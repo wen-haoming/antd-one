@@ -33,6 +33,11 @@ group:
 
 <code title="组件联动仅需要field变成函数，即可获取上下文环境" src="../demo/Demo4.tsx"  />
 
+### 内置组件
+
+<code  src="../demo/Demo5.tsx"  />
+
+
 
 ### 各种内置组件
 
