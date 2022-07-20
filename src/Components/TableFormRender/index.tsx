@@ -74,8 +74,6 @@ const TableFormRender: FC<TableFormRenderProps> = (props) => {
     return _fields;
   }, [columns, responsive, searchBtns]);
 
-
-
   return (
     <>
       <Form form={form} style={{ marginBottom: '1em' }}>

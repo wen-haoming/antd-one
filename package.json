@@ -61,7 +61,8 @@
   },
   "dependencies": {
     "@antv/s2": "^1.19.0",
-    "@antv/s2-react": "^1.17.0"
+    "@antv/s2-react": "^1.17.0",
+    "@testing-library/user-event": "^14.3.0"
   },
   "author": "wenhaoming",
   "license": "MIT"
