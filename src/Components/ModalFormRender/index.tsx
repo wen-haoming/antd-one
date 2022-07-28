@@ -38,12 +38,12 @@ const ModalFormRender: FC<MFRProps> = (props) => {
     loading = false,
   } = props;
   const [formRenderForm] = useForm(form);
-  const [visible, setTrue, setFalse] = useModal();
+  const [visible, setTrue, setFalse] = useModel();
 
   const onSubmit = async () => {
     const values = await formRenderForm.validateFields();
     if (onFinish) {
-      const res = await onFinish(values, form?.formDataOpts.options);
+      const res = await onFinish(values, formRenderForm?.formDataOpts.options);
       if (res === true) {
         setFalse();
       }
@@ -80,6 +80,7 @@ const ModalFormRender: FC<MFRProps> = (props) => {
         <Modal
           visible={visible}
           onCancel={setFalse}
+          maskClosable={false}
           destroyOnClose
           footer={
             <Space>
