@@ -27,18 +27,18 @@
     ]
   },
   "lint-staged": {
-    "/docs/**/.{md,json}": [
+    "/docs/**/*.{md,json}": [
       "prettier --write --no-error-on-unmatched-pattern"
     ],
-    "packages/**/.{css,less}": [
+    "packages/**/*.{css,less}": [
       "stylelint --fix",
       "prettier --write"
     ],
-    "packages/**/{js,jsx}": [
+    "packages/**/*.{js,jsx}": [
       "eslint --fix",
       "prettier --write"
     ],
-    "packages/**/.{ts,tsx}": [
+    "packages/**/*.{ts,tsx}": [
       "eslint --fix ",
       "prettier --parser=typescript --write"
     ]
