@@ -6,6 +6,8 @@ export default defineConfig({
   alias: {
     '@antd-one/components': path.resolve('./packages/components/src/index.tsx'),
   },
+  base: '/antd-one',
+  publicPath: '/antd-one/',
   resolve: {
     docDirs: ['docs'],
   },
