@@ -1,0 +1,81 @@
+{
+  "name": "antd-one",
+  "version": "0.0.1",
+  "description": "Middle Platform FE one step!",
+  "license": "MIT",
+  "module": "dist/index.js",
+  "types": "dist/types.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "dumi build",
+    "build:watch": "father dev",
+    "dev": "dumi dev",
+    "docs:build": "dumi build",
+    "doctor": "father doctor",
+    "lint": "npm run lint:es && npm run lint:css",
+    "lint:css": "stylelint \"packages/**/*.{css,less}\"",
+    "lint:es": "eslint \"packages/**/*.{js,jsx,ts,tsx}\"",
+    "prepare": "husky install && dumi setup",
+    "prepublishOnly": "father doctor && npm run build",
+    "start": "npm run dev"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "/docs/**/.{md,json}": [
+      "prettier --write --no-error-on-unmatched-pattern"
+    ],
+    "packages/**/.{css,less}": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "packages/**/{js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "packages/**/.{ts,tsx}": [
+      "eslint --fix ",
+      "prettier --parser=typescript --write"
+    ]
+  },
+  "devDependencies": {
+    "antd": "^4.24.1",
+    "@ant-design/icons": "^4.7.0",
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "@formily/antd": "^2.2.9",
+    "@formily/core": "^2.2.9",
+    "@formily/react": "^2.2.9",
+    "@formily/reactive": "^2.2.10",
+    "@formily/shared": "^2.2.10",
+    "@swc/core": "^1.2.165",
+    "@umijs/lint": "^4.0.0",
+    "ahooks": "^3.1.3",
+    "dumi": "^2.0.0-rc.0",
+    "eslint": "^8.23.0",
+    "father": "^4.1.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "prettier-plugin-organize-imports": "^3.0.0",
+    "prettier-plugin-packagejson": "^2.2.18",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "stylelint": "^14.9.1"
+  },
+  "peerDependencies": {
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "authors": [
+    "435203093@qq.com"
+  ]
+}

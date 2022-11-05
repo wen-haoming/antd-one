@@ -1,0 +1,9 @@
+.dumi
+.github
+.husky
+node_modules
+*.test.*
+.dumirc.ts
+.fatherrc.ts
+lib
+es

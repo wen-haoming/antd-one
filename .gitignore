@@ -1,0 +1,29 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+node_modules
+/npm-debug.log*
+/yarn-error.log
+/yarn.lock
+/package-lock.json
+# /pnpm-lock.yaml
+# production
+/es
+/docs-dist
+.eslintcache
+# misc
+.DS_Store
+/coverage
+.dumi
+# umi
+.umi
+.umi-production
+.umi-test
+.env.local
+pnpm-lock.yaml
+
+# ide
+/.vscode
+/.idea
+lib
+es
