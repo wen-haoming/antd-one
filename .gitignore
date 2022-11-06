@@ -9,7 +9,7 @@ node_modules
 # /pnpm-lock.yaml
 # production
 /es
-/docs-dist
+docs-dist
 .eslintcache
 # misc
 .DS_Store
