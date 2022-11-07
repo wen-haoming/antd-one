@@ -25,7 +25,7 @@ export default defineConfig({
     name: 'antd-one',
     nav: [
       { title: '组件', link: '/components' },
-      { title: '代码生成器', link: 'https://wen-haoming.github.io/antd-one/codegen' },
+      { title: '代码生成器', link: '/codegen' },
       { title: '案例', link: '/case' },
     ],
   },

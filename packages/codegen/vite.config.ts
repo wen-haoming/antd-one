@@ -8,9 +8,9 @@ import { AntdResolve, createStyleImportPlugin } from 'vite-plugin-style-import';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/antd-one-editor/',
+  base: '/antd-one/antd-one-codegen/',
   build: {
-    outDir: '../../docs-dist/codegen',
+    outDir: '../../docs-dist/antd-one-codegen',
   },
   resolve: {
     alias: [
