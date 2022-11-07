@@ -27,8 +27,8 @@ export default defineConfig({
       presets: [presetIcons(), presetWind()],
       shortcuts: {
         btn: 'inline-flex py-.5 px-2 font-semibold rounded bg-brand-primary text-white cursor-pointer hover:bg-brand-hover justify-center items-center',
-        compBtn:
-          'inline-block py-3	 px-3	text-brand-primary font-semibold rounded-md text-brand-txt  cursor-pointer hover:bg-brand-line hover:text-brand-primary text-left',
+        widgetBtn:
+          'inline-block py-3 px-3	text-brand-primary font-semibold rounded-md text-brand-txt  cursor-pointer hover:bg-brand-grey hover:text-brand-primary text-left',
         'btn-block':
           'block py-1	 px-3	font-semibold rounded-md bg-brand-primary text-white cursor-pointer hover:bg-brand-hover text-center',
         'f-center': 'flex justify-center items-center',
@@ -45,6 +45,7 @@ export default defineConfig({
       theme: {
         colors: {
           brand: {
+            radius: '4px',
             primary: '#2558fb',
             hover: '#507ff7',
             grey: '#eff0f3',
