@@ -12,7 +12,7 @@
     "build": "dumi build",
     "build:watch": "father dev",
     "dev": "dumi dev",
-    "docs:build": "dumi build",
+    "docs:build": "dumi build && cd ./packages/codegen && npm run build",
     "doctor": "father doctor",
     "lint": "npm run lint:es && npm run lint:css",
     "lint:css": "stylelint \"packages/**/*.{css,less}\"",
