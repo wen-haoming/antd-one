@@ -1,11 +1,11 @@
 import { proxy } from 'valtio';
 
-type IdMap = {
+type IdSchema = {
   id: string;
   slot?: {
     id: string;
     slotMap: string;
   }[];
-};
+}[];
 
-export const idMap = proxy<IdMap[]>([]);
+export const idSchema = proxy<IdSchema>([]);

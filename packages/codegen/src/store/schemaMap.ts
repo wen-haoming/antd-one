@@ -6,4 +6,6 @@ export type UiItem = {
   component: SFC<any>;
 };
 
-export const uiTree = proxy<Record<string, UiItem[]>>({});
+export type SchemaMap = Record<string, UiItem>;
+
+export const schemaMap = proxy<SchemaMap>({});

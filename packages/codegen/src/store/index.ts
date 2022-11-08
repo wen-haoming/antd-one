@@ -1,3 +1,3 @@
 export * from './currentState';
-export * from './idMap';
-export * from './uiTree';
+export * from './idSchema';
+export * from './schemaMap';

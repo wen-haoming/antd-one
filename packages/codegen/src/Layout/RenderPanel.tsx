@@ -1,4 +1,4 @@
-import SelectWidget from '../components/SelectWidget';
+import Render from '@/components/Render';
 
 const RenderPanel = () => {
   return (
@@ -8,7 +8,7 @@ const RenderPanel = () => {
       </div>
       <div className="flex flex-col h-[calc(100vh-5rem)] bg-white overflow-y-auto m-2 p-1 flex-col">
         {/*  */}
-        <SelectWidget />
+        <Render />
       </div>
     </div>
   );

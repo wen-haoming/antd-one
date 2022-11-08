@@ -13,6 +13,7 @@
     "@formily/antd": "^2.2.10",
     "ahooks": "^3.7.2",
     "antd": "^4.24.1",
+    "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "monaco-editor": "^0.34.0",
     "react": "^18.2.0",

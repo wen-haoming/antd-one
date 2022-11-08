@@ -1,7 +1,25 @@
+import { idSchema, schemaMap } from '@/store';
+import { getId } from '@/utils';
 import { CodepenOutlined, FireOutlined } from '@ant-design/icons';
 import { Popover } from 'antd';
+import { useState } from 'react';
+import { componentsInstall } from '../Widge';
 
-const SelectWidget = () => {
+const AddWidget = () => {
+  const [open, setOpen] = useState(false);
+
+  const addComp = () => {
+    const id = getId();
+    idSchema.push({
+      id,
+    });
+    schemaMap[id] = {
+      props: {},
+      component: componentsInstall.TableFormRender,
+    };
+    setOpen(false);
+  };
+
   return (
     <Popover
       overlayClassName="p-0"
@@ -12,11 +30,16 @@ const SelectWidget = () => {
       arrowPointAtCenter={true}
       placement="bottomRight"
       trigger={['click']}
+      open={open}
+      onOpenChange={setOpen}
       content={
         <div className="w-200px h-200px">
           <p className="m-0 text-gray text-1">基础</p>
           <div className="flex flex-row flex-wrap">
-            <div className="widgetBtn flex-1 text-2 flex items-center">
+            <div
+              className="widgetBtn flex-1 text-2 flex items-center"
+              onClick={addComp}
+            >
               <CodepenOutlined
                 style={{ color: '#2558fb' }}
                 className="m-r-3 text-4"
@@ -56,4 +79,4 @@ const SelectWidget = () => {
   );
 };
 
-export default SelectWidget;
+export default AddWidget;

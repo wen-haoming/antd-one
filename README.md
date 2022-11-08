@@ -5,3 +5,6 @@
 ```bash
 npm i antd-one
 ```
+
+[组件文档](https://wen-haoming.github.io/antd-one/)
+[codegen](https://wen-haoming.github.io/antd-one/antd-one-codegen/)

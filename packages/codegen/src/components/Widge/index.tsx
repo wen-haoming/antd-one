@@ -1,12 +1,13 @@
-import type { PropsConfigArray } from '@/utils/propsTramsform';
+// import type { PropsConfigArray } from '@/utils/propsTramsform';
 import type { FC } from 'react';
 import AntButton from './AntButton';
 import AntInput from './AntInput';
 import AntResult from './AntResult';
 import AntTabs from './AntTabs';
+import { TableFormRender } from './TableFormRender';
 
 export type SFC<Props> = FC<Props> & {
-  propsConfigArray: PropsConfigArray;
+  propsConfigArray: any;
   importDeclaration: {
     source: string;
     importDefault?: string;
@@ -19,6 +20,7 @@ export const componentsInstall = {
   AntInput,
   AntTabs,
   AntResult,
+  TableFormRender,
 };
 
 export type ComponentName = keyof typeof componentsInstall;
