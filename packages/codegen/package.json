@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@antd-one/components": "workspace:^0.0.1",
+    "@antd-one/components": "^0.0.2",
     "@formily/antd": "^2.2.10",
     "ahooks": "^3.7.2",
     "antd": "^4.24.1",
