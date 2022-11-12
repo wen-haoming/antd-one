@@ -40,6 +40,7 @@ function ProTable(props: ProTableProps) {
   const tableRequestResult = useAntdTable((params) => {
     return request({ ...params, ...refreshParamsRef.current });
   }, requestOptions);
+
   const [proXTable] = useTable(table);
 
   useMemo(() => {

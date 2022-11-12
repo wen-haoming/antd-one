@@ -1,29 +1,141 @@
-import type {
+import {
+  ArrayTable,
+  Editable,
+  FormGrid,
+  FormItem,
+  FormLayout,
   IFormGridProps,
   IFormLayoutProps,
   IModalProps,
+  Input,
+  Select,
 } from '@formily/antd';
-import { FormGrid, FormItem, FormLayout, Input, Select } from '@formily/antd';
-import type { Form, JSXComponent } from '@formily/core';
-import { createForm } from '@formily/core';
+import { createForm, Form, IFormProps, JSXComponent } from '@formily/core';
 import {
   connect,
   createSchemaField,
   mapProps,
   mapReadPretty,
 } from '@formily/react';
-import React from 'react';
-import type { FieldType } from '../TableFormRender';
+import { useCreation } from 'ahooks';
+import { ModalProps, PopconfirmProps } from 'antd';
+import React, { cloneElement, ReactElement } from 'react';
+import { FieldType } from '../TableFormRender';
 import FormDialog from './FormDialog';
 type ModalTitle = string | number | React.ReactElement;
 
+export interface ModalFormRenderProps<T> {
+  trigger: ReactElement;
+  modalProps?: ModalProps;
+  fields: (form: Form) => FieldType<T>[];
+  gridProps?: IFormGridProps;
+  layoutProps?: IFormLayoutProps;
+  onFinish?: (
+    values: Record<string, any>,
+    valuesOptions: Record<string, any>,
+  ) => Promise<any> | void;
+  onClose?: () => void;
+  forOpen?: (payload: IFormProps) => Promise<IFormProps> | IFormProps;
+  forConfirm?: (payload: Form) => Promise<Form> | Form;
+  beforePopConfirm?: PopconfirmProps;
+}
+
 function createModalFormRender<T>(install: Record<string, JSXComponent>) {
   const SchemaField = createSchemaField({
-    components: { FormLayout, FormItem, FormGrid, Input, Select, ...install },
+    components: {
+      FormLayout,
+      FormItem,
+      FormGrid,
+      Input,
+      Select,
+      ArrayTable,
+      Editable,
+      ...install,
+    },
   });
 
   const SchemaFieldItem = (field: FieldType<T>, key: React.Key) => {
-    // 如果没有 name 就是 Void 组件，并且如果不指定 valueType name
+    if (field.type === 'ArrayTable') {
+      const { columns, itemProps, ...props } = field;
+      const { addition = {}, ...fieldProps } = props.props;
+
+      return (
+        <SchemaField.Array
+          key={key}
+          x-decorator="FormItem"
+          x-component="ArrayTable"
+          x-decorator-props={itemProps}
+          x-component-props={{
+            pagination: { pageSize: 10 },
+            scroll: { x: '100%' },
+            ...fieldProps,
+          }}
+          x-reactions={field.reactions}
+          {...props}
+        >
+          <SchemaField.Object>
+            {columns?.map((column, idx) => {
+              const { formField, operations, ...resetColumnProps } = column;
+              const key = `column-${idx}`;
+              if (operations) {
+                // 按钮组模式
+                return (
+                  <SchemaField.Void
+                    key={key}
+                    x-component="ArrayTable.Column"
+                    x-component-props={resetColumnProps}
+                  >
+                    <SchemaField.Void
+                      x-decorator="FormItem"
+                      x-component="FormItem"
+                    >
+                      {operations.map((operationType, key) => (
+                        <SchemaField.Void
+                          key={`column-${idx}-${operationType}-${key}`}
+                          x-component={`ArrayTable.${operationType}`}
+                        />
+                      ))}
+                    </SchemaField.Void>
+                  </SchemaField.Void>
+                );
+              } else if (formField) {
+                const Item =
+                  SchemaField[
+                    formField.name || resetColumnProps.dataIndex
+                      ? formField.valueType || 'String'
+                      : 'Void'
+                  ];
+                // 普通模式
+                return (
+                  <SchemaField.Void
+                    key={key}
+                    x-component="ArrayTable.Column"
+                    x-component-props={resetColumnProps}
+                  >
+                    <Item
+                      {...formField}
+                      name={formField.name || resetColumnProps.dataIndex}
+                      x-decorator={formField.decorator || 'FormItem'}
+                      x-component={formField.type as any}
+                      x-reactions={formField.reactions}
+                      x-decorator-props={itemProps}
+                    />
+                  </SchemaField.Void>
+                );
+              } else {
+                return null;
+              }
+            })}
+          </SchemaField.Object>
+          {addition && (
+            <SchemaField.Void
+              x-component="ArrayTable.Addition"
+              title={addition.title || '添加条目'}
+            />
+          )}
+        </SchemaField.Array>
+      );
+    }
     const Item = SchemaField[field.name ? field.valueType || 'String' : 'Void'];
 
     return (
@@ -57,10 +169,21 @@ function createModalFormRender<T>(install: Record<string, JSXComponent>) {
       gridProps?: IFormGridProps;
       layoutProps?: IFormLayoutProps;
       fields: (form: Form) => FieldType<T>[];
-      onFinish?: () => Promise<any>;
+      onFinish?: (
+        values: Record<string, any>,
+        valuesOptions: Record<string, any>,
+      ) => Promise<any> | void;
+      beforePopConfirm?: PopconfirmProps;
     },
   ) {
-    const { gridProps, layoutProps, fields } = props;
+    const {
+      gridProps,
+      layoutProps,
+      fields,
+      beforePopConfirm,
+      onFinish,
+      id = '',
+    } = props;
     const modalProps = typeof title === 'string' ? { title } : title;
 
     return FormDialog(
@@ -68,7 +191,8 @@ function createModalFormRender<T>(install: Record<string, JSXComponent>) {
         maskClosable: false,
         ...(modalProps as any),
       },
-      (form) => {
+      id as string,
+      (form: Form) => {
         const getFields = fields(form);
         return (
           <SchemaField>
@@ -94,10 +218,71 @@ function createModalFormRender<T>(install: Record<string, JSXComponent>) {
           </SchemaField>
         );
       },
+      {
+        beforePopConfirm,
+        onFinish,
+      },
     );
   }
-  Dialog.Portal = FormDialog.Portal;
-  return Dialog;
+
+  return function ModalFormRender(props: ModalFormRenderProps<T>) {
+    const {
+      trigger,
+      modalProps,
+      fields,
+      onFinish,
+      forOpen,
+      forConfirm,
+      gridProps,
+      beforePopConfirm,
+      layoutProps,
+    } = props;
+    const id = useCreation(() => (Math.random() * 1000000).toString(16), []);
+
+    const openModal = (e: any) => {
+      if (trigger.props.onClick && trigger.props.onClick(e) === false) {
+        return;
+      }
+      const dialog = Dialog(
+        {
+          title: '',
+          ...modalProps,
+        },
+        {
+          beforePopConfirm,
+          onFinish,
+          gridProps,
+          layoutProps,
+          id: id,
+          fields: fields,
+        },
+      );
+      dialog
+        .forOpen(async (payload, next) => {
+          if (forOpen) {
+            const res = await forOpen(payload);
+            next(res);
+          } else {
+            next();
+          }
+        })
+        .forConfirm(async (payload, next) => {
+          if (forConfirm) {
+            const res = await forConfirm(payload);
+            next(res);
+          } else {
+            next();
+          }
+        })
+        .open();
+    };
+
+    return (
+      <FormDialog.Portal id={id}>
+        {trigger && cloneElement(trigger, { onClick: openModal })}
+      </FormDialog.Portal>
+    );
+  };
 }
 createModalFormRender.createForm = createForm;
 createModalFormRender.connect = connect;

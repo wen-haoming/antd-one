@@ -15,13 +15,10 @@ import {
   isNum,
   isStr,
 } from '@formily/shared';
-import { Modal, ModalProps, version } from 'antd';
+import { Modal, ModalProps, PopconfirmProps, Space, version } from 'antd';
 import React, { Fragment, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-
-type FormDialogRenderer =
-  | React.ReactElement
-  | ((form: Form) => React.ReactElement);
+import Button from '../Button';
 
 type ModalTitle = string | number | React.ReactElement;
 
@@ -56,26 +53,22 @@ export interface IModalProps extends ModalProps {
 }
 
 export function FormDialog(
-  title: IModalProps,
-  id: string,
-  renderer: FormDialogRenderer,
-): IFormDialog;
-export function FormDialog(
-  title: IModalProps,
-  renderer: FormDialogRenderer,
-): IFormDialog;
-export function FormDialog(
-  title: ModalTitle,
-  id: string,
-  renderer: FormDialogRenderer,
-): IFormDialog;
-export function FormDialog(
-  title: ModalTitle,
-  renderer: FormDialogRenderer,
-): IFormDialog;
-export function FormDialog(title: any, id: any, renderer?: any): IFormDialog {
+  title: any,
+  id: any,
+  renderer: any,
+  buttonProps?: {
+    beforePopConfirm?: PopconfirmProps;
+    onFinish?: (
+      values: Record<string, any>,
+      valuesOptions: Record<string, any>,
+    ) => Promise<any> | void;
+  },
+): IFormDialog {
+  const { beforePopConfirm, onFinish } = buttonProps || {};
   if (isFn(id) || React.isValidElement(id)) {
+    // eslint-disable-next-line no-param-reassign
     renderer = id;
+    // eslint-disable-next-line no-param-reassign
     id = 'form-dialog';
   }
   const env = {
@@ -86,6 +79,7 @@ export function FormDialog(title: any, id: any, renderer?: any): IFormDialog {
     confirmMiddlewares: [],
     cancelMiddlewares: [],
   } as any;
+
   const root = createPortalRoot(env.host, id);
   const props = getModelProps(title);
   const modal = {
@@ -102,7 +96,7 @@ export function FormDialog(title: any, id: any, renderer?: any): IFormDialog {
   });
   const renderDialog = (
     visible = true,
-    resolve?: () => any,
+    resolve?: () => Promise<any>,
     reject?: () => any,
   ) => {
     const adaptProps = {
@@ -114,17 +108,37 @@ export function FormDialog(title: any, id: any, renderer?: any): IFormDialog {
           <Modal
             {...modal}
             {...adaptProps}
-            confirmLoading={env.form.submitting}
             onCancel={(e) => {
-              if (modal?.onCancel?.(e) !== false) {
+              if (modal?.onCancel?.(e) !== false && reject) {
                 reject();
               }
             }}
-            onOk={async (e) => {
-              if (modal?.onOk?.(e) !== false) {
-                resolve();
-              }
-            }}
+            footer={[
+              <Space key="buttonList">
+                <Button
+                  key="cancel"
+                  onClick={(e) => {
+                    if (modal?.onCancel?.(e) !== false && reject) {
+                      reject();
+                    }
+                  }}
+                >
+                  取消
+                </Button>
+                <Button
+                  key="confirm"
+                  beforePopConfirm={beforePopConfirm}
+                  type="primary"
+                  onClick={async (e) => {
+                    if (modal?.onOk?.(e) !== false && resolve) {
+                      return resolve();
+                    }
+                  }}
+                >
+                  确定
+                </Button>
+              </Space>,
+            ]}
           >
             <FormProvider form={env.form}>
               <DialogContent />
@@ -157,52 +171,52 @@ export function FormDialog(title: any, id: any, renderer?: any): IFormDialog {
     },
     open: async (props: IFormProps) => {
       if (env.promise) return env.promise;
-      env.promise = new Promise(async (resolve, reject) => {
+      env.promise = new Promise((resolve, reject) => {
         try {
-          props = await loading(modal.loadingText, () =>
+          // eslint-disable-next-line no-param-reassign
+          props = loading(modal.loadingText, () =>
             applyMiddleware(props, env.openMiddlewares),
-          );
+          ) as any;
           env.form = env.form || createForm(props);
         } catch (e) {
           reject(e);
         }
-        root.render(() =>
-          renderDialog(
-            true,
-            () => {
-              env.form
-                .submit(async () => {
-                  await applyMiddleware(env.form, env.confirmMiddlewares);
-                  const values = env.form.values;
-                  const valuesOptions = Object.keys(values).reduce<
-                    Record<string, any>
-                  >((pre, key) => {
-                    const val = env.form.getFieldState(key)?.inputValues;
-                    if (val && val.length && val.length > 1) {
-                      pre[key] = val[1];
-                    }
-                    return pre;
-                  }, {});
-                  resolve({
-                    values: toJS(values),
-                    valuesOptions: toJS(valuesOptions),
-                  });
-                  formDialog.close();
-                })
-                .catch((e) => {
-                  console.error(e);
-                });
-            },
-            async () => {
-              await loading(modal.loadingText, () =>
-                applyMiddleware(env.form, env.cancelMiddlewares),
-              );
+
+        const onOk = () => {
+          return env.form
+            .submit(async () => {
+              await applyMiddleware(env.form, env.confirmMiddlewares);
+              const values = env.form.values;
+              const valuesOptions = Object.keys(values).reduce<
+                Record<string, any>
+              >((pre, key) => {
+                const val = env.form.getFieldState(key)?.inputValues;
+                if (val && val.length && val.length > 1) {
+                  pre[key] = val[1];
+                }
+                return pre;
+              }, {});
+              if (onFinish) {
+                await onFinish(toJS(values), toJS(valuesOptions));
+              }
+              resolve(undefined);
               formDialog.close();
-            },
-          ),
-        );
+            })
+            .catch((e) => {
+              console.error(e);
+            });
+        };
+        const onCancel = async () => {
+          await loading(modal.loadingText, () =>
+            applyMiddleware(env.form, env.cancelMiddlewares),
+          );
+          formDialog.close();
+        };
+        root.render(() => renderDialog(true, onOk, onCancel));
       });
-      return env.promise;
+      return env.promise.then(() => {
+        formDialog.close();
+      });
     },
     close: () => {
       if (!env.host) return;

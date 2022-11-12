@@ -17,45 +17,29 @@ order: 5
 ### 基础使用
 
 ```tsx
+import React from 'react';
 import { createModalFormRender } from '@antd-one/components';
 import { DatePicker, Input, Select } from '@formily/antd';
 import { Button, Space } from 'antd';
-import React from 'react';
 
 const install = { Input, Select, RangePicker: DatePicker.RangePicker };
 
 const Modal = createModalFormRender(install);
 
-export default () => {
-  return (
-    <Space>
-      <Modal.Portal>
-        <Button
-          onClick={() => {
-            Modal(
-              {
-                title: '打开表单',
-              },
-              {
-                fields: () => [
-                  {
-                    type: 'Input',
-                    name: 'input',
-                    title: 'input',
-                  },
-                ],
-              },
-            )
-              .open()
-              .then((res) => {
-                console.log(res, '++');
-              });
-          }}
-        >
-          打开
-        </Button>
-      </Modal.Portal>
-    </Space>
-  );
-};
+export default ()=>{
+    return <Modal
+        modalProps={{
+          title:'打开表单'
+        }}
+        trigger={<Button>打开表单</Button>}
+        fields={()=>[
+          {
+            type:'Input',
+            title:'abc',
+            name:'abc'
+          }
+        ]}
+      />
+}
+
 ```

@@ -28,7 +28,6 @@ TableFormRender.defaultProps = {
       searchField: {
         type: 'Input',
         name: 'input',
-        title: 'input',
       },
     },
     {

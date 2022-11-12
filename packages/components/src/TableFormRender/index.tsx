@@ -1,38 +1,43 @@
 import { Loading3QuartersOutlined, SearchOutlined } from '@ant-design/icons';
-import type {
-  IFormGridProps,
-  IFormItemProps,
-  IFormLayoutProps,
-} from '@formily/antd';
 import {
   FormButtonGroup,
   FormGrid,
   FormItem,
   FormLayout,
+  IFormGridProps,
+  IFormItemProps,
+  IFormLayoutProps,
   Input,
   Reset,
   Select,
   Submit,
 } from '@formily/antd';
-import type { Form, JSXComponent } from '@formily/core';
-import { createForm } from '@formily/core';
-import type { ISchema, SchemaKey } from '@formily/react';
+import { createForm, Form, JSXComponent } from '@formily/core';
 import {
   connect,
   createSchemaField,
   FormProvider,
+  ISchema,
   mapProps,
   mapReadPretty,
+  SchemaKey,
 } from '@formily/react';
 import { useCreation } from 'ahooks';
 import { Col, Row } from 'antd';
-import type { ColumnGroupType, ColumnType } from 'antd/lib/table';
+import { ColumnGroupType, ColumnType } from 'antd/lib/table';
 import React, { useMemo } from 'react';
-import type { ProTableProps } from '..';
-import { ProTable } from '..';
+import ProTable, { ProTableProps } from '../ProTable';
+
+type ArrayTableComponentType =
+  | 'SortHandle'
+  | 'Addition'
+  | 'Remove'
+  | 'MoveDown'
+  | 'MoveUp'
+  | 'Index';
 
 export type FieldType<T> = Omit<ISchema, 'type'> & {
-  type: keyof T | 'Input' | 'Select';
+  type: keyof T | 'Input' | 'Select' | 'ArrayTable' | 'Editable.Popover';
   valueType?:
     | 'String'
     | 'Number'
@@ -49,9 +54,19 @@ export type FieldType<T> = Omit<ISchema, 'type'> & {
   props?: ISchema['x-component-props'];
   required?: ISchema['required'];
   reactions?: ISchema['x-reactions'];
+  decorator?: 'FormItem' | 'Editable';
+  // ArrayTablle 才需要
+  columns?: ((Omit<ColumnGroupType<any>, 'children'> & ColumnType<any>) & {
+    dataIndex: string;
+    formField?: FieldType<T> & {
+      popoverFields?: FieldType<T>[];
+    };
+    operations?: ArrayTableComponentType[];
+    name?: 'string';
+  })[];
 };
 
-export interface TableFormRenderProps<T> {
+export interface XTableFormRenderProps<T> {
   request: ProTableProps['request'];
   requestOptions?: ProTableProps['requestOptions'];
   columns: ((Omit<ColumnGroupType<any>, 'children'> & ColumnType<any>) & {
@@ -67,12 +82,12 @@ export interface TableFormRenderProps<T> {
   table?: ReturnType<typeof ProTable.useTable>[0];
 }
 
-function createTableFormRender(install: Record<string, JSXComponent>) {
+function createTableFormRender<T>(install: Record<string, JSXComponent>) {
   const SchemaField = createSchemaField({
     components: { FormLayout, FormItem, FormGrid, Input, Select, ...install },
   });
 
-  function TableFormRender(props: TableFormRenderProps<typeof install>) {
+  function TableFormRender(props: XTableFormRenderProps<T>) {
     const {
       request,
       requestOptions,
@@ -104,7 +119,7 @@ function createTableFormRender(install: Record<string, JSXComponent>) {
           title={field.title}
           x-decorator-props={{
             style: {
-              marginBottom: 12,
+              marginBottom: 5,
             },
             ...field.itemProps,
           }}
@@ -150,19 +165,20 @@ function createTableFormRender(install: Record<string, JSXComponent>) {
     };
 
     return (
-      <ProTable
-        {...tableProps}
-        table={table}
-        request={tableRequest}
-        requestOptions={requestOptions}
-        HeaderRender={(query) => (
-          <FormProvider form={form}>
-            <div style={{ padding: 10 }}>
+      <div style={{ flex: 1, background: '#efeff2', padding: '5px' }}>
+        <ProTable
+          {...tableProps}
+          table={table}
+          request={tableRequest}
+          requestOptions={requestOptions}
+          HeaderRender={(query) => (
+            <FormProvider form={form}>
               <Row
                 style={{
                   background: '#fff',
                   borderRadius: 5,
-                  padding: '13px 13px 0px 13px',
+                  marginBottom: 10,
+                  padding: '5px 5px 0px 5px',
                   boxSizing: 'border-box',
                   boxShadow: `rgba(0, 0, 0, 0.05) 0px 0px 0px 1px`,
                 }}
@@ -178,8 +194,8 @@ function createTableFormRender(install: Record<string, JSXComponent>) {
                         x-component-props={{
                           maxColumns: 4,
                           minColumns: 4,
-                          columnGap: 4,
-                          rowGap: 0,
+                          columnGap: 20,
+                          rowGap: 10,
                           ...gridProps,
                         }}
                       >
@@ -201,14 +217,15 @@ function createTableFormRender(install: Record<string, JSXComponent>) {
                   </FormButtonGroup>
                 </Col>
               </Row>
-            </div>
-          </FormProvider>
-        )}
-        columns={columns}
-      />
+            </FormProvider>
+          )}
+          columns={columns}
+        />
+      </div>
     );
   }
   TableFormRender.useTable = ProTable.useTable;
+  TableFormRender.createForm = createForm;
   return TableFormRender;
 }
 
