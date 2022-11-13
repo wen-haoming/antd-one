@@ -19,7 +19,7 @@ docs-dist
 .umi-production
 .umi-test
 .env.local
-
+pnpm-lock.yaml
 # ide
 /.vscode
 /.idea
