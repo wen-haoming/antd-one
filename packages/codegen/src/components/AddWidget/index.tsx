@@ -4,7 +4,6 @@ import { CodepenOutlined, FireOutlined } from '@ant-design/icons';
 import { Popover } from 'antd';
 import { useState } from 'react';
 import { componentsInstall } from '../Widge';
-
 const AddWidget = () => {
   const [open, setOpen] = useState(false);
 

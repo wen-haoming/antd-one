@@ -6,9 +6,12 @@ const install = {
   Input,
 };
 
-export const TableFormRender = createTableFormRender(install) as any;
+const TableFormRender = createTableFormRender(install) as any;
 
 TableFormRender.defaultProps = {
+  tableProps: {
+    size: 'small',
+  },
   request: async () => {
     return new Promise((r) => {
       setTimeout(() => {
@@ -23,11 +26,18 @@ TableFormRender.defaultProps = {
   },
   columns: [
     {
-      title: 'abc',
-      dataIndex: 'abc',
+      title: 'abc1211',
+      dataIndex: 'abc123',
       searchField: {
         type: 'Input',
-        name: 'input',
+        title: 'abc1211',
+        required: true,
+        props: {
+          options: [
+            { label: '选项1', value: '1 ' },
+            { label: '选项2', value: '2' },
+          ],
+        },
       },
     },
     {
@@ -38,11 +48,13 @@ TableFormRender.defaultProps = {
         required: true,
         props: {
           options: [
-            { label: '选项1', value: 1 },
-            { label: '选项2', value: 2 },
+            { label: '选项1', value: ' 1 ' },
+            { label: '选项2', value: ' 2' },
           ],
         },
       },
     },
   ],
 };
+
+export default TableFormRender;

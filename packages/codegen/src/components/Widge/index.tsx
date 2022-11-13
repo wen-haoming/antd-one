@@ -4,7 +4,7 @@ import AntButton from './AntButton';
 import AntInput from './AntInput';
 import AntResult from './AntResult';
 import AntTabs from './AntTabs';
-import { TableFormRender } from './TableFormRender';
+import TableFormRender from './TableFormRender';
 
 export type SFC<Props> = FC<Props> & {
   propsConfigArray: any;

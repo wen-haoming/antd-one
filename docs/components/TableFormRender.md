@@ -28,7 +28,6 @@ const TableFormRender = createTableFormRender(install);
 export default () => {
   return (
     <TableFormRender
-      install={install}
       request={async (val, values) => {
         console.log(val, values);
       }}

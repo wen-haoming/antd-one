@@ -66,7 +66,7 @@ export type FieldType<T> = Omit<ISchema, 'type'> & {
   })[];
 };
 
-export interface XTableFormRenderProps<T> {
+export interface TableFormRenderProps<T> {
   request: ProTableProps['request'];
   requestOptions?: ProTableProps['requestOptions'];
   columns: ((Omit<ColumnGroupType<any>, 'children'> & ColumnType<any>) & {
@@ -87,7 +87,7 @@ function createTableFormRender<T>(install: Record<string, JSXComponent>) {
     components: { FormLayout, FormItem, FormGrid, Input, Select, ...install },
   });
 
-  function TableFormRender(props: XTableFormRenderProps<T>) {
+  function TableFormRender(props: TableFormRenderProps<T>) {
     const {
       request,
       requestOptions,
@@ -163,7 +163,6 @@ function createTableFormRender<T>(install: Record<string, JSXComponent>) {
       );
       return request({ ...params, ...values }, valuesOptions);
     };
-
     return (
       <div style={{ flex: 1, background: '#efeff2', padding: '5px' }}>
         <ProTable

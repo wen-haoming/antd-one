@@ -1,11 +1,11 @@
 {
   "name": "@antd-one/components",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "license": "MIT",
   "author": "wenhaoming",
-  "main": "lib/index.js",
+  "main": "es/index.js",
   "module": "es/index.js",
-  "typings": "lib/index.js",
+  "typings": "es/index.js",
   "files": [
     "dist",
     "lib",
@@ -15,6 +15,7 @@
   ],
   "scripts": {
     "build": "father build",
+    "dev": "father dev",
     "deploy": "npm run docs:build && npm run docs:deploy",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx  --fix --format=pretty ./src && npm run lint:prettier && npm run check-deps",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\""
@@ -27,7 +28,7 @@
   ],
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@formily/antd": "^2.2.9",
+    "@formily/antd": "^2.2.10",
     "@formily/core": "^2.2.9",
     "@formily/react": "^2.2.9",
     "@formily/reactive": "^2.2.10",
@@ -45,7 +46,7 @@
     "@umijs/test": "^3.0.5",
     "antd": "^4.18.1",
     "babel-plugin-react-require": "^3.1.3",
-    "father": "^4.0.5",
+    "father": "^4.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
