@@ -21,11 +21,11 @@
     "valtio": "^1.7.5"
   },
   "devDependencies": {
-    "@formily/antd": "^2.2.10",
-    "@formily/core": "^2.2.9",
-    "@formily/react": "^2.2.9",
-    "@formily/reactive": "^2.2.10",
-    "@formily/shared": "^2.2.10",
+    "@formily/antd": "^2.2.12",
+    "@formily/core": "^2.2.12",
+    "@formily/react": "^2.2.12",
+    "@formily/reactive":  "^2.2.12",
+    "@formily/shared":  "^2.2.12",
     "@types/react":"17.0.2",
     "@types/react-dom": "17.0.2",
     "@unocss/preset-icons": "^0.45.18",

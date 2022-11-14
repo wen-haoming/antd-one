@@ -4,7 +4,7 @@ import { resolve } from 'path';
 import { presetWind } from 'unocss';
 import Unocss from 'unocss/vite';
 import { defineConfig } from 'vite';
-import { AntdResolve, createStyleImportPlugin } from 'vite-plugin-style-import';
+// import { AntdResolve, createStyleImportPlugin } from 'vite-plugin-style-import';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -25,7 +25,7 @@ export default defineConfig({
     ],
   },
   plugins: [
-    createStyleImportPlugin({ resolves: [AntdResolve()] }),
+    // createStyleImportPlugin({ resolves: [AntdResolve()] }),
     Unocss({
       presets: [presetIcons(), presetWind()],
       shortcuts: {
