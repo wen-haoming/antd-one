@@ -13,7 +13,7 @@ docs-dist
 # misc
 .DS_Store
 /coverage
-.dumi
+
 # umi
 .umi
 .umi-production
@@ -25,3 +25,6 @@ pnpm-lock.yaml
 /.idea
 lib
 es
+
+tmp
+tmp-production

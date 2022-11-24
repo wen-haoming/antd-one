@@ -1,6 +1,5 @@
 import React from 'react';
 import { render } from 'react-dom';
-import 'uno.css';
 import App from './App';
 
 render(

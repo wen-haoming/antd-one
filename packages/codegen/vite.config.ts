@@ -10,7 +10,16 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   base: '/antd-one/antd-one-codegen/',
   build: {
-    outDir: '../../docs-dist/antd-one-codegen',
+    lib: {
+      name: 'antd-one-codegen',
+      entry: resolve(__dirname, './src/App.tsx'),
+      fileName: 'index',
+      formats: ['es'],
+    },
+    rollupOptions: {
+      // 确保外部化处理那些你不想打包进库的依赖
+      external: ['react', 'react-dom', 'antd', '@antd-one/components'],
+    },
   },
   resolve: {
     alias: [

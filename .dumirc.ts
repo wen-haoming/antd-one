@@ -5,6 +5,7 @@ export default defineConfig({
   outputPath: 'docs-dist',
   alias: {
     '@antd-one/components': path.resolve('./packages/components/src/index.tsx'),
+    "codegen":path.resolve('./packages/codegen/dist'),
   },
   base: '/antd-one',
   publicPath: '/antd-one/',

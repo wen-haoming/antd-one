@@ -1,2 +1,12 @@
+```tsx
+/**
+ * compact: true 
+ */
+import React from 'react'
+import Codegen from 'codegen'
+import 'codegen/style.css'
 
-[点击跳转](https://wen-haoming.github.io/antd-one/antd-one-codegen/)
+export default ()=>{
+  return <Codegen/>
+}
+```

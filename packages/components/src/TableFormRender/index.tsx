@@ -1,4 +1,6 @@
 import { Loading3QuartersOutlined, SearchOutlined } from '@ant-design/icons';
+import { useMemo } from 'react';
+
 import {
   FormButtonGroup,
   FormGrid,
@@ -10,7 +12,6 @@ import {
   Input,
   Reset,
   Select,
-  Submit,
 } from '@formily/antd';
 import { createForm, Form, JSXComponent } from '@formily/core';
 import {
@@ -23,9 +24,8 @@ import {
   SchemaKey,
 } from '@formily/react';
 import { useCreation } from 'ahooks';
-import { Col, Row } from 'antd';
+import { Button, Col, Row } from 'antd';
 import { ColumnGroupType, ColumnType } from 'antd/lib/table';
-import React, { useMemo } from 'react';
 import ProTable, { ProTableProps } from '../ProTable';
 
 type ArrayTableComponentType =
@@ -99,6 +99,7 @@ function createTableFormRender<T>(install: Record<string, JSXComponent>) {
       form: formRef,
     } = props;
     const { gridProps, layoutProps } = formProps || {};
+
     const form = useCreation(
       () => (formRef ? formRef : createForm({})),
       [!!formRef],
@@ -177,7 +178,7 @@ function createTableFormRender<T>(install: Record<string, JSXComponent>) {
                   background: '#fff',
                   borderRadius: 5,
                   marginBottom: 10,
-                  padding: '5px 5px 0px 5px',
+                  padding: 10,
                   boxSizing: 'border-box',
                   boxShadow: `rgba(0, 0, 0, 0.05) 0px 0px 0px 1px`,
                 }}
@@ -205,13 +206,14 @@ function createTableFormRender<T>(install: Record<string, JSXComponent>) {
                 </Col>
                 <Col span={4}>
                   <FormButtonGroup align="right">
-                    <Submit
+                    <Button
+                      type="primary"
                       icon={<SearchOutlined />}
                       loading={query.loading}
-                      onSubmit={query.search.submit}
+                      onClick={query.search.submit}
                     >
                       查询
-                    </Submit>
+                    </Button>
                     <Reset icon={<Loading3QuartersOutlined />}>重置</Reset>
                   </FormButtonGroup>
                 </Col>
