@@ -165,14 +165,14 @@ function createTableFormRender<T>(install: Record<string, JSXComponent>) {
       return request({ ...params, ...values }, valuesOptions);
     };
     return (
-      <div style={{ flex: 1, background: '#efeff2', padding: '5px' }}>
-        <ProTable
-          {...tableProps}
-          table={table}
-          request={tableRequest}
-          requestOptions={requestOptions}
-          HeaderRender={(query) => (
-            <FormProvider form={form}>
+      <FormProvider form={form}>
+        <div style={{ flex: 1, background: '#efeff2', padding: '5px' }}>
+          <ProTable
+            {...tableProps}
+            table={table}
+            request={tableRequest}
+            requestOptions={requestOptions}
+            HeaderRender={(query) => (
               <Row
                 style={{
                   background: '#fff',
@@ -218,11 +218,11 @@ function createTableFormRender<T>(install: Record<string, JSXComponent>) {
                   </FormButtonGroup>
                 </Col>
               </Row>
-            </FormProvider>
-          )}
-          columns={columns}
-        />
-      </div>
+            )}
+            columns={columns}
+          />
+        </div>
+      </FormProvider>
     );
   }
   TableFormRender.useTable = ProTable.useTable;

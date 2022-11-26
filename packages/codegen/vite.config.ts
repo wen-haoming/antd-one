@@ -8,10 +8,9 @@ import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/antd-one/antd-one-codegen/',
   build: {
     lib: {
-      name: 'antd-one-codegen',
+      name: 'one-codes',
       entry: resolve(__dirname, './src/App.tsx'),
       fileName: 'index',
       formats: ['es'],
