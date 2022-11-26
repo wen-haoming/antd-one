@@ -1,26 +1,25 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "strict": true,
-    "target": "ES2018",
-    "module": "ESNext",
-    "noImplicitAny": false,
-    "declaration": true,
-    "moduleResolution": "Node",
-    "esModuleInterop": true,
-    "jsx": "preserve",
-    "sourceMap": true,
-    "lib": ["ES2018", "DOM"],
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "baseUrl": "./src",
-    "rootDir": ".",
-    "typeRoots": ["node_modules/@types"],
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
     "paths": {
-      "@": ["./src/*"]
+      "@/*": ["./src/*"]
     }
   },
-  "exclude": ["node_modules", "**/__test?__", "**/dist"],
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": ["src"],
+  "exclude": ["./src/utils/template/*"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
