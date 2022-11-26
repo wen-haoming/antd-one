@@ -2,6 +2,7 @@
 nav:
   title: component
 order: 4
+toc: content
 ---
 
 # TableFormRender

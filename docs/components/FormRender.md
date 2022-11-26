@@ -2,6 +2,7 @@
 nav:
   title: component
 order: 5
+toc: content
 ---
 
 # FormRender

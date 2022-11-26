@@ -2,6 +2,7 @@
 nav:
   title: component
 order: 3
+toc: content
 ---
 
 # ProTable

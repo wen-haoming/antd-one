@@ -2,6 +2,7 @@
 nav:
   title: component
 order: 1
+toc: content
 ---
 
 # Button
