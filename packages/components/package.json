@@ -3,9 +3,9 @@
   "version": "0.0.4",
   "license": "MIT",
   "author": "wenhaoming",
-  "main": "es/index.js",
-  "module": "es/index.js",
-  "typings": "es/index.js",
+  "main": "src/index",
+  "module": "src/index",
+  "typings": "src/index",
   "files": [
     "dist",
     "lib",

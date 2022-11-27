@@ -1,5 +1,5 @@
 import { Loading3QuartersOutlined, SearchOutlined } from '@ant-design/icons';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import {
   FormButtonGroup,
@@ -165,14 +165,14 @@ function createTableFormRender<T>(install: Record<string, JSXComponent>) {
       return request({ ...params, ...values }, valuesOptions);
     };
     return (
-      <FormProvider form={form}>
-        <div style={{ flex: 1, background: '#efeff2', padding: '5px' }}>
-          <ProTable
-            {...tableProps}
-            table={table}
-            request={tableRequest}
-            requestOptions={requestOptions}
-            HeaderRender={(query) => (
+      <div style={{ flex: 1, background: '#efeff2', padding: '5px' }}>
+        <ProTable
+          {...tableProps}
+          table={table}
+          request={tableRequest}
+          requestOptions={requestOptions}
+          HeaderRender={(query) => (
+            <FormProvider form={form}>
               <Row
                 style={{
                   background: '#fff',
@@ -218,11 +218,11 @@ function createTableFormRender<T>(install: Record<string, JSXComponent>) {
                   </FormButtonGroup>
                 </Col>
               </Row>
-            )}
-            columns={columns}
-          />
-        </div>
-      </FormProvider>
+            </FormProvider>
+          )}
+          columns={columns}
+        />
+      </div>
     );
   }
   TableFormRender.useTable = ProTable.useTable;

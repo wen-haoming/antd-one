@@ -6,7 +6,7 @@
   "module":"dist/index.js",
   "files": ["dist"],
   "scripts": {
-    "dev": "vite",
+    "dev": "vite build --watch",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
@@ -24,8 +24,6 @@
     "valtio": "^1.7.5"
   },
   "devDependencies": {
-    "@formily/core": "^2.2.12",
-    "@formily/react": "^2.2.12",
     "@types/react": "17.0.2",
     "@types/react-dom": "17.0.2",
     "@unocss/preset-icons": "^0.45.18",

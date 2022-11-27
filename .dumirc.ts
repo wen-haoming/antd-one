@@ -5,14 +5,14 @@ export default defineConfig({
   outputPath: 'docs-dist',
   alias: {
     '@antd-one/components': path.resolve('./packages/components/src/index.tsx'),
-    "codegen": path.resolve('./packages/codegen/dist'),
+    "one-codes": path.resolve('./packages/one-codes/dist'),
   },
   base: '/antd-one',
   publicPath: '/antd-one/',
   resolve: {
     docDirs: ['docs'],
   },
-  
+
   links: [
     {
       rel: 'stylesheet',
@@ -27,7 +27,7 @@ export default defineConfig({
     name: 'Antd-one',
     nav: [
       { title: '组件', link: '/components' },
-      { title: '代码生成器', link: '/codegen' },
+      { title: '代码生成器', link: '/one-codes' },
       { title: '案例', link: '/case' },
     ],
   },

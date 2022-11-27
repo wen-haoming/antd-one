@@ -7,11 +7,12 @@ const install = {
 };
 
 const TableFormRender = createTableFormRender(install) as any;
-
+const form = createTableFormRender.createForm();
 TableFormRender.defaultProps = {
   tableProps: {
     size: 'small',
   },
+  form,
   request: async () => {
     return new Promise((r) => {
       setTimeout(() => {
