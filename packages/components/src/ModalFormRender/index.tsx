@@ -71,7 +71,7 @@ function createModalFormRender<T>(install: Record<string, JSXComponent>) {
             ...fieldProps,
           }}
           x-reactions={field.reactions}
-          {...props}
+          // {...props}
         >
           <SchemaField.Object>
             {columns?.map((column, idx) => {
@@ -113,7 +113,7 @@ function createModalFormRender<T>(install: Record<string, JSXComponent>) {
                     x-component-props={resetColumnProps}
                   >
                     <Item
-                      {...formField}
+                      // {...formField}
                       name={formField.name || resetColumnProps.dataIndex}
                       x-decorator={formField.decorator || 'FormItem'}
                       x-component={formField.type as any}
@@ -154,10 +154,10 @@ function createModalFormRender<T>(install: Record<string, JSXComponent>) {
           allowClear: true,
           ...field.props,
         }}
-        x-component={field.type}
+        x-component={field.type as string}
         x-reactions={field.reactions}
         required={field.required}
-        {...field}
+        // {...field}
       />
     );
   };

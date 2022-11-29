@@ -21,28 +21,37 @@ function createFormRender<T>(install: Record<string, JSXComponent>) {
   });
 
   const SchemaFieldItem = (field: FieldType<T>, key: React.Key) => {
+    const {
+      name,
+      title,
+      itemProps,
+      props,
+      type,
+      reactions,
+      required,
+      ...restField
+    } = field;
     const Item = SchemaField[field.name ? field.valueType || 'String' : 'Void'];
-
     return (
       <Item
+        {...restField}
         x-decorator="FormItem"
         key={key}
-        name={field.name}
-        title={field.title}
+        name={name}
+        title={title}
         x-decorator-props={{
           style: {
             marginBottom: 12,
           },
-          ...field.itemProps,
+          ...itemProps,
         }}
         x-component-props={{
           allowClear: true,
-          ...field.props,
+          ...props,
         }}
-        x-component={field.type}
-        x-reactions={field.reactions}
-        required={field.required}
-        {...field}
+        x-component={type as T}
+        x-reactions={reactions}
+        required={required}
       />
     );
   };

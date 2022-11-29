@@ -31,7 +31,7 @@ const isModalTitle = (props: any): props is ModalTitle => {
 const getModelProps = (props: any): IModalProps => {
   if (isModalTitle(props)) {
     return {
-      title: props,
+      title: props as string,
     };
   } else {
     return props;
@@ -202,12 +202,12 @@ export function FormDialog(
               resolve(undefined);
               formDialog.close();
             })
-            .catch((e) => {
+            .catch((e: any) => {
               console.error(e);
             });
         };
         const onCancel = async () => {
-          await loading(modal.loadingText, () =>
+          await loading(modal.loadingText as string, () =>
             applyMiddleware(env.form, env.cancelMiddlewares),
           );
           formDialog.close();
@@ -235,7 +235,9 @@ const DialogFooter: ReactFC = (props) => {
     const content = ref.current?.closest(`.${prefixCls}-content`);
     if (content) {
       if (!footerRef.current) {
-        footerRef.current = content.querySelector(`.${prefixCls}-footer`);
+        footerRef.current = content.querySelector(
+          `.${prefixCls}-footer`,
+        ) as any;
         if (!footerRef.current) {
           footerRef.current = document.createElement('div');
           footerRef.current.classList.add(`${prefixCls}-footer`);
@@ -249,8 +251,8 @@ const DialogFooter: ReactFC = (props) => {
   footerRef.current = footer;
 
   return (
-    <div ref={ref} style={{ display: 'none' }}>
-      {footer && createPortal(props.children, footer)}
+    <div ref={ref as any} style={{ display: 'none' }}>
+      {footer && (createPortal(props.children, footer) as any)}
     </div>
   );
 };
