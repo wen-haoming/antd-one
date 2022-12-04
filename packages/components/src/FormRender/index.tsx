@@ -75,7 +75,7 @@ function FormRender(props: FormRenderProps) {
               ...gridProps,
             }}
           >
-            {fields.map((field, key) => (
+            {fields.map((field: any, key) => (
               <Field<typeof install>
                 key={key}
                 {...field}

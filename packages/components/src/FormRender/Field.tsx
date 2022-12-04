@@ -1,5 +1,5 @@
 import type { IFormItemProps } from '@formily/antd';
-import type { createSchemaField, ISchema, SchemaKey } from '@formily/react';
+import type { createSchemaField, ISchema } from '@formily/react';
 import { ColumnGroupType, ColumnType } from 'antd/lib/table';
 
 type ArrayTableComponentType =
@@ -22,7 +22,7 @@ export type FieldType<T> = Omit<ISchema, 'type'> & {
     | 'DateTime'
     | 'Void';
   schemafield: ReturnType<typeof createSchemaField>;
-  name?: SchemaKey;
+  name?: ISchema['name'];
   title?: ISchema['title'];
   itemProps?: IFormItemProps;
   props?: ISchema['x-component-props'];
@@ -37,7 +37,7 @@ export type FieldType<T> = Omit<ISchema, 'type'> & {
       popoverFields?: FieldType<T>[];
     };
     operations?: ArrayTableComponentType[];
-    name?: 'string';
+    name?: string;
   })[];
 };
 
@@ -146,7 +146,7 @@ function Field<T>(props: FieldType<T>) {
       x-component-props={{
         allowClear: true,
       }}
-      x-component={type}
+      x-component={type as any}
       x-reactions={reactions}
       required={required}
     />
