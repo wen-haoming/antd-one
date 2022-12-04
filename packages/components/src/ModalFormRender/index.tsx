@@ -79,7 +79,7 @@ function createModalFormRender<T>(install: Record<string, JSXComponent>) {
             ...fieldProps,
           }}
           x-reactions={field.reactions}
-          {...props}
+          // {...props}
         >
           <SchemaField.Object>
             {columns?.map((column, idx) => {
@@ -174,10 +174,10 @@ function createModalFormRender<T>(install: Record<string, JSXComponent>) {
           allowClear: true,
           ...field.props,
         }}
-        x-component={field.type}
+        x-component={field.type as string}
         x-reactions={field.reactions}
         required={field.required}
-        {...field}
+        // {...field}
       />
     );
   };

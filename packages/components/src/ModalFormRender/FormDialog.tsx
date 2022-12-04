@@ -38,7 +38,7 @@ const getModelProps = (props: any): IModalProps => {
   if (isModalTitle(props)) {
     return {
       title: props,
-    };
+    } as any;
   } else {
     return props;
   }
@@ -182,7 +182,7 @@ export function FormDialog(
         try {
           props = loading(modal.loadingText, () =>
             applyMiddleware(props, env.openMiddlewares),
-          );
+          ) as any;
           env.form = env.form || createForm(props);
         } catch (e) {
           reject(e);
@@ -205,10 +205,10 @@ export function FormDialog(
               if (onFinish) {
                 await onFinish(toJS(values), toJS(valuesOptions));
               }
-              resolve();
+              resolve(undefined);
               formDialog.close();
             })
-            .catch((e) => {
+            .catch((e: any) => {
               console.error(e);
             });
         };
@@ -236,7 +236,7 @@ export function FormDialog(
 const DialogFooter: ReactFC = (props) => {
   const ref = useRef<HTMLDivElement>();
   const [footer, setFooter] = useState<HTMLDivElement>();
-  const footerRef = useRef<HTMLDivElement>();
+  const footerRef = useRef<any>();
   const prefixCls = usePrefixCls('modal');
   useLayoutEffect(() => {
     const content = ref.current?.closest(`.${prefixCls}-content`);
@@ -256,7 +256,7 @@ const DialogFooter: ReactFC = (props) => {
   footerRef.current = footer;
 
   return (
-    <div ref={ref} style={{ display: 'none' }}>
+    <div ref={ref as any} style={{ display: 'none' }}>
       {footer && createPortal(props.children, footer)}
     </div>
   );
