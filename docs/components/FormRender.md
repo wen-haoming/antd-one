@@ -14,12 +14,8 @@ toc: content
 ### 基础使用
 
 ```tsx
-import { createFormRender } from '@antd-one/components';
-import { DatePicker, Input, Select } from '@formily/antd';
-
-const install = { Input, Select, RangePicker: DatePicker.RangePicker };
-
-const FormRender = createFormRender(install);
+import React from 'react';
+import { FormRender } from '@antd-one/components';
 
 export default () => {
   return (

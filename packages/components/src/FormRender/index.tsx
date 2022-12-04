@@ -1,95 +1,93 @@
 import type { IFormGridProps, IFormLayoutProps } from '@formily/antd';
-import { FormGrid, FormItem, FormLayout, Input, Select } from '@formily/antd';
+import {
+  ArrayTable,
+  FormGrid,
+  FormItem,
+  FormLayout,
+  Input,
+  Select,
+} from '@formily/antd/esm';
 import type { Form } from '@formily/core';
 import { createForm } from '@formily/core';
 import type { JSXComponent } from '@formily/react';
 import { createSchemaField, FormProvider } from '@formily/react';
 import { useCreation } from 'ahooks';
-import React from 'react';
-import type { FieldType } from '../TableFormRender';
+import { useMemo } from 'react';
+import Field, { FieldType } from './Field';
 
-interface FormRenderProps<T> {
+interface FormRenderProps {
   gridProps?: IFormGridProps;
   layoutProps?: IFormLayoutProps;
-  fields: FieldType<T>[];
+  install?: Record<any, JSXComponent>;
+  fields: Omit<FieldType<keyof FormRenderProps['install']>, 'schemafield'>[];
   form?: Form;
+  initialValues?: Partial<any>;
 }
 
-function createFormRender<T>(install: Record<string, JSXComponent>) {
-  const SchemaField = createSchemaField({
-    components: { FormLayout, FormItem, FormGrid, Input, Select, ...install },
-  });
+function FormRender(props: FormRenderProps) {
+  const {
+    layoutProps,
+    gridProps,
+    fields = [],
+    form: formRef,
+    initialValues,
+    install,
+  } = props;
 
-  const SchemaFieldItem = (field: FieldType<T>, key: React.Key) => {
-    const {
-      name,
-      title,
-      itemProps,
-      props,
-      type,
-      reactions,
-      required,
-      ...restField
-    } = field;
-    const Item = SchemaField[field.name ? field.valueType || 'String' : 'Void'];
-    return (
-      <Item
-        {...restField}
-        x-decorator="FormItem"
-        key={key}
-        name={name}
-        title={title}
-        x-decorator-props={{
-          style: {
-            marginBottom: 12,
-          },
-          ...itemProps,
-        }}
-        x-component-props={{
-          allowClear: true,
-          ...props,
-        }}
-        x-component={type as T}
-        x-reactions={reactions}
-        required={required}
-      />
-    );
-  };
+  const SchemaField = useMemo(() => {
+    return createSchemaField({
+      components: {
+        FormLayout,
+        FormItem,
+        FormGrid,
+        Input,
+        Select,
+        ArrayTable,
+        ...install,
+      },
+    });
+  }, []);
 
-  function FormRender(props: FormRenderProps<T>) {
-    const { layoutProps, gridProps, fields = [], form: formRef } = props;
+  const form = useCreation(
+    () =>
+      formRef
+        ? formRef
+        : createForm({
+            initialValues: initialValues,
+          }),
+    [!!formRef],
+  );
 
-    const form = useCreation(
-      () => (formRef ? formRef : createForm({})),
-      [!!formRef],
-    );
-
-    return (
-      <FormProvider form={form}>
-        <SchemaField>
+  return (
+    <FormProvider form={form}>
+      <SchemaField>
+        <SchemaField.Void
+          x-component="FormLayout"
+          x-component-props={layoutProps}
+        >
           <SchemaField.Void
-            x-component="FormLayout"
-            x-component-props={layoutProps}
+            x-component="FormGrid"
+            x-component-props={{
+              maxColumns: 1,
+              minColumns: 1,
+              columnGap: 4,
+              rowGap: 0,
+              ...gridProps,
+            }}
           >
-            <SchemaField.Void
-              x-component="FormGrid"
-              x-component-props={{
-                maxColumns: 1,
-                minColumns: 1,
-                columnGap: 4,
-                rowGap: 0,
-                ...gridProps,
-              }}
-            >
-              {fields.map((field, key) => SchemaFieldItem(field, `${key}`))}
-            </SchemaField.Void>
+            {fields.map((field, key) => (
+              <Field<typeof install>
+                key={key}
+                {...field}
+                schemafield={SchemaField as any}
+              />
+            ))}
           </SchemaField.Void>
-        </SchemaField>
-      </FormProvider>
-    );
-  }
-  FormRender.createForm = createForm;
-  return FormRender;
+        </SchemaField.Void>
+      </SchemaField>
+    </FormProvider>
+  );
 }
+FormRender.createForm = createForm;
 
-export default createFormRender;
+export default FormRender;

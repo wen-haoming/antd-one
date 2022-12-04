@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import {
   ArrayTable,
   Editable,
@@ -20,9 +21,16 @@ import {
 import { useCreation } from 'ahooks';
 import { ModalProps, PopconfirmProps } from 'antd';
 import React, { cloneElement, ReactElement } from 'react';
-import { FieldType } from '../TableFormRender';
+import { FieldType } from '../XTableFormRender';
 import FormDialog from './FormDialog';
+import './style.less';
+
 type ModalTitle = string | number | React.ReactElement;
+
+createModalFormRender.createForm = createForm;
+createModalFormRender.connect = connect;
+createModalFormRender.mapProps = mapProps;
+createModalFormRender.mapReadPretty = mapReadPretty;
 
 export interface ModalFormRenderProps<T> {
   trigger: ReactElement;
@@ -71,7 +79,7 @@ function createModalFormRender<T>(install: Record<string, JSXComponent>) {
             ...fieldProps,
           }}
           x-reactions={field.reactions}
-          // {...props}
+          {...props}
         >
           <SchemaField.Object>
             {columns?.map((column, idx) => {
@@ -98,32 +106,44 @@ function createModalFormRender<T>(install: Record<string, JSXComponent>) {
                     </SchemaField.Void>
                   </SchemaField.Void>
                 );
-              } else if (formField) {
+              } else {
+                const {
+                  name,
+                  valueType,
+                  validator,
+                  decorator,
+                  type,
+                  reactions,
+                  itemProps,
+                  props,
+                  ...resetFormField
+                } = formField;
                 const Item =
                   SchemaField[
-                    formField.name || resetColumnProps.dataIndex
-                      ? formField.valueType || 'String'
+                    name || resetColumnProps.dataIndex
+                      ? valueType || 'String'
                       : 'Void'
                   ];
                 // 普通模式
                 return (
                   <SchemaField.Void
                     key={key}
+                    name={`column-${resetColumnProps.dataIndex}`}
                     x-component="ArrayTable.Column"
                     x-component-props={resetColumnProps}
                   >
                     <Item
-                      // {...formField}
-                      name={formField.name || resetColumnProps.dataIndex}
-                      x-decorator={formField.decorator || 'FormItem'}
-                      x-component={formField.type as any}
-                      x-reactions={formField.reactions}
+                      {...resetFormField}
+                      x-validator={validator}
+                      name={name || resetColumnProps.dataIndex}
+                      x-decorator={decorator || 'FormItem'}
+                      x-component={type as any}
+                      x-reactions={reactions}
                       x-decorator-props={itemProps}
+                      x-component-props={props}
                     />
                   </SchemaField.Void>
                 );
-              } else {
-                return null;
               }
             })}
           </SchemaField.Object>
@@ -154,10 +174,10 @@ function createModalFormRender<T>(install: Record<string, JSXComponent>) {
           allowClear: true,
           ...field.props,
         }}
-        x-component={field.type as string}
+        x-component={field.type}
         x-reactions={field.reactions}
         required={field.required}
-        // {...field}
+        {...field}
       />
     );
   };
@@ -284,9 +304,5 @@ function createModalFormRender<T>(install: Record<string, JSXComponent>) {
     );
   };
 }
-createModalFormRender.createForm = createForm;
-createModalFormRender.connect = connect;
-createModalFormRender.mapProps = mapProps;
-createModalFormRender.mapReadPretty = mapReadPretty;
 
 export default createModalFormRender;

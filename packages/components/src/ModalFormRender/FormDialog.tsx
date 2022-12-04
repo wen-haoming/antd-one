@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-async-promise-executor */
 import {
   createPortalProvider,
   createPortalRoot,
@@ -18,7 +20,11 @@ import {
 import { Modal, ModalProps, PopconfirmProps, Space, version } from 'antd';
 import React, { Fragment, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import Button from '../Button';
+import XButton from '../Button';
+
+// type FormDialogRenderer =
+//   | React.ReactElement
+//   | ((form: Form) => React.ReactElement)
 
 type ModalTitle = string | number | React.ReactElement;
 
@@ -31,7 +37,7 @@ const isModalTitle = (props: any): props is ModalTitle => {
 const getModelProps = (props: any): IModalProps => {
   if (isModalTitle(props)) {
     return {
-      title: props as string,
+      title: props,
     };
   } else {
     return props;
@@ -79,6 +85,7 @@ export function FormDialog(
     confirmMiddlewares: [],
     cancelMiddlewares: [],
   } as any;
+  // const [visible, { setTrue, setFalse }] = useBoolean();
 
   const root = createPortalRoot(env.host, id);
   const props = getModelProps(title);
@@ -115,7 +122,7 @@ export function FormDialog(
             }}
             footer={[
               <Space key="buttonList">
-                <Button
+                <XButton
                   key="cancel"
                   onClick={(e) => {
                     if (modal?.onCancel?.(e) !== false && reject) {
@@ -124,8 +131,8 @@ export function FormDialog(
                   }}
                 >
                   取消
-                </Button>
-                <Button
+                </XButton>
+                <XButton
                   key="confirm"
                   beforePopConfirm={beforePopConfirm}
                   type="primary"
@@ -136,7 +143,7 @@ export function FormDialog(
                   }}
                 >
                   确定
-                </Button>
+                </XButton>
               </Space>,
             ]}
           >
@@ -171,12 +178,11 @@ export function FormDialog(
     },
     open: async (props: IFormProps) => {
       if (env.promise) return env.promise;
-      env.promise = new Promise((resolve, reject) => {
+      env.promise = new Promise(async (resolve, reject) => {
         try {
-          // eslint-disable-next-line no-param-reassign
           props = loading(modal.loadingText, () =>
             applyMiddleware(props, env.openMiddlewares),
-          ) as any;
+          );
           env.form = env.form || createForm(props);
         } catch (e) {
           reject(e);
@@ -199,19 +205,20 @@ export function FormDialog(
               if (onFinish) {
                 await onFinish(toJS(values), toJS(valuesOptions));
               }
-              resolve(undefined);
+              resolve();
               formDialog.close();
             })
-            .catch((e: any) => {
+            .catch((e) => {
               console.error(e);
             });
         };
         const onCancel = async () => {
-          await loading(modal.loadingText as string, () =>
+          await loading(modal.loadingText, () =>
             applyMiddleware(env.form, env.cancelMiddlewares),
           );
           formDialog.close();
         };
+
         root.render(() => renderDialog(true, onOk, onCancel));
       });
       return env.promise.then(() => {
@@ -235,9 +242,7 @@ const DialogFooter: ReactFC = (props) => {
     const content = ref.current?.closest(`.${prefixCls}-content`);
     if (content) {
       if (!footerRef.current) {
-        footerRef.current = content.querySelector(
-          `.${prefixCls}-footer`,
-        ) as any;
+        footerRef.current = content.querySelector(`.${prefixCls}-footer`);
         if (!footerRef.current) {
           footerRef.current = document.createElement('div');
           footerRef.current.classList.add(`${prefixCls}-footer`);
@@ -251,8 +256,8 @@ const DialogFooter: ReactFC = (props) => {
   footerRef.current = footer;
 
   return (
-    <div ref={ref as any} style={{ display: 'none' }}>
-      {footer && (createPortal(props.children, footer) as any)}
+    <div ref={ref} style={{ display: 'none' }}>
+      {footer && createPortal(props.children, footer)}
     </div>
   );
 };
