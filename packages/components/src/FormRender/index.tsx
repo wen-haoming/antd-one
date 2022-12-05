@@ -9,10 +9,10 @@ import {
 } from '@formily/antd/esm';
 import type { Form } from '@formily/core';
 import { createForm } from '@formily/core';
-import type { JSXComponent } from '@formily/react';
-import { createSchemaField, FormProvider } from '@formily/react';
+import { createSchemaField, FormProvider, JSXComponent } from '@formily/react';
+import { observable } from '@formily/reactive';
 import { useCreation } from 'ahooks';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import Field, { FieldType } from './Field';
 
 interface FormRenderProps {
@@ -45,6 +45,7 @@ function FormRender(props: FormRenderProps) {
         ArrayTable,
         ...install,
       },
+      scope: {},
     });
   }, []);
 
@@ -58,12 +59,33 @@ function FormRender(props: FormRenderProps) {
     [!!formRef],
   );
 
+  const obs = useMemo(() => observable(layoutProps || {}), []);
+
+  useEffect(() => {
+    if (layoutProps?.layout) {
+      obs.layout = layoutProps?.layout;
+    }
+  }, [layoutProps?.layout]);
+
   return (
     <FormProvider form={form}>
       <SchemaField>
         <SchemaField.Void
+          name="layout"
+          // x-reactions={{
+          //   dependencies: [layoutProps?.layout],
+          //   fulfill: {
+          //     state: {
+          //       componentProps: {
+          //         layout: '{{$deps[0]}}'
+          //       }
+          //     }
+          //   }
+          // }}
           x-component="FormLayout"
-          x-component-props={layoutProps}
+          x-reactions={(field) => {
+            field.component[1].layout = obs.layout;
+          }}
         >
           <SchemaField.Void
             x-component="FormGrid"

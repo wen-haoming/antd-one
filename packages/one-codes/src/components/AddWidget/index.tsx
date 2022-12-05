@@ -27,7 +27,7 @@ const AddWidget = () => {
       overlayStyle={{ padding: 0 }}
       showArrow={false}
       arrowPointAtCenter={true}
-      placement="bottomRight"
+      placement="bottomLeft"
       trigger={['click']}
       open={open}
       onOpenChange={setOpen}

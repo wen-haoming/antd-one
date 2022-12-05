@@ -21,7 +21,7 @@ toc: content
 import React from 'react';
 import { createModalFormRender } from '@antd-one/components';
 import { DatePicker, Input, Select } from '@formily/antd';
-import { Button, Space } from 'antd';
+import { Button } from 'antd';
 
 const install = { Input, Select, RangePicker: DatePicker.RangePicker };
 

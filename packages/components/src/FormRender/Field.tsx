@@ -133,6 +133,7 @@ function Field<T>(props: FieldType<T>) {
 
   return (
     <Item
+      enum={props.enum}
       x-validator={validator}
       x-decorator="FormItem"
       name={name}

@@ -1,6 +1,6 @@
 ```tsx
 /**
- * compact: true 
+ * compact: true;
  */
 import React from 'react'
 import Codegen from 'one-codes'
