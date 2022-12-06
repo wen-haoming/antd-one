@@ -23,6 +23,7 @@
     "prepare": "husky install && dumi setup",
     "doctor": "father doctor",
     "prepublishOnly": "father doctor && npm run build"
+  
   },
   "commitlint": {
     "extends": [
@@ -50,11 +51,7 @@
     "@ant-design/icons": "^4.7.0",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
-    "@formily/antd": "^2.2.12",
     "@swc/core": "^1.2.165",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^14.4.3",
     "@umijs/lint": "^4.0.0",
     "@umijs/plugins": "^4.0.33",
     "@unocss/cli": "^0.46.5",
@@ -75,10 +72,9 @@
     "prettier-plugin-packagejson": "^2.2.18",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-test-renderer": "^18.2.0",
+  
     "stylelint": "^14.9.1",
-    "unocss": "^0.45.30",
-    "vitest": "^0.25.3"
+    "unocss": "^0.45.30"
   },
   "peerDependencies": {
     "react": ">=16.9.0",

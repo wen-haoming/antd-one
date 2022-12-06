@@ -7,8 +7,7 @@ import {
   Input,
   Select,
 } from '@formily/antd/esm';
-import type { Form } from '@formily/core';
-import { createForm } from '@formily/core';
+import { createForm, Form } from '@formily/core';
 import { createSchemaField, FormProvider, JSXComponent } from '@formily/react';
 import { observable } from '@formily/reactive';
 import { useCreation } from 'ahooks';
@@ -26,8 +25,8 @@ interface FormRenderProps {
 
 function FormRender(props: FormRenderProps) {
   const {
-    layoutProps,
-    gridProps,
+    layoutProps = {},
+    gridProps = {},
     fields = [],
     form: formRef,
     initialValues,
@@ -55,46 +54,43 @@ function FormRender(props: FormRenderProps) {
         ? formRef
         : createForm({
             initialValues: initialValues,
+            effects() {},
           }),
     [!!formRef],
   );
 
-  const obs = useMemo(() => observable(layoutProps || {}), []);
+  const obs = useMemo(
+    () =>
+      observable({
+        layoutProps,
+        gridProps,
+      }),
+    [],
+  );
 
   useEffect(() => {
-    if (layoutProps?.layout) {
-      obs.layout = layoutProps?.layout;
-    }
-  }, [layoutProps?.layout]);
+    obs.layoutProps = layoutProps;
+  }, Object.values(layoutProps));
+
+  useEffect(() => {
+    obs.gridProps = gridProps;
+  }, Object.values(gridProps));
+
+  console.log('render');
 
   return (
     <FormProvider form={form}>
       <SchemaField>
         <SchemaField.Void
-          name="layout"
-          // x-reactions={{
-          //   dependencies: [layoutProps?.layout],
-          //   fulfill: {
-          //     state: {
-          //       componentProps: {
-          //         layout: '{{$deps[0]}}'
-          //       }
-          //     }
-          //   }
-          // }}
           x-component="FormLayout"
           x-reactions={(field) => {
-            field.component[1].layout = obs.layout;
+            field.setComponentProps(obs.layoutProps);
           }}
         >
           <SchemaField.Void
             x-component="FormGrid"
-            x-component-props={{
-              maxColumns: 1,
-              minColumns: 1,
-              columnGap: 4,
-              rowGap: 0,
-              ...gridProps,
+            x-reactions={(field) => {
+              field.setComponentProps(obs.gridProps);
             }}
           >
             {fields.map((field: any, key) => (
