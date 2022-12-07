@@ -31,4 +31,29 @@ export default () => (
 
 ### 基础使用
 
+```tsx 
+import { FormRender } from '@antd-one/components';
+
+export default () => (
+  <FormRender
+    fields={[
+      {
+        type: 'Input',
+        name: 'Input',
+        title: 'Input',
+      },
+    ]}
+  />
+);
+```
+
+### 提交按钮
+
+<code src="./submit.tsx">提交按钮</code>
+
+
+### 布局案例
+
 <code src="./FormRenderLayoutGrid.tsx">表单布局</code>
+
+

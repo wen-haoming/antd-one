@@ -1,4 +1,10 @@
-import type { IFormGridProps, IFormLayoutProps } from '@formily/antd';
+import {
+  FormButtonGroup,
+  IFormGridProps,
+  IFormLayoutProps,
+  Reset,
+  Submit,
+} from '@formily/antd';
 import {
   ArrayTable,
   FormGrid,
@@ -21,6 +27,7 @@ interface FormRenderProps {
   fields: Omit<FieldType<keyof FormRenderProps['install']>, 'schemafield'>[];
   form?: Form;
   initialValues?: Partial<any>;
+  children?: (schemafield: JSX.Element) => JSX.Element;
 }
 
 function FormRender(props: FormRenderProps) {
@@ -76,36 +83,43 @@ function FormRender(props: FormRenderProps) {
     obs.gridProps = gridProps;
   }, Object.values(gridProps));
 
-  console.log('render');
+  const schemafield = (
+    <SchemaField>
+      <SchemaField.Void
+        x-component="FormLayout"
+        x-reactions={(field) => {
+          field.setComponentProps(obs.layoutProps);
+        }}
+      >
+        <SchemaField.Void
+          x-component="FormGrid"
+          x-reactions={(field) => {
+            field.setComponentProps(obs.gridProps);
+          }}
+        >
+          {fields.map((field: any, key) => (
+            <Field<typeof install>
+              key={key}
+              {...field}
+              schemafield={SchemaField as any}
+            />
+          ))}
+        </SchemaField.Void>
+      </SchemaField.Void>
+    </SchemaField>
+  );
 
   return (
     <FormProvider form={form}>
-      <SchemaField>
-        <SchemaField.Void
-          x-component="FormLayout"
-          x-reactions={(field) => {
-            field.setComponentProps(obs.layoutProps);
-          }}
-        >
-          <SchemaField.Void
-            x-component="FormGrid"
-            x-reactions={(field) => {
-              field.setComponentProps(obs.gridProps);
-            }}
-          >
-            {fields.map((field: any, key) => (
-              <Field<typeof install>
-                key={key}
-                {...field}
-                schemafield={SchemaField as any}
-              />
-            ))}
-          </SchemaField.Void>
-        </SchemaField.Void>
-      </SchemaField>
+      {props.children && typeof props.children === 'function'
+        ? props.children(schemafield)
+        : schemafield}
     </FormProvider>
   );
 }
 FormRender.createForm = createForm;
+FormRender.FormButtonGroup = FormButtonGroup;
+FormRender.Submit = Submit;
+FormRender.Reset = Reset;
 
 export default FormRender;
