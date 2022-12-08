@@ -118,9 +118,9 @@ function FormRender(props: FormRenderProps) {
 
   return (
     <FormProvider form={form}>
-      {typeof props.children === 'function'
+      {props.children && typeof props.children === 'function'
         ? props.children(schemafield)
-        : props.children}
+        : schemafield}
     </FormProvider>
   );
 }
