@@ -1,5 +1,4 @@
 import React from 'react';
-import { Radio, Form, Row, Col, Slider } from 'antd'
 import { FormRender } from '@antd-one/components';
 
 export default () => {

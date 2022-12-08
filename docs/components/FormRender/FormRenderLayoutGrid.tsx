@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Radio, Divider, Form, Row, Col, Slider } from 'antd'
+import { Radio, Form, Row, Col, Slider } from 'antd'
 import { FormRender } from '@antd-one/components';
 
 export default () => {

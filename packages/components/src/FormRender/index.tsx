@@ -1,6 +1,7 @@
 import {
   FormButtonGroup,
   IFormGridProps,
+  IFormItemProps,
   IFormLayoutProps,
   Reset,
   Submit,
@@ -14,9 +15,15 @@ import {
   Select,
 } from '@formily/antd/esm';
 import { createForm, Form } from '@formily/core';
-import { createSchemaField, FormProvider, JSXComponent } from '@formily/react';
+import {
+  createSchemaField,
+  FormProvider,
+  JSXComponent,
+  ReactFC,
+} from '@formily/react';
 import { observable } from '@formily/reactive';
 import { useCreation } from 'ahooks';
+import { SpaceProps } from 'antd';
 import { useEffect, useMemo } from 'react';
 import Field, { FieldType } from './Field';
 
@@ -111,14 +118,26 @@ function FormRender(props: FormRenderProps) {
 
   return (
     <FormProvider form={form}>
-      {props.children && typeof props.children === 'function'
+      {typeof props.children === 'function'
         ? props.children(schemafield)
-        : schemafield}
+        : props.children}
     </FormProvider>
   );
 }
+FormRender.FormButtonGroup = FormButtonGroup as ReactFC<
+  Omit<SpaceProps, 'align' | 'size'> & {
+    align?: React.CSSProperties['textAlign'];
+    gutter?: number;
+  }
+> & {
+  Sticky: ReactFC<React.PropsWithChildren<any>>;
+  FormItem: ReactFC<
+    IFormItemProps & {
+      gutter?: number;
+    }
+  >;
+};
 FormRender.createForm = createForm;
-FormRender.FormButtonGroup = FormButtonGroup;
 FormRender.Submit = Submit;
 FormRender.Reset = Reset;
 
