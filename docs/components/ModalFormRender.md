@@ -1,4 +1,4 @@
----
+<!-- ---
 nav:
   title: component
 order: 5
@@ -43,4 +43,4 @@ export default ()=>{
       />
 }
 
-```
+``` -->
