@@ -21,7 +21,7 @@ import {
 import { useCreation } from 'ahooks';
 import { ModalProps, PopconfirmProps } from 'antd';
 import React, { cloneElement, ReactElement } from 'react';
-import { FieldType } from '../XTableFormRender';
+import { FieldType } from '../TableFormRender';
 import FormDialog from './FormDialog';
 import './style.less';
 
