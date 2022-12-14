@@ -1,14 +1,8 @@
 import { createTableFormRender } from '@antd-one/components';
-import { Input, Select } from '@formily/antd';
 import { WidgeFC } from '../types';
 import Columns from './Columns';
 
-const install = {
-  Select,
-  Input,
-};
-
-const TableFormRender: WidgeFC<any> = createTableFormRender(install) as any;
+const TableFormRender: WidgeFC<any> = createTableFormRender() as any;
 
 const random = () => Math.floor(Math.random() * 100000).toString(16);
 

@@ -79,6 +79,8 @@ const Columns: FC<{
                 };
               })}
               onChange={segmentedChange}
+              onResize={undefined}
+              onResizeCapture={undefined}
             />
           </div>
           <div className="btn m-l-5px">+</div>
