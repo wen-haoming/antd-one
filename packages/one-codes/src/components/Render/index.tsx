@@ -7,15 +7,14 @@ import { ConfigProvider } from 'antd';
 import { useSnapshot } from 'valtio';
 
 export const Render: FC = () => {
-  const idSchemaSnp = useSnapshot(idSchema);
-  const schemaMapSnp = useSnapshot(schemaMap);
+  const idSchemaSnap = useSnapshot(idSchema);
+  const schemaMapSnap = useSnapshot(schemaMap);
 
   return (
     <ConfigProvider>
-      {idSchemaSnp.map(({ id }) => {
-        const UiComponent = schemaMapSnp[id].component;
-        const props = schemaMapSnp[id].props;
-
+      {idSchemaSnap.map(({ id }) => {
+        const UiComponent = schemaMapSnap[id].component;
+        const props = schemaMapSnap[id].props;
         return (
           <Wrapper key={id} id={id}>
             <UiComponent {...props} />

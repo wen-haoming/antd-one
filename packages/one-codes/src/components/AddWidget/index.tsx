@@ -7,14 +7,14 @@ import { componentsInstall } from '../Widge';
 const AddWidget = () => {
   const [open, setOpen] = useState(false);
 
-  const addComp = () => {
+  const addComp = (type: keyof typeof componentsInstall) => {
     const id = getId();
     idSchema.push({
       id,
     });
     schemaMap[id] = {
-      props: {},
-      component: componentsInstall.TableFormRender,
+      props: null,
+      component: componentsInstall[type],
     };
     setOpen(false);
   };
@@ -37,7 +37,7 @@ const AddWidget = () => {
           <div className="flex flex-row flex-wrap">
             <div
               className="widgetBtn flex-1 text-2 flex items-center"
-              onClick={addComp}
+              onClick={() => addComp('TableFormRender')}
             >
               <CodepenOutlined
                 style={{ color: '#2558fb' }}
@@ -55,7 +55,10 @@ const AddWidget = () => {
           </div>
           <p className="m-0 text-gray text-1">样式</p>
           <div className="flex flex-row flex-wrap">
-            <div className="widgetBtn flex-1 text-2 flex items-center">
+            <div
+              className="widgetBtn flex-1 text-2 flex items-center"
+              onClick={() => addComp('AntDivider')}
+            >
               <FireOutlined
                 style={{ color: '#2558fb' }}
                 className="m-r-3 text-4"
@@ -73,7 +76,7 @@ const AddWidget = () => {
         </div>
       }
     >
-      <div className="btn w-8 font-8 font-semibold">+</div>
+      <div className="btn w-6 h-6 ">+</div>
     </Popover>
   );
 };

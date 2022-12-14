@@ -72,7 +72,6 @@
     "prettier-plugin-packagejson": "^2.2.18",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "@formily/antd": "^2.2.9",
     "stylelint": "^14.9.1",
     "unocss": "^0.45.30"
   },
