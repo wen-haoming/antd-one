@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import { ArrayField } from '@formily/core';
 import {
   observer,
@@ -18,7 +19,7 @@ const FeedbackBadge: ReactFC<IFeedbackBadgeProps> = observer(
   (props) => {
     const field = useField<ArrayField>();
     const tab = `${field.title || 'Untitled'} ${props.index + 1}`;
-    const errors = field.errors.filter((error) =>
+    const errors = field.errors.filter((error: any) =>
       error.address.includes(`${field.address}.${props.index}`),
     );
     if (errors.length) {
@@ -79,7 +80,7 @@ export const ArrayTabs: React.FC<React.PropsWithChildren<TabsProps>> = observer(
             key,
             closable: index !== 0,
             label: <FeedbackBadge index={index} />,
-            children: <RecursionField schema={items} name={index} />,
+            children: <RecursionField schema={items as any} name={index} />,
           };
         })}
       />

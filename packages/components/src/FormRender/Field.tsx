@@ -83,7 +83,7 @@ function Field(props: FieldType<any>) {
   ));
 
   const children =
-    schemafieldArr?.length > 0 && SchemaField ? (
+    (schemafieldArr || [])?.length > 0 && SchemaField ? (
       <SchemaField.Object>{schemafieldArr}</SchemaField.Object>
     ) : (
       schemafieldArr
