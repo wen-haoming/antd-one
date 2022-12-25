@@ -1,8 +1,7 @@
 import { Brand } from '@/components';
 import type { TableFormRenderProps } from '@antd-one/components';
 import { FormRender } from '@antd-one/components';
-import { ArrayField } from '@formily/core';
-import { observer, useField } from '@formily/react';
+import { observer } from '@formily/react';
 import { toJS } from '@formily/reactive';
 import { useBoolean } from 'ahooks';
 import type { TableColumnProps } from 'antd';
@@ -12,17 +11,17 @@ import { FC, useEffect, useMemo } from 'react';
 const Columns: FC<{
   value: TableFormRenderProps<any>['columns'] & TableColumnProps<any>[];
   onChange: (p: TableFormRenderProps<any>['columns']) => void;
-}> = observer(() => {
-  const field = useField<ArrayField>();
+}> = observer((props) => {
+  // const field = useField<ArrayField>();
   const [vis, { setTrue, setFalse }] = useBoolean();
-  const value = Array.isArray(field.value) ? field.value : [];
+  const value = Array.isArray(props.value) ? props.value : [];
   // const dataSource = value?.length ? value : [{}];
   const form = useMemo(() => FormRender.createForm(), []);
 
   useEffect(() => {
     if (vis) {
       form.setValues({
-        columns: field.value || [],
+        columns: props.value || [],
       });
     }
   }, [vis]);
@@ -37,7 +36,7 @@ const Columns: FC<{
         open={vis}
         onOk={async () => {
           setFalse();
-          field.value = toJS(form.values.columns);
+          props.onChange(toJS(form.values.columns));
         }}
         onCancel={() => {
           setFalse();
