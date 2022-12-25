@@ -103,6 +103,11 @@ TableFormRender.defaultProps = {
   ],
 };
 
+TableFormRender.importDeclaration = {
+  source: '@antd-one/components',
+  import: 'TableFormRender',
+};
+
 TableFormRender.propsConfigArray = [
   {
     type: 'Select',

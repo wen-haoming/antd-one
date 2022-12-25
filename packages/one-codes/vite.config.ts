@@ -9,7 +9,7 @@ import { defineConfig } from 'vite';
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
-    sourcemap: true,
+    // sourcemap: true,
     lib: {
       name: 'one-codes',
       entry: resolve(__dirname, './src/App.tsx'),

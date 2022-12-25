@@ -4,9 +4,9 @@ import { FC } from 'react';
 
 export type WidgeFC<Props> = FC<Props> & {
   propsConfigArray?: FieldType<Install>[];
-  // importDeclaration: {
-  //   source: string;
-  //   importDefault?: string;
-  //   import?: string;
-  // };
+  importDeclaration?: {
+    source: string;
+    importDefault?: string;
+    import?: string;
+  };
 };
