@@ -1,62 +1,14 @@
 import { Loading3QuartersOutlined, SearchOutlined } from '@ant-design/icons';
 import { useMemo } from 'react';
 
-import {
-  IFormGridProps,
-  IFormItemProps,
-  IFormLayoutProps,
-} from '@formily/antd';
+import { IFormGridProps, IFormLayoutProps } from '@formily/antd';
 import { createForm, Form, JSXComponent } from '@formily/core';
-import {
-  connect,
-  ISchema,
-  mapProps,
-  mapReadPretty,
-  SchemaKey,
-} from '@formily/react';
+import { connect, mapProps, mapReadPretty } from '@formily/react';
 import { toJS } from '@formily/reactive';
 import { Col, Row } from 'antd';
 import { ColumnGroupType, ColumnType } from 'antd/lib/table';
-import FormRender from '../FormRender';
+import FormRender, { FieldType } from '../FormRender';
 import ProTable, { ProTableProps } from '../ProTable';
-
-type ArrayTableComponentType =
-  | 'SortHandle'
-  | 'Addition'
-  | 'Remove'
-  | 'MoveDown'
-  | 'MoveUp'
-  | 'Index';
-
-export type FieldType<T> = Omit<ISchema, 'type'> & {
-  type: keyof T | 'Input' | 'Select' | 'ArrayTable' | 'Editable.Popover';
-  valueType?:
-    | 'String'
-    | 'Number'
-    | 'Markup'
-    | 'Object'
-    | 'Array'
-    | 'Boolean'
-    | 'Date'
-    | 'DateTime'
-    | 'Void';
-  name?: SchemaKey;
-  title?: ISchema['title'];
-  itemProps?: IFormItemProps;
-  props?: ISchema['x-component-props'];
-  required?: ISchema['required'];
-  reactions?: ISchema['x-reactions'];
-  decorator?: 'FormItem' | 'Editable';
-  // ArrayTablle 才需要
-  columns?: ((Omit<ColumnGroupType<any>, 'children'> & ColumnType<any>) & {
-    dataIndex: string;
-    formField?: FieldType<T> & {
-      popoverFields?: FieldType<T>[];
-    };
-    operations?: ArrayTableComponentType[];
-    name?: 'string';
-  })[];
-};
 
 export interface TableFormRenderProps<T> {
   request: ProTableProps['request'];
@@ -87,14 +39,19 @@ function createTableFormRender<T>() {
       form: formRef,
     } = props;
     const { gridProps = { maxColumns: 4 }, layoutProps } = formProps || {};
-    const form = useMemo(() => createForm({}), [columns]);
+
+    const form = useMemo(
+      () => (formRef ? formRef : createForm({})),
+      [columns, formRef],
+    );
+
     const fiels = useMemo(() => {
       return toJS(
         columns
           .filter((item) => !!item.searchField)
           .map((field) => {
             if (field.searchField && !field.searchField.name) {
-              field.searchField.name = field?.dataIndex as SchemaKey;
+              field.searchField.name = field?.dataIndex as string;
             }
             if (field.searchField && !field.searchField.title) {
               field.searchField.title = field?.title;
@@ -129,8 +86,8 @@ function createTableFormRender<T>() {
           columns={columns}
           HeaderRender={(query) => (
             <FormRender
-              form={formRef}
-              fields={fiels}
+              form={form}
+              fields={fiels as any}
               install={install}
               layoutProps={layoutProps}
               gridProps={gridProps}

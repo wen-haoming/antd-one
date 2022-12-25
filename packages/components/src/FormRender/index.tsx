@@ -25,11 +25,15 @@ import { observable, toJS } from '@formily/reactive';
 import { useCreation } from 'ahooks';
 import { SpaceProps } from 'antd';
 import { useEffect, useMemo } from 'react';
+import ArrayTabs from './ArrayTabs';
 import Field, { FieldType } from './Field';
 
 export const randomId = () => {
   return Math.floor(Math.random() * 100000).toString(32);
 };
+
+// 受控的问题，一定要方便受控，比如：外部能够控制内部字段的显示隐藏，并且隐藏能够保留状态，提交的时候不携带隐藏的字段
+//
 
 interface FormRenderProps {
   gridProps?: IFormGridProps;
@@ -65,6 +69,7 @@ function FormRender(props: FormRenderProps) {
         Input,
         Select,
         ArrayTable,
+        ArrayTabs: ArrayTabs,
         ...install,
       },
       scope: {},
@@ -135,12 +140,7 @@ function FormRender(props: FormRenderProps) {
             }}
           >
             {fields.map((field: any, key) => (
-              <Field
-                key={key}
-                form={form}
-                {...field}
-                schemafield={SchemaField as any}
-              />
+              <Field key={key} {...field} schemafield={SchemaField as any} />
             ))}
           </SchemaField.Void>
         </SchemaField.Void>

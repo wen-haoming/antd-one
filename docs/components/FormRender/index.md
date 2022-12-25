@@ -56,4 +56,7 @@ export default () => (
 
 <code src="./FormRenderLayoutGrid.tsx">表单布局</code>
 
+### ArrayTabs
+
+<code src="./ArrayTabs.tsx">ArrayTabs</code>
 

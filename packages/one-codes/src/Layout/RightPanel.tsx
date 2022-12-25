@@ -2,7 +2,7 @@ import { currentState, schemaMap } from '@/store';
 import { FormRender } from '@antd-one/components';
 import { Switch } from '@formily/antd';
 import { useEffect, useState } from 'react';
-import { useSnapshot } from 'valtio';
+import { ref, useSnapshot } from 'valtio';
 
 const install = { Switch };
 
@@ -12,6 +12,7 @@ const RightPanel = () => {
   const currentStateSnap = useSnapshot(currentState);
   // const idSchemaSnap = useSnapshot(idSchema)
   const schemaMapSnap = useSnapshot(schemaMap);
+
   const [formState, setFormState] = useState<{
     form: ReturnType<typeof FormRender.createForm>;
     fields: any[];
@@ -52,11 +53,9 @@ const RightPanel = () => {
             install={install}
             fields={formState.fields}
             onValuesChange={(values) => {
-              console.log(values, '==values');
-
               if (isSelect) {
                 // 设置组件的props属性
-                schemaMap[currentStateSnap.id].props = values;
+                schemaMap[currentStateSnap.id].props = ref(values);
               }
             }}
           />

@@ -37,6 +37,7 @@ TableFormRender.defaultProps = {
       searchField: {
         type: 'Input',
         required: true,
+        title: '选项',
         props: {
           options: [
             { label: '选项1', value: '1 ' },
@@ -63,6 +64,7 @@ TableFormRender.defaultProps = {
       dataIndex: 'c',
       searchField: {
         type: 'Select',
+        title: 'c',
         props: {
           options: [
             { label: '选项1', value: ' 1 ' },
@@ -76,6 +78,7 @@ TableFormRender.defaultProps = {
       dataIndex: 'd',
       searchField: {
         type: 'Select',
+        title: 'c',
         props: {
           options: [
             { label: '选项1', value: ' 1 ' },
@@ -120,7 +123,6 @@ TableFormRender.propsConfigArray = [
     type: Columns,
     name: 'columns',
     title: 'columns配置',
-    valueType: 'Array',
   },
 ];
 

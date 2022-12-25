@@ -4,7 +4,7 @@ import { idSchema, schemaMap } from '@/store';
 import type { FC } from 'react';
 
 import { ConfigProvider } from 'antd';
-import { useSnapshot } from 'valtio';
+import { ref, useSnapshot } from 'valtio';
 
 export const Render: FC = () => {
   const idSchemaSnap = useSnapshot(idSchema);
@@ -13,8 +13,9 @@ export const Render: FC = () => {
   return (
     <ConfigProvider>
       {idSchemaSnap.map(({ id }) => {
-        const UiComponent = schemaMapSnap[id].component;
-        const props = schemaMapSnap[id].props;
+        const UiComponent = ref(schemaMapSnap)[id].component;
+        const props = ref(schemaMapSnap)[id].props;
+
         return (
           <Wrapper key={id} id={id}>
             <UiComponent {...props} />
