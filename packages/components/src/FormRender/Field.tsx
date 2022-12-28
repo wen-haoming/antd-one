@@ -1,5 +1,4 @@
 import type { IFormItemProps } from '@formily/antd';
-import { FieldReaction } from '@formily/core';
 import type { createSchemaField, ISchema } from '@formily/react';
 import { ColumnGroupType, ColumnType } from 'antd/lib/table';
 import { FC } from 'react';
@@ -36,7 +35,7 @@ export type FieldType<T> = Omit<ISchema, 'type'> & {
   itemProps?: IFormItemProps;
   props?: ISchema['x-component-props'];
   required?: boolean;
-  reactions?: FieldReaction[] | FieldReaction;
+  reactions?: ISchema['x-reactions'];
   validator?: ISchema['x-validator'];
   decorator?: 'FormItem' | 'Editable';
   // ArrayTablle 才需要
@@ -89,12 +88,14 @@ function Field(props: FieldType<any>) {
       schemafieldArr
     );
 
+  console.log(fieldProps.title, fieldProps.reactions, 'fieldProps.reactions');
+
   return (
     <Item
       x-read-pretty={fieldProps.readPretty}
       x-read-only={fieldProps.readOnly}
-      x-editable={fieldProps.hidden}
-      x-disabled={fieldProps.hidden}
+      x-editable={fieldProps.editable}
+      x-disabled={fieldProps.disabled}
       x-hidden={fieldProps.hidden}
       x-display={fieldProps.display}
       name={fieldProps.name}

@@ -48,7 +48,7 @@ const RightPanel = () => {
         {isSelect && (
           <FormRender
             form={formState.form}
-            layoutProps={{ layout: 'horizontal', size: 'small', labelCol: 7 }}
+            layoutProps={{ layout: 'horizontal', size: 'small', labelCol: 9 }}
             gridProps={{ maxColumns: 1 }}
             install={install}
             fields={formState.fields}

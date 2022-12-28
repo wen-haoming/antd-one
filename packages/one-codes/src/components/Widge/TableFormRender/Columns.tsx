@@ -84,22 +84,12 @@ const Columns: FC<{
                     },
                   },
                   {
-                    type: 'Input',
-                    required: true,
-                    title: 'title',
-                    name: 'searchField.title',
-                  },
-                  {
-                    type: 'Input',
-                    required: true,
-                    name: 'searchField.name',
-                    title: 'name',
-                  },
-                  {
                     type: 'Select',
-                    required: true,
                     name: 'searchField.type',
                     title: 'type',
+                    props: {
+                      allowClear: true,
+                    },
                     enum: [
                       {
                         label: '输入框',
@@ -110,6 +100,34 @@ const Columns: FC<{
                         value: 'Select',
                       },
                     ],
+                  },
+                  {
+                    type: 'Input',
+                    required: true,
+                    title: 'title',
+                    name: 'searchField.title',
+                    reactions: {
+                      dependencies: ['..searchField.type'],
+                      fulfill: {
+                        state: {
+                          display: `{{!$deps[0]? 'none':'visible'}}`,
+                        },
+                      },
+                    },
+                  },
+                  {
+                    type: 'Input',
+                    required: true,
+                    name: 'searchField.name',
+                    title: 'name',
+                    reactions: {
+                      dependencies: ['..searchField.type'],
+                      fulfill: {
+                        state: {
+                          display: `{{!$deps[0]? 'none':'visible'}}`,
+                        },
+                      },
+                    },
                   },
                 ],
               },
