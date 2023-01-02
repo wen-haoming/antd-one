@@ -1,12 +1,10 @@
-import { createTableFormRender } from '@antd-one/components';
+import { TableFormRender, TableFormRenderProps } from '@antd-one/components';
 import { WidgeFC } from '../types';
 import Columns from './Columns';
 
-const TableFormRender: WidgeFC<any> = createTableFormRender() as any;
-
 const random = () => Math.floor(Math.random() * 100000).toString(16);
 
-TableFormRender.defaultProps = {
+(TableFormRender as WidgeFC<TableFormRenderProps<any>>).defaultProps = {
   tableProps: {
     size: 'small',
     rowKey: 'id',
@@ -103,12 +101,12 @@ TableFormRender.defaultProps = {
   ],
 };
 
-TableFormRender.importDeclaration = {
+(TableFormRender as WidgeFC<TableFormRenderProps<any>>).importDeclaration = {
   source: '@antd-one/components',
   import: 'TableFormRender',
 };
 
-TableFormRender.propsConfigArray = [
+(TableFormRender as WidgeFC<TableFormRenderProps<any>>).propsConfigArray = [
   {
     type: 'Select',
     title: 'table-size',

@@ -6,37 +6,43 @@ import { toJS } from '@formily/reactive';
 import { useBoolean } from 'ahooks';
 import type { TableColumnProps } from 'antd';
 import { Button, ConfigProvider, Modal } from 'antd';
-import { FC, useEffect, useMemo } from 'react';
+import { FC, useMemo } from 'react';
 
 const Columns: FC<{
   value: TableFormRenderProps<any>['columns'] & TableColumnProps<any>[];
   onChange: (p: TableFormRenderProps<any>['columns']) => void;
 }> = observer((props) => {
-  // const field = useField<ArrayField>();
   const [vis, { setTrue, setFalse }] = useBoolean();
-  const value = Array.isArray(props.value) ? props.value : [];
-  // const dataSource = value?.length ? value : [{}];
   const form = useMemo(() => FormRender.createForm(), []);
 
-  useEffect(() => {
-    if (vis) {
-      form.setValues({
-        columns: props.value || [],
-      });
-    }
-  }, [vis]);
-
-  return value ? (
+  return (
     <>
-      <Button type="primary" onClick={setTrue}>
+      <Button
+        type="primary"
+        onClick={() => {
+          setTrue();
+          form.setValues({
+            columns: toJS(props.value || []),
+          });
+        }}
+      >
         columns配置
       </Button>
       <Modal
         title={'column配置'}
         open={vis}
         onOk={async () => {
-          setFalse();
-          props.onChange(toJS(form.values.columns));
+          form.validate().then(() => {
+            let newColumns = toJS(form.values.columns);
+            newColumns = newColumns.map((item: any) => {
+              if (!item?.searchField?.type) {
+                delete item.searchField;
+              }
+              return item;
+            });
+            props.onChange(newColumns);
+            setFalse();
+          });
         }}
         onCancel={() => {
           setFalse();
@@ -136,7 +142,8 @@ const Columns: FC<{
         </ConfigProvider>
       </Modal>
     </>
-  ) : null;
+  );
+  // ) : null;
 });
 
 export default Columns;

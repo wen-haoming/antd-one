@@ -18,14 +18,13 @@ toc: content
 ### 基础使用
 
 ```tsx
-import { createTableFormRender } from '@antd-one/components';
+import { TableFormRender } from '@antd-one/components';
 // import { Input, Select } from '@formily/antd';
 import React from 'react';
 
 // const install = { Input, Select };
 const install = {  };
 
-const TableFormRender = createTableFormRender(install);
 
 export default () => {
   return (

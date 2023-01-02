@@ -88,8 +88,6 @@ function Field(props: FieldType<any>) {
       schemafieldArr
     );
 
-  console.log(fieldProps.title, fieldProps.reactions, 'fieldProps.reactions');
-
   return (
     <Item
       x-read-pretty={fieldProps.readPretty}

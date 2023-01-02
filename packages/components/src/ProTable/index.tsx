@@ -9,7 +9,7 @@ import type { Service } from 'ahooks/lib/usePagination/types';
 import type { TableProps } from 'antd';
 import { Table } from 'antd';
 import type { ReactNode } from 'react';
-import React, { useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import type { ProXTableInstance } from './useTable';
 import { useTable } from './useTable';
 

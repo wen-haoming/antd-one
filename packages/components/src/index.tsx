@@ -7,4 +7,4 @@ export { default as FormRender } from './FormRender';
 export * from './ProTable';
 export { default as ProTable } from './ProTable';
 export * from './TableFormRender';
-export { default as createTableFormRender } from './TableFormRender';
+export { default as TableFormRender } from './TableFormRender';
