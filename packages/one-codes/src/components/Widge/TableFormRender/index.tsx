@@ -121,6 +121,7 @@ const random = () => Math.floor(Math.random() * 100000).toString(16);
     type: 'Switch',
     title: 'borded',
     name: 'tableProps.bordered',
+    valueType: 'Boolean',
   },
   {
     type: Columns,

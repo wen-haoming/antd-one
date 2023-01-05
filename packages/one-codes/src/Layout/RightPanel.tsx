@@ -10,7 +10,6 @@ export type Install = typeof install;
 
 const RightPanel = () => {
   const currentStateSnap = useSnapshot(currentState);
-  // const idSchemaSnap = useSnapshot(idSchema)
   const schemaMapSnap = useSnapshot(schemaMap);
 
   const [formState, setFormState] = useState<{
@@ -19,9 +18,7 @@ const RightPanel = () => {
   }>(() => ({ form: FormRender.createForm({}), fields: [] }));
   // 是否已经选中
   const isSelect = !!currentStateSnap.id;
-
   // 获取组件的默认配置
-
   useEffect(() => {
     if (currentStateSnap.id) {
       const propsConfigArray =
@@ -34,13 +31,13 @@ const RightPanel = () => {
       const props = schemaMapSnap[currentStateSnap.id]?.props || defaultProps;
 
       setFormState({
+        fields: propsConfigArray,
         form: FormRender.createForm({
           initialValues: props,
         }),
-        fields: propsConfigArray,
       });
     }
-  }, [currentStateSnap.id]);
+  }, [currentStateSnap.id, schemaMapSnap]);
 
   return (
     <div className="w-1/5  border-brand-line ">
@@ -53,6 +50,8 @@ const RightPanel = () => {
             install={install}
             fields={formState.fields}
             onValuesChange={(values) => {
+              console.log(values, 'values');
+
               if (isSelect) {
                 // 设置组件的props属性
                 schemaMap[currentStateSnap.id].props = ref(values);
