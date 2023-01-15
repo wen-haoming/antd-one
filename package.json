@@ -15,7 +15,6 @@
     "dev:docs": "dumi dev",
     "build": "run-s build:*",
     "build:components": "cd ./packages/components && npm run build",
-    "build:one-codes": "cd ./packages/one-codes && npm run build",
     "docs:build": "cd ./packages/components && npm run build &&  cd ../one-codes && npm run build && cd ../../ && dumi build",
     "lint": "npm run lint:es && npm run lint:css",
     "lint:css": "stylelint \"packages/**/*.{css,less}\"",
