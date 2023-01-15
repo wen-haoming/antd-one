@@ -12,7 +12,6 @@ export default defineConfig({
   resolve: {
     docDirs: ['docs'],
   },
-
   links: [
     {
       rel: 'stylesheet',
@@ -27,7 +26,7 @@ export default defineConfig({
     name: 'Antd-one',
     nav: [
       { title: '组件', link: '/components' },
-      { title: '代码生成器', link: '/one-codes' },
+      { title: '代码生成器', link: 'https://wen-haoming.github.io/antd-one/one-codes' },
       { title: '案例', link: '/case' },
     ],
   },

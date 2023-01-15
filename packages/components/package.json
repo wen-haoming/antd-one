@@ -13,6 +13,7 @@
     "package.json",
     "README.md"
   ],
+  "sideEffects":false,
   "scripts": {
     "build": "father build",
     "dev": "father dev",

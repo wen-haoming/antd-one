@@ -4,22 +4,11 @@ import { resolve } from 'path';
 import { presetWind } from 'unocss';
 import Unocss from 'unocss/vite';
 import { defineConfig } from 'vite';
-// import { AntdResolve, createStyleImportPlugin } from 'vite-plugin-style-import';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
-    // sourcemap: true,
-    lib: {
-      name: 'one-codes',
-      entry: resolve(__dirname, './src/App.tsx'),
-      fileName: 'index',
-      formats: ['es'],
-    },
-    rollupOptions: {
-      // 确保外部化处理那些你不想打包进库的依赖
-      external: ['react', 'react-dom', 'antd', '@antd-one/components'],
-    },
+    outDir: '../../docs-dist/one-codes',
   },
   resolve: {
     alias: [

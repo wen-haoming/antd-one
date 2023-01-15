@@ -32,17 +32,16 @@ const Columns: FC<{
         title={'column配置'}
         open={vis}
         onOk={async () => {
-          form.validate().then(() => {
-            let newColumns = toJS(form.values.columns);
-            newColumns = newColumns.map((item: any) => {
-              if (!item?.searchField?.type) {
-                delete item.searchField;
-              }
-              return item;
-            });
-            props.onChange(newColumns);
-            setFalse();
+          await form.validate();
+          let newColumns = toJS(form.values.columns);
+          newColumns = newColumns.map((item: any) => {
+            if (!item?.searchField?.type) {
+              delete item.searchField;
+            }
+            return item;
           });
+          props.onChange(newColumns);
+          setFalse();
         }}
         onCancel={() => {
           setFalse();
